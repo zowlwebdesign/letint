@@ -1,0 +1,134 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-bg-dark);
+  display: flex;
+  align-items: center;
+  padding-top: 80px; /* navbar offset */
+  overflow: hidden;
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  /* Using a shipping port background image like in the screenshot */
+  background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  /* A dark gradient to make the white text pop on the left side */
+  background: linear-gradient(90deg, rgba(5, 10, 20, 0.85) 0%, rgba(5, 10, 20, 0.4) 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 80px var(--container-pad);
+  width: 100%;
+}
+
+.content {
+  max-width: 800px;
+}
+
+.title {
+  font-size: clamp(2.5rem, 6vw, 4.2rem);
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 48px;
+  max-width: 700px;
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+}
+.btnPrimary:hover { background: var(--color-accent-hover); }
+
+.btnSecondary {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+}
+.btnSecondary:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+}
+
+.badge svg {
+  color: rgba(255,255,255,0.5);
+}
+
+.separator {
+  width: 1px;
+  height: 16px;
+  background: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 900px) {
+  .title { font-size: 3rem; }
+  .subtitle { font-size: 16px; }
+}
+
+@media (max-width: 600px) {
+  .actions { flex-direction: column; }
+  .btnPrimary, .btnSecondary { width: 100%; justify-content: center; }
+  .badges { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .separator { display: none; }
+}

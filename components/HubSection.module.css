@@ -1,0 +1,224 @@
+.section {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--color-bg-dark); /* Dark blue / black */
+  margin-bottom: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Diagram container */
+.diagramContainer {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.diagramBg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.diagramBg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85); /* Dark overlay */
+}
+
+.diagramContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+/* Connecting lines */
+.connectionsSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connectionLine {
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.orbitRing {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 1;
+}
+
+/* Orbiting Nodes */
+.nodesWrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* Let clicks pass through to background if needed */
+}
+
+.orbitNode {
+  position: absolute;
+  transform: translate(-50%, -50%); /* Center perfectly on its exact X/Y coordinate */
+  background: #f8fafc; /* Very light gray/white */
+  color: var(--color-bg-dark); /* Dark text */
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  white-space: nowrap;
+  pointer-events: auto; /* Re-enable pointer events for the node itself */
+}
+
+/* Center Tower */
+.centerTower {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  /* Glow effect */
+  background: transparent;
+  padding: 4px; /* Space for the glowing border */
+  border: 2px solid var(--color-accent); /* Cyan border */
+  box-shadow: 0 0 40px rgba(0, 180, 255, 0.4), inset 0 0 20px rgba(0, 180, 255, 0.2);
+}
+
+.towerInner {
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg-dark); /* Dark navy */
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.towerLabel {
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.towerSub {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-accent); /* Cyan */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.towerBadge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.7);
+}
+
+@media (max-width: 768px) {
+  .diagramContainer { height: 500px; }
+  .orbitNode {
+    font-size: 9px;
+    padding: 8px 12px;
+  }
+}
+
+/* Process Steps Grid */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.stepCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 24px;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.stepNumberBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.stepDark { background: var(--color-bg-dark); }
+.stepCyan { background: var(--color-accent); }
+
+.stepTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-bg-dark);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.stepDesc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .stepsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .diagramContainer { height: 450px; }
+  .centerTower { width: 120px; height: 120px; }
+  .stepsGrid { grid-template-columns: 1fr; }
+}
