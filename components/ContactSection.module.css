@@ -1,176 +1,235 @@
 .section {
-  padding: 80px 0;
-  background-color: #f4f5f7;
+  padding: var(--section-y) 0;
+  background: var(--color-bg-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient accent glow */
+.section::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0,180,255,0.1) 0%, transparent 70%);
+  top: -100px;
+  right: -80px;
+  pointer-events: none;
 }
 
 .inner {
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--container-pad);
+  position: relative;
+  z-index: 1;
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .title {
-  font-size: 2.2rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 800;
-  color: var(--color-bg-dark);
+  color: white;
   margin-bottom: 12px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .subtitle {
   font-size: 15px;
-  color: var(--color-text-secondary);
-  max-width: 600px;
+  color: rgba(255,255,255,0.55);
+  max-width: 560px;
+  line-height: 1.65;
 }
 
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  align-items: start;
 }
 
-/* Form Card */
+/* ─── Form Card ─── */
 .formCard {
-  background: #fff;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 18px;
   padding: 40px;
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.3s;
+}
+
+.formCard:hover {
+  border-color: rgba(255,255,255,0.14);
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 18px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .field label {
   font-size: 10px;
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: rgba(255,255,255,0.45);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
 }
 
-.field input, .field select, .field textarea {
+.field input,
+.field select,
+.field textarea {
   width: 100%;
   padding: 12px 16px;
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px;
   font-size: 14px;
-  color: var(--color-text-primary);
+  color: white;
   font-family: inherit;
-  transition: border-color 0.15s;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
-.field input::placeholder, .field textarea::placeholder {
-  color: #94a3b8;
+.field select option {
+  color: var(--color-text-primary);
+  background: white;
 }
 
-.field input:focus, .field select:focus, .field textarea:focus {
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
   outline: none;
   border-color: var(--color-accent);
+  background: rgba(0,180,255,0.06);
+  box-shadow: 0 0 0 3px rgba(0,180,255,0.12);
 }
 
 .submitBtn {
-  background: #00b4ff; /* Cyan from design */
-  color: white; /* Design uses white text here */
+  background: var(--color-accent);
+  color: var(--color-accent-text);
   font-size: 15px;
-  font-weight: 600;
-  padding: 14px;
-  border-radius: 8px;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 9px;
   border: none;
   cursor: pointer;
-  transition: opacity 0.15s;
-  margin-top: 8px;
+  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+  margin-top: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 0 4px 16px rgba(0,180,255,0.3);
 }
 
 .submitBtn:hover {
-  opacity: 0.9;
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,180,255,0.45);
 }
+.submitBtn:active { transform: translateY(0); }
 
 .privacy {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 11px;
-  color: var(--color-text-secondary);
-  margin-top: 4px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 6px;
 }
 
 .privacy a {
   color: var(--color-accent);
   text-decoration: none;
+  opacity: 0.8;
 }
 .privacy a:hover {
+  opacity: 1;
   text-decoration: underline;
 }
 
 .statusMsg {
   text-align: center;
   font-size: 13px;
-  color: var(--color-text-secondary);
+  color: rgba(255,255,255,0.5);
   margin-top: 10px;
 }
 
-/* Info Card */
+/* ─── Info Card ─── */
 .infoCard {
-  background: var(--color-bg-dark);
-  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 18px;
   padding: 40px;
   color: white;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .infoTitle {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
+  line-height: 1.3;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: -0.01em;
 }
 
 .infoItems {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 
 .infoItem {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.infoItem:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.07);
 }
 
 .infoIcon {
-  width: 44px;
-  height: 44px;
-  background: #1e293b;
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #94a3b8; /* Light gray-blue icon color */
+  color: var(--color-accent);
   flex-shrink: 0;
+  margin-top: 2px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.infoItem:hover .infoIcon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(0, 180, 255, 0.7));
 }
 
 .infoContent {
@@ -182,19 +241,30 @@
 .infoLabel {
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
-  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .infoText {
   font-size: 14px;
-  color: white;
-  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
+}
+
+.contactLink {
+  color: rgba(255,255,255,0.9);
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.contactLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
 }
 
 .infoMuted {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.4);
   font-size: 12px;
 }
 
@@ -202,4 +272,20 @@
   .layout { grid-template-columns: 1fr; }
   .row { grid-template-columns: 1fr; }
   .title { font-size: 1.8rem; }
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px; /* Prevents unwanted iOS Safari layout zoom */
+  }
+}
+
+@media (max-width: 600px) {
+  .formCard,
+  .infoCard {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+  .title {
+    font-size: 1.6rem;
+  }
 }

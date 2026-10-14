@@ -1,14 +1,28 @@
-.nav {
-  position: absolute;
+.header {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  height: 80px; /* Taller navbar */
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.nav {
+  height: 76px;
   display: flex;
   align-items: center;
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease,
+              box-shadow 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header.scrolled .nav {
+  background: rgba(10, 17, 32, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .navInner {
@@ -22,46 +36,368 @@
 }
 
 .logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 102;
+}
+.logo:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.logoImg {
+  height: 54px;
+  width: auto;
+  max-height: 56px;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35));
 }
 
 .logoSvg {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
+  display: block;
 }
 
+/* ─── Desktop Nav Links ─── */
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
 }
 
 .navLink {
-  font-size: 15px;
-  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
   font-weight: 500;
-  transition: color 0.15s;
+  transition: color 0.2s;
+  position: relative;
 }
 
-.navLink:hover { color: white; }
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--color-accent);
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLink:hover {
+  color: white;
+}
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* ─── Action Group (CTA + Mobile Hamburger) ─── */
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 102;
+}
 
 .navCta {
   background: var(--color-accent);
   color: var(--color-accent-text);
-  padding: 12px 24px;
+  padding: 10px 22px;
   border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 180, 255, 0.3);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.navCta:hover { background: var(--color-accent-hover); }
+.navCta:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 180, 255, 0.4);
+}
+
+.navCtaShort {
+  display: none;
+}
+.navCtaFull {
+  display: inline;
+}
+
+/* ─── Hamburger Toggle Button ─── */
+.hamburgerBtn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hamburgerBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(0, 180, 255, 0.4);
+}
+
+.hamburgerBtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.hamburgerBar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              background-color 0.25s ease;
+  transform-origin: center;
+}
+
+/* Hamburger to X morphing */
+.hamburgerBtn.open .hamburgerBar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+  background-color: var(--color-accent);
+}
+
+.hamburgerBtn.open .hamburgerBar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburgerBtn.open .hamburgerBar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+  background-color: var(--color-accent);
+}
+
+/* ─── Mobile Drawer Overlay ─── */
+.mobileDrawer {
+  display: none;
+}
 
 @media (max-width: 900px) {
-  .navLinks { display: none; }
+  .navLinks {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: flex;
+  }
+
+  .mobileDrawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100dvh;
+    background: rgba(8, 14, 26, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 101;
+    padding: 86px 20px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-16px);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.3s;
+    pointer-events: none;
+  }
+
+  .mobileDrawer.drawerOpen {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .drawerContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100dvh - 110px);
+    max-width: 440px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 10px 0 20px;
+  }
+
+  .drawerLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .drawerLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .drawerLink:hover,
+  .drawerLink:active {
+    background: rgba(0, 180, 255, 0.12);
+    border-color: rgba(0, 180, 255, 0.3);
+    color: #ffffff;
+    transform: translateX(4px);
+  }
+
+  .drawerLinkLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .drawerLinkIndex {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-accent);
+    font-family: monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .drawerLinkLabel {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .drawerChevron {
+    color: rgba(255, 255, 255, 0.35);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .drawerLink:hover .drawerChevron {
+    color: var(--color-accent);
+    transform: translateX(3px);
+  }
+
+  .drawerFooter {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .drawerCta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0, 180, 255, 0.35);
+    transition: all 0.2s ease;
+  }
+
+  .drawerCta:hover,
+  .drawerCta:active {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(0, 180, 255, 0.5);
+  }
+
+  .drawerContactCard {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drawerContactItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .drawerContactLabel {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .drawerContactValue {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .drawerContactSub {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+@media (max-width: 600px) {
+  .nav {
+    height: 68px;
+  }
+  .logoImg {
+    height: 44px;
+    max-height: 46px;
+    max-width: 140px;
+  }
+  .navCta {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 440px) {
+  .navCtaFull {
+    display: none;
+  }
+  .navCtaShort {
+    display: inline;
+  }
+  .actionsGroup {
+    gap: 8px;
+  }
+  .navCta {
+    padding: 8px 12px;
+    font-size: 12.5px;
+  }
 }

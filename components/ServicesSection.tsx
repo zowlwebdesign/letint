@@ -5,6 +5,7 @@ interface ServiceProps {
     title?: string
     subtitle?: string
     featuredService?: {
+      active?: boolean
       title?: string
       description?: string
       capabilitiesHeading?: string
@@ -13,13 +14,29 @@ interface ServiceProps {
       linkUrl?: string
     }
     standardServices?: Array<{
+      active?: boolean
       title?: string
       description?: string
       linkText?: string
       linkUrl?: string
     }>
+    ctaBanner?: {
+      active?: boolean
+      title?: string
+      description?: string
+      buttonText?: string
+      buttonUrl?: string
+    }
     upcomingService?: { show?: boolean; title?: string; badge?: string }
   }
+}
+
+const DEFAULT_CTA = {
+  title: 'Need a tailored combination of services?',
+  description:
+    'We can structure any combination of services into a single turnkey operation under a single U.S. contract.',
+  buttonText: 'Contact our team',
+  buttonUrl: '#contact',
 }
 
 const DEFAULT_CAPABILITIES = [
@@ -47,10 +64,16 @@ const SVC_ICONS = [
 
 export default function ServicesSection({ data }: ServiceProps) {
   if (!data) return null;
-  const feat = data.featuredService
+  const feat = data.featuredService?.active !== false ? data.featuredService : null
   const caps = feat?.capabilities || []
-  const standards = data.standardServices || []
+  const standards = (data.standardServices || []).filter(s => s.active !== false)
   const upcoming = data.upcomingService
+
+  const showCta = data.ctaBanner?.active !== false
+  const ctaTitle = data.ctaBanner?.title ?? DEFAULT_CTA.title
+  const ctaDesc = data.ctaBanner?.description ?? DEFAULT_CTA.description
+  const ctaButtonText = data.ctaBanner?.buttonText ?? DEFAULT_CTA.buttonText
+  const ctaButtonUrl = data.ctaBanner?.buttonUrl || DEFAULT_CTA.buttonUrl
 
   return (
     <section className={styles.section} id="services">
@@ -71,7 +94,11 @@ export default function ServicesSection({ data }: ServiceProps) {
               {feat.title && <h3 className={styles.featuredTitle}>{feat.title}</h3>}
               {feat.description && <p className={styles.featuredDesc}>{feat.description}</p>}
               {feat.linkText && (
-                <a href={feat.linkUrl || '#contact'} className={styles.featuredLink}>
+                <a 
+                  href={feat.linkUrl || '#contact'} 
+                  className={styles.featuredLink}
+                  aria-label={`${feat.linkText}: ${feat.title} in Colombia`}
+                >
                   {feat.linkText} &rarr;
                 </a>
               )}
@@ -83,7 +110,7 @@ export default function ServicesSection({ data }: ServiceProps) {
                 <ul className={styles.capsList}>
                   {caps.map((cap, i) => (
                     <li key={i}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                         <circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>
                       </svg>
                       {cap}
@@ -101,28 +128,39 @@ export default function ServicesSection({ data }: ServiceProps) {
             <div key={i} className={styles.card}>
               <div className={styles.cardIcon}>{SVC_ICONS[i % SVC_ICONS.length]}</div>
               <h3 className={styles.cardTitle}>{svc.title}</h3>
-              <p className={styles.cardDesc}>{svc.description}</p>
+              <p className={styles.cardDesc}>
+                {svc.description?.startsWith('eliable') ? 'R' + svc.description : svc.description}
+              </p>
               {svc.linkText && (
-                <a href={svc.linkUrl || '#contact'} className={styles.cardLink}>
+                <a 
+                  href={svc.linkUrl || '#contact'} 
+                  className={styles.cardLink}
+                  aria-label={`${svc.linkText} about ${svc.title}`}
+                >
                   {svc.linkText}
                 </a>
               )}
             </div>
           ))}
-
-          {/* Coming soon placeholder */}
-          {upcoming?.show !== false && (
-            <div className={`${styles.card} ${styles.comingSoon}`}>
-              <div className={styles.cardIcon}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-              </div>
-              <h3 className={styles.cardTitle}>{upcoming?.title || 'Your next service'}</h3>
-              <p className={styles.cardDesc}>{upcoming?.badge || 'New modules are added here.'}</p>
-            </div>
-          )}
         </div>
+
+        {/* Minimalist Call to Action */}
+        {showCta && (
+          <div className={styles.ctaBox}>
+            <div className={styles.ctaText}>
+              {ctaTitle && <h3 className={styles.ctaTitle}>{ctaTitle}</h3>}
+              {ctaDesc && <p className={styles.ctaDesc}>{ctaDesc}</p>}
+            </div>
+            <a 
+              href={ctaButtonUrl} 
+              className={styles.ctaBtn}
+              aria-label={`${ctaButtonText} - Scroll to contact form`}
+            >
+              <span>{ctaButtonText}</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        )}
       </div>
     </section>
   )

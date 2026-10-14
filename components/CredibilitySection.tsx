@@ -10,22 +10,22 @@ interface CredibilityProps {
 
 const ICONS = [
   // Balance scale
-  <svg key="a" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg key="a" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
     <path d="M12 3v18M12 6l-6 6M12 6l6 6M6 12v3a3 3 0 006 0v-3M18 12v3a3 3 0 01-6 0v-3"/>
     <path d="M3 12h18"/>
   </svg>,
   // Map pin
-  <svg key="b" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg key="b" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
     <circle cx="12" cy="10" r="3"/>
   </svg>,
   // Shield check
-  <svg key="c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg key="c" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     <path d="M9 12l2 2 4-4"/>
   </svg>,
   // Network nodes
-  <svg key="d" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg key="d" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
     <circle cx="12" cy="5" r="3"/>
     <circle cx="19" cy="19" r="3"/>
     <circle cx="5" cy="19" r="3"/>
@@ -40,7 +40,7 @@ export default function CredibilitySection({ data }: CredibilityProps) {
   const cards = data.cards || []
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="company" aria-label="Governance and Credibility">
       <div className={styles.inner}>
         {data.title && <h2 className={styles.title}>{data.title}</h2>}
         {data.subtitle && <p className={styles.subtitle}>{data.subtitle}</p>}

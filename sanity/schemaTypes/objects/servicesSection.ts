@@ -22,6 +22,12 @@ export default defineType({
       title: 'Servicio Destacado (Banner IOR / EOR)',
       type: 'object',
       fields: [
+        {
+          name: 'active',
+          title: 'Visible en el sitio web',
+          type: 'boolean',
+          initialValue: true,
+        },
         { name: 'title', title: 'Título', type: 'string' },
         { name: 'description', title: 'Descripción Principal', type: 'text', rows: 3 },
         { name: 'capabilitiesHeading', title: 'Encabezado de Viñetas', type: 'string' },
@@ -44,11 +50,56 @@ export default defineType({
           type: 'object',
           name: 'standardService',
           fields: [
+            {
+              name: 'active',
+              title: 'Visible en el sitio web',
+              type: 'boolean',
+              initialValue: true,
+            },
             { name: 'title', title: 'Nombre del Servicio', type: 'string' },
             { name: 'description', title: 'Descripción', type: 'text', rows: 3 },
             { name: 'linkText', title: 'Texto del Enlace', type: 'string', initialValue: 'Learn more' },
             { name: 'linkUrl', title: 'URL', type: 'string' },
           ],
+        },
+      ],
+    }),
+    defineField({
+      name: 'ctaBanner',
+      title: 'Llamado a la Acción (CTA Minimalista)',
+      type: 'object',
+      fields: [
+        {
+          name: 'active',
+          title: 'Visible en el sitio web',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'title',
+          title: 'Título del llamado a la acción',
+          type: 'string',
+          initialValue: 'Need a tailored combination of services?',
+        },
+        {
+          name: 'description',
+          title: 'Descripción corta',
+          type: 'text',
+          rows: 2,
+          initialValue:
+            'We can structure any combination of services into a single turnkey operation under a single U.S. contract.',
+        },
+        {
+          name: 'buttonText',
+          title: 'Texto del Botón',
+          type: 'string',
+          initialValue: 'Contact our team',
+        },
+        {
+          name: 'buttonUrl',
+          title: 'Enlace del Botón',
+          type: 'string',
+          initialValue: '#contact',
         },
       ],
     }),

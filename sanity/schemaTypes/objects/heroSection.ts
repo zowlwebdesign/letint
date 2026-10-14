@@ -35,7 +35,7 @@ export default defineType({
     }),
     defineField({
       name: 'backgroundGraphic',
-      title: 'Background Graphic / Style Toggle',
+      title: 'Imagen de Fondo Principal (Hero Background Image)',
       type: 'image',
       options: { hotspot: true }
     })

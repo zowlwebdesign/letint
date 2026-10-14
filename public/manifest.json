@@ -1,0 +1,16 @@
+{
+  "name": "LET INT US — Supply Chain Control Tower",
+  "short_name": "LET INT US",
+  "description": "One U.S. contract. Local operations. Freight, customs, IOR/EOR, warehousing and more in Colombia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c1424",
+  "theme_color": "#0c1424",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

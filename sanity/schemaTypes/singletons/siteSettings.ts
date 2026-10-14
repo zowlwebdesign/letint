@@ -17,6 +17,12 @@ export default defineType({
       type: 'image'
     }),
     defineField({
+      name: 'ogImage',
+      title: 'Imagen para Redes Sociales (Open Graph / Social Preview)',
+      type: 'image',
+      options: { hotspot: true }
+    }),
+    defineField({
       name: 'navigationLinks',
       title: 'Navigation Links',
       type: 'array',

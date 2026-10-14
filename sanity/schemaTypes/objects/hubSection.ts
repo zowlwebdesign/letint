@@ -16,13 +16,18 @@ export default defineType({
       type: 'text'
     }),
     defineField({
+      name: 'backgroundImage',
+      title: 'Imagen de Fondo del Diagrama / Hub',
+      type: 'image',
+      options: { hotspot: true }
+    }),
+    defineField({
       name: 'centerTower',
       title: 'Center Tower',
       type: 'object',
       fields: [
         { name: 'label', title: 'Label', type: 'string' },
-        { name: 'subtitle', title: 'Subtitle', type: 'string' },
-        { name: 'badge', title: 'Badge', type: 'string' }
+        { name: 'subtitle', title: 'Subtitle', type: 'string' }
       ]
     }),
     defineField({

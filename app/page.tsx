@@ -30,16 +30,21 @@ export default async function Page() {
 
   return (
     <>
+      <a href="#main-content" className="skipLink">
+        Skip to main content
+      </a>
       <Navbar data={siteSettings} />
-      <main>
+      <main id="main-content">
         <HeroSection data={landingData?.hero} />
         <CredibilitySection data={landingData?.credibility} />
         <ProblemSection data={landingData?.problem} />
         <HubSection data={landingData?.hub} />
-        <AudienceSection data={landingData?.audience} />
-        <ServicesSection data={landingData?.services} />
-        <WhyChooseSection data={landingData?.whyChoose} />
-        <ContactSection data={landingData?.contact} corporateData={siteSettings?.corporateData} />
+        <div className="content-auto">
+          <AudienceSection data={landingData?.audience} />
+          <ServicesSection data={landingData?.services} />
+          <WhyChooseSection data={landingData?.whyChoose} />
+          <ContactSection data={landingData?.contact} corporateData={siteSettings?.corporateData} />
+        </div>
       </main>
       <Footer data={siteSettings} />
     </>

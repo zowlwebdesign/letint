@@ -21,4 +21,13 @@ export const structure: StructureResolver = (S) =>
             .schemaType('siteSettings')
             .documentId('siteSettings')
         ),
+      S.divider(),
+      S.listItem()
+        .title('Política de Privacidad')
+        .id('privacyPolicy')
+        .child(
+          S.document()
+            .schemaType('privacyPolicy')
+            .documentId('privacyPolicy')
+        ),
     ])

@@ -1,5 +1,6 @@
 import siteSettings from './singletons/siteSettings'
 import landingPage from './singletons/landingPage'
+import privacyPolicy from './singletons/privacyPolicy'
 
 import heroSection from './objects/heroSection'
 import credibilitySection from './objects/credibilitySection'
@@ -15,6 +16,7 @@ export const schemaTypes = [
   // Singletons
   siteSettings,
   landingPage,
+  privacyPolicy,
 
   // Objects
   heroSection,

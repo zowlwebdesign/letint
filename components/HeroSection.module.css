@@ -4,24 +4,65 @@
   background-color: var(--color-bg-dark);
   display: flex;
   align-items: center;
-  padding-top: 80px; /* navbar offset */
+  padding-top: 76px;
   overflow: hidden;
 }
 
-.bgImage {
+.bgWrapper {
   position: absolute;
   inset: 0;
-  /* Using a shipping port background image like in the screenshot */
-  background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop');
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.04);
+  transition: transform 8s ease-out;
+}
+
+.hero:hover .bgImg {
+  transform: scale(1.0);
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  /* A dark gradient to make the white text pop on the left side */
-  background: linear-gradient(90deg, rgba(5, 10, 20, 0.85) 0%, rgba(5, 10, 20, 0.4) 100%);
+  background: linear-gradient(
+    105deg,
+    rgba(8, 14, 28, 0.92) 0%,
+    rgba(8, 14, 28, 0.65) 55%,
+    rgba(8, 14, 28, 0.3) 100%
+  );
+}
+
+/* subtle grain texture */
+.overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Accent glow spot */
+.glowSpot {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,255,0.15) 0%, transparent 70%);
+  bottom: -100px;
+  right: 10%;
+  pointer-events: none;
+  animation: pulseGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from { opacity: 0.6; transform: scale(1); }
+  to   { opacity: 1;   transform: scale(1.12); }
 }
 
 .inner {
@@ -34,72 +75,104 @@
 }
 
 .content {
-  max-width: 800px;
+  max-width: 760px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(0,180,255,0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(0,180,255,0.25);
+  margin-bottom: 28px;
 }
 
 .title {
-  font-size: clamp(2.5rem, 6vw, 4.2rem);
-  font-weight: 700;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 800;
   color: white;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 24px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 28px;
+}
+
+.title em {
+  font-style: normal;
+  color: var(--color-accent);
 }
 
 .subtitle {
   font-size: 18px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 48px;
-  max-width: 700px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 52px;
+  max-width: 620px;
   font-weight: 400;
 }
 
 .actions {
   display: flex;
-  gap: 16px;
-  margin-bottom: 56px;
+  gap: 14px;
+  margin-bottom: 64px;
   flex-wrap: wrap;
 }
 
 .btnPrimary {
   background: var(--color-accent);
   color: var(--color-accent-text);
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 15px 36px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 180, 255, 0.35);
 }
-.btnPrimary:hover { background: var(--color-accent-hover); }
+.btnPrimary:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 180, 255, 0.45);
+}
+.btnPrimary:active { transform: translateY(0); }
 
 .btnSecondary {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: white;
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 15px 36px;
+  border-radius: 9px;
+  font-size: 15px;
   font-weight: 500;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.14);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
+  gap: 8px;
 }
 .btnSecondary:hover {
-  background: rgba(30, 41, 59, 0.9);
+  background: rgba(255,255,255,0.13);
   border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
 }
+.btnSecondary:active { transform: translateY(0); }
 
 .badges {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
@@ -107,28 +180,58 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.01em;
 }
 
 .badge svg {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.4);
+  flex-shrink: 0;
 }
 
 .separator {
   width: 1px;
-  height: 16px;
-  background: rgba(255,255,255,0.2);
+  height: 18px;
+  background: rgba(255,255,255,0.15);
 }
 
 @media (max-width: 900px) {
-  .title { font-size: 3rem; }
-  .subtitle { font-size: 16px; }
+  .title { font-size: 3.2rem; }
+  .subtitle { font-size: 17px; }
 }
 
 @media (max-width: 600px) {
-  .actions { flex-direction: column; }
-  .btnPrimary, .btnSecondary { width: 100%; justify-content: center; }
-  .badges { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .separator { display: none; }
+  .hero {
+    padding-top: 88px;
+    padding-bottom: 36px;
+    min-height: auto;
+  }
+  .title {
+    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+    line-height: 1.15;
+    word-break: break-word;
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .actions {
+    flex-direction: column;
+    margin-bottom: 28px;
+  }
+  .btnPrimary, .btnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+  .badges {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .separator {
+    display: none;
+  }
 }

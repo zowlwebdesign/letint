@@ -1,4 +1,6 @@
+import Image from 'next/image'
 import styles from './HeroSection.module.css'
+import { urlForImage } from '../sanity/lib/image'
 
 interface HeroProps {
   data?: {
@@ -6,18 +8,32 @@ interface HeroProps {
     subheadline?: string
     primaryCTA?: { label: string; href: string }
     secondaryCTA?: { label: string; href: string }
+    backgroundGraphic?: any
   }
 }
 
 export default function HeroSection({ data }: HeroProps) {
   if (!data) return null;
 
+  const bgImageUrl = data.backgroundGraphic
+    ? urlForImage(data.backgroundGraphic)?.url()
+    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'
+
   return (
-    <section className={styles.hero}>
-      <div className={styles.bgImage} />
-      
-      {/* Dark overlay to ensure text readability */}
+    <section className={styles.hero} id="top" aria-label="Hero Introduction">
+      <div className={styles.bgWrapper}>
+        <Image
+          src={bgImageUrl || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'}
+          alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
+          fill
+          priority
+          sizes="100vw"
+          quality={80}
+          className={styles.bgImg}
+        />
+      </div>
       <div className={styles.overlay} />
+      <div className={styles.glowSpot} />
 
       <div className={styles.inner}>
         <div className={styles.content}>
@@ -35,12 +51,20 @@ export default function HeroSection({ data }: HeroProps) {
 
           <div className={styles.actions}>
             {data.primaryCTA?.label && (
-              <a href={data.primaryCTA.href || '#'} className={styles.btnPrimary}>
+              <a 
+                href={data.primaryCTA.href || '#contact'} 
+                className={styles.btnPrimary}
+                aria-label={`${data.primaryCTA.label} — Consult with LET INT US`}
+              >
                 {data.primaryCTA.label}
               </a>
             )}
             {data.secondaryCTA?.label && (
-              <a href={data.secondaryCTA.href || '#'} className={styles.btnSecondary}>
+              <a 
+                href={data.secondaryCTA.href || '#how-it-works'} 
+                className={styles.btnSecondary}
+                aria-label={`${data.secondaryCTA.label} — See our operational process`}
+              >
                 {data.secondaryCTA.label}
               </a>
             )}
