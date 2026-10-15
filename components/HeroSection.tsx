@@ -25,16 +25,31 @@ export default function HeroSection({ data }: HeroProps) {
   return (
     <section className={styles.hero} id="top" aria-label="Hero Introduction">
       <div className={styles.bgWrapper}>
-        <Image
-          src={bgImageUrl || '/hero-bg.webp'}
-          alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
-          fill
-          priority
-          sizes="100vw"
-          quality={75}
-          unoptimized={isStatic}
-          className={styles.bgImg}
-        />
+        {isStatic ? (
+          <picture>
+            <source media="(max-width: 768px)" srcSet="/hero-bg-mobile.webp" type="image/webp" />
+            <source srcSet="/hero-bg.webp" type="image/webp" />
+            <img
+              src="/hero-bg.webp"
+              alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
+              // @ts-ignore
+              fetchpriority="high"
+              decoding="async"
+              className={styles.bgImg}
+              style={{ position: 'absolute', height: '100%', width: '100%', inset: 0, objectFit: 'cover' }}
+            />
+          </picture>
+        ) : (
+          <Image
+            src={bgImageUrl}
+            alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
+            fill
+            priority
+            sizes="100vw"
+            quality={75}
+            className={styles.bgImg}
+          />
+        )}
       </div>
       <div className={styles.overlay} />
       <div className={styles.glowSpot} />

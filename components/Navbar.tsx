@@ -85,9 +85,10 @@ export default function Navbar({ data }: NavbarProps) {
           >
             {data?.logo ? (
               <img 
-                src={urlForImage(data.logo)?.url()} 
+                src={urlForImage(data.logo)?.width(160).fit('max').auto('format').url()} 
                 alt="LET INT US Logo" 
-                fetchPriority="high"
+                width={80}
+                height={54}
                 decoding="async"
                 className={styles.logoImg} 
               />

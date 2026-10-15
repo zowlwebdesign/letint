@@ -289,10 +289,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        <link rel="preconnect" href="https://cdn.sanity.io" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-bg-mobile.webp"
+          media="(max-width: 768px)"
+          type="image/webp"
+          // @ts-ignore
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-bg.webp"
+          media="(min-width: 769px)"
+          type="image/webp"
+          // @ts-ignore
+          fetchpriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
