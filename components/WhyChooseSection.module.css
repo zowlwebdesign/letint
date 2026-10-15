@@ -23,9 +23,21 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px 24px;
+  align-items: stretch;
+}
+
+.grid > * {
+  height: 100%;
+}
+
+.itemReveal {
+  height: 100%;
+  display: flex;
 }
 
 .item {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 16px;

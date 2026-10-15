@@ -1,4 +1,5 @@
 import styles from './ProblemSection.module.css'
+import ScrollReveal from './ScrollReveal'
 
 interface ProblemProps {
   data?: {
@@ -37,17 +38,21 @@ export default function ProblemSection({ data }: ProblemProps) {
   return (
     <section className={styles.section} id="problem" aria-label="Colombia Supply Chain Challenges">
       <div className={styles.inner}>
-        {data.title && <h2 className={styles.title}>{data.title}</h2>}
-        {data.subtitle && <p className={styles.subtitle}>{data.subtitle}</p>}
+        <ScrollReveal>
+          {data.title && <h2 className={styles.title}>{data.title}</h2>}
+          {data.subtitle && <p className={styles.subtitle}>{data.subtitle}</p>}
+        </ScrollReveal>
 
         {cards.length > 0 && (
           <div className={styles.grid}>
             {cards.map((card, i) => (
-              <div key={i} className={styles.card}>
-                <div className={styles.cardIcon}>{ICONS[i % ICONS.length]}</div>
-                <h3 className={styles.cardTitle}>{card.title}</h3>
-                <p className={styles.cardDesc}>{card.description}</p>
-              </div>
+              <ScrollReveal key={i} variant="up" delay={i * 100} className={styles.cardReveal}>
+                <div className={styles.card}>
+                  <div className={styles.cardIcon}>{ICONS[i % ICONS.length]}</div>
+                  <h3 className={styles.cardTitle}>{card.title}</h3>
+                  <p className={styles.cardDesc}>{card.description}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         )}

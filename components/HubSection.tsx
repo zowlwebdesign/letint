@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import styles from './HubSection.module.css'
 import { urlForImage } from '../sanity/lib/image'
+import ScrollReveal from './ScrollReveal'
 
 interface ProcessStep {
   stepNumber?: string
@@ -44,13 +45,16 @@ export default function HubSection({ data }: HubProps) {
   return (
     <section className={styles.section} id="how-it-works" aria-label="Supply Chain Control Tower Hub">
       <div className={styles.inner}>
-        <div className={styles.header}>
-          {data.headerTitle && <h2 className={styles.title}>{data.headerTitle}</h2>}
-          {data.headerDescription && <p className={styles.subtitle}>{data.headerDescription}</p>}
-        </div>
+        <ScrollReveal>
+          <div className={styles.header}>
+            {data.headerTitle && <h2 className={styles.title}>{data.headerTitle}</h2>}
+            {data.headerDescription && <p className={styles.subtitle}>{data.headerDescription}</p>}
+          </div>
+        </ScrollReveal>
 
-        {/* ─── Control Tower Diagram ─── */}
-        <div className={styles.diagramContainer}>
+        <ScrollReveal variant="scale" delay={100}>
+          {/* ─── Control Tower Diagram ─── */}
+          <div className={styles.diagramContainer}>
           <div className={styles.diagramBg}>
             <Image
               src={hubBgUrl || 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop'}
@@ -165,11 +169,13 @@ export default function HubSection({ data }: HubProps) {
               ))}
             </div>
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
 
         {/* ─── Process Steps (Desplegables / Accordion) ─── */}
         {steps.length > 0 && (
-          <div className={styles.accordionContainer} role="region" aria-label="Process Steps">
+          <ScrollReveal variant="up" delay={150}>
+            <div className={styles.accordionContainer} role="region" aria-label="Process Steps">
             <div className={styles.accordionList}>
               {steps.map((step, i) => {
                 const isOpen = openStep === i
@@ -227,7 +233,8 @@ export default function HubSection({ data }: HubProps) {
                 )
               })}
             </div>
-          </div>
+            </div>
+          </ScrollReveal>
         )}
       </div>
     </section>

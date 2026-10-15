@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.RESEND_API_KEY
     const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || 'info@letintl.com'
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'LET INT US <onboarding@resend.dev>'
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'LET INT US <notifications@letintl.com>'
 
     // If Resend API key is provided, send real email
     if (apiKey) {

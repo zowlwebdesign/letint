@@ -1,4 +1,5 @@
 import styles from './ServicesSection.module.css'
+import ScrollReveal from './ScrollReveal'
 
 interface ServiceProps {
   data?: {
@@ -78,12 +79,15 @@ export default function ServicesSection({ data }: ServiceProps) {
   return (
     <section className={styles.section} id="services">
       <div className={styles.inner}>
-        {data.title && <h2 className={styles.title}>{data.title}</h2>}
-        {data.subtitle && <p className={styles.subtitle}>{data.subtitle}</p>}
+        <ScrollReveal>
+          {data.title && <h2 className={styles.title}>{data.title}</h2>}
+          {data.subtitle && <p className={styles.subtitle}>{data.subtitle}</p>}
+        </ScrollReveal>
 
         {/* Featured IOR/EOR card */}
         {feat && (
-          <div className={styles.featured}>
+          <ScrollReveal variant="left">
+            <div className={styles.featured}>
             <div className={styles.featuredLeft}>
               <div className={styles.featuredIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -119,47 +123,53 @@ export default function ServicesSection({ data }: ServiceProps) {
                 </ul>
               </div>
             )}
-          </div>
+            </div>
+          </ScrollReveal>
         )}
+
 
         {/* Standard services grid */}
         <div className={styles.grid}>
           {standards.map((svc, i) => (
-            <div key={i} className={styles.card}>
-              <div className={styles.cardIcon}>{SVC_ICONS[i % SVC_ICONS.length]}</div>
-              <h3 className={styles.cardTitle}>{svc.title}</h3>
-              <p className={styles.cardDesc}>
-                {svc.description?.startsWith('eliable') ? 'R' + svc.description : svc.description}
-              </p>
-              {svc.linkText && (
-                <a 
-                  href={svc.linkUrl || '#contact'} 
-                  className={styles.cardLink}
-                  aria-label={`${svc.linkText} about ${svc.title}`}
-                >
-                  {svc.linkText}
-                </a>
-              )}
-            </div>
+            <ScrollReveal key={i} variant="up" delay={i * 80} className={styles.cardReveal}>
+              <div className={styles.card}>
+                <div className={styles.cardIcon}>{SVC_ICONS[i % SVC_ICONS.length]}</div>
+                <h3 className={styles.cardTitle}>{svc.title}</h3>
+                <p className={styles.cardDesc}>
+                  {svc.description?.startsWith('eliable') ? 'R' + svc.description : svc.description}
+                </p>
+                {svc.linkText && (
+                  <a 
+                    href={svc.linkUrl || '#contact'} 
+                    className={styles.cardLink}
+                    aria-label={`${svc.linkText} about ${svc.title}`}
+                  >
+                    {svc.linkText}
+                  </a>
+                )}
+              </div>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Minimalist Call to Action */}
         {showCta && (
-          <div className={styles.ctaBox}>
-            <div className={styles.ctaText}>
-              {ctaTitle && <h3 className={styles.ctaTitle}>{ctaTitle}</h3>}
-              {ctaDesc && <p className={styles.ctaDesc}>{ctaDesc}</p>}
+          <ScrollReveal variant="fade" delay={100}>
+            <div className={styles.ctaBox}>
+              <div className={styles.ctaText}>
+                {ctaTitle && <h3 className={styles.ctaTitle}>{ctaTitle}</h3>}
+                {ctaDesc && <p className={styles.ctaDesc}>{ctaDesc}</p>}
+              </div>
+              <a 
+                href={ctaButtonUrl} 
+                className={styles.ctaBtn}
+                aria-label={`${ctaButtonText} - Scroll to contact form`}
+              >
+                <span>{ctaButtonText}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
             </div>
-            <a 
-              href={ctaButtonUrl} 
-              className={styles.ctaBtn}
-              aria-label={`${ctaButtonText} - Scroll to contact form`}
-            >
-              <span>{ctaButtonText}</span>
-              <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
+          </ScrollReveal>
         )}
       </div>
     </section>

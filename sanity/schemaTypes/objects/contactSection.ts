@@ -26,6 +26,25 @@ export default defineType({
       title: 'Privacy Disclaimer',
       type: 'array',
       of: [{ type: 'block' }]
+    }),
+    defineField({
+      name: 'whatsappNumber',
+      title: 'Número de WhatsApp',
+      type: 'string',
+      description: 'Número de WhatsApp con código de país (ej: +57 313 231 0746 o +1 305 ...). Si se deja vacío se ocultará el botón.',
+      initialValue: '+57 313 231 0746'
+    }),
+    defineField({
+      name: 'whatsappLabel',
+      title: 'Texto del botón de WhatsApp',
+      type: 'string',
+      initialValue: 'Chat on WhatsApp'
+    }),
+    defineField({
+      name: 'whatsappMessage',
+      title: 'Mensaje predeterminado de WhatsApp',
+      type: 'string',
+      initialValue: 'Hello! I would like to inquire about LET INT US logistics services in Colombia.'
     })
   ]
 })

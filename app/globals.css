@@ -80,47 +80,65 @@ main { min-height: 100vh; }
 }
 
 /* ─── Scroll Reveal Animations ─── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+/* Shared transition timing — spring-like, fast in slow out */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+.reveal-fade {
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.reveal.visible {
+.reveal        { opacity: 0; transform: translateY(32px); }
+.reveal-left   { opacity: 0; transform: translateX(-32px); }
+.reveal-right  { opacity: 0; transform: translateX(32px); }
+.reveal-scale  { opacity: 0; transform: scale(0.93); }
+.reveal-fade   { opacity: 0; transform: none; }
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible,
+.reveal-fade.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-28px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.94);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-scale.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Staggered children */
+/* Staggered children (utility class) */
 .stagger > *:nth-child(1) { transition-delay: 0ms; }
 .stagger > *:nth-child(2) { transition-delay: 80ms; }
 .stagger > *:nth-child(3) { transition-delay: 160ms; }
 .stagger > *:nth-child(4) { transition-delay: 240ms; }
 .stagger > *:nth-child(5) { transition-delay: 320ms; }
 .stagger > *:nth-child(6) { transition-delay: 400ms; }
+.stagger > *:nth-child(7) { transition-delay: 480ms; }
+.stagger > *:nth-child(8) { transition-delay: 560ms; }
+
+/* ─── Hero entrance animation ─── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Reduced-motion: disable all animations ─── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .stagger > * { transition-delay: 0ms !important; }
+}
 
 /* ─── Button system ─── */
 .btn {

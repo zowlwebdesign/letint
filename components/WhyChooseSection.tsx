@@ -1,4 +1,5 @@
 import styles from './WhyChooseSection.module.css'
+import ScrollReveal from './ScrollReveal'
 
 interface WhyChooseProps {
   data?: {
@@ -30,15 +31,19 @@ export default function WhyChooseSection({ data }: WhyChooseProps) {
   return (
     <section className={styles.section} id="why-choose" aria-label="Why Choose LET INT US">
       <div className={styles.inner}>
-        {data.title && <h2 className={styles.title}>{data.title}</h2>}
+        <ScrollReveal>
+          {data.title && <h2 className={styles.title}>{data.title}</h2>}
+        </ScrollReveal>
 
         {reasons.length > 0 && (
           <div className={styles.grid}>
             {reasons.map((reason, i) => (
-              <div key={i} className={styles.item}>
-                <div className={styles.icon}>{ICONS[i % ICONS.length]}</div>
-                <span className={styles.text}>{reason}</span>
-              </div>
+              <ScrollReveal key={i} variant="left" delay={i * 70} className={styles.itemReveal}>
+                <div className={styles.item}>
+                  <div className={styles.icon}>{ICONS[i % ICONS.length]}</div>
+                  <span className={styles.text}>{reason}</span>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         )}

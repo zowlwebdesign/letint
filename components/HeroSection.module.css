@@ -78,22 +78,7 @@
   max-width: 760px;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 14px;
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: rgba(0,180,255,0.12);
-  color: var(--color-accent);
-  border: 1px solid rgba(0,180,255,0.25);
-  margin-bottom: 28px;
-}
-
+/* Hero entrance animations — triggered immediately on load */
 .title {
   font-size: clamp(2.6rem, 5.5vw, 4.4rem);
   font-weight: 800;
@@ -101,6 +86,7 @@
   line-height: 1.08;
   letter-spacing: -0.03em;
   margin-bottom: 28px;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .title em {
@@ -115,6 +101,7 @@
   margin-bottom: 52px;
   max-width: 620px;
   font-weight: 400;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 .actions {
@@ -122,6 +109,7 @@
   gap: 14px;
   margin-bottom: 64px;
   flex-wrap: wrap;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
 }
 
 .btnPrimary {
@@ -174,6 +162,7 @@
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
+  animation: heroFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
 }
 
 .badge {

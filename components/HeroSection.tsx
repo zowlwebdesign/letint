@@ -15,20 +15,24 @@ interface HeroProps {
 export default function HeroSection({ data }: HeroProps) {
   if (!data) return null;
 
-  const bgImageUrl = data.backgroundGraphic
+  const isOldPlaceholder = data.backgroundGraphic?.asset?._ref?.includes('fb02b17177014277fdf329e857b424cf21c5847e')
+  const bgImageUrl = (data.backgroundGraphic && !isOldPlaceholder)
     ? urlForImage(data.backgroundGraphic)?.url()
-    : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'
+    : '/hero-bg.webp'
+
+  const isStatic = bgImageUrl.startsWith('/hero-bg')
 
   return (
     <section className={styles.hero} id="top" aria-label="Hero Introduction">
       <div className={styles.bgWrapper}>
         <Image
-          src={bgImageUrl || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'}
+          src={bgImageUrl || '/hero-bg.webp'}
           alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
           fill
           priority
           sizes="100vw"
-          quality={80}
+          quality={75}
+          unoptimized={isStatic}
           className={styles.bgImg}
         />
       </div>
