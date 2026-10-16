@@ -28,11 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   const faviconUrl = settings?.favicon ? urlForImage(settings.favicon)?.url() : '/favicon.ico'
-  const logoUrl = settings?.ogImage
+  const ogImageUrl = settings?.ogImage
     ? urlForImage(settings.ogImage)?.url()
-    : settings?.logo
-      ? urlForImage(settings.logo)?.url()
-      : 'https://letintl.com/og-image.jpg'
+    : 'https://letintl.com/Logo_let.webp'
 
   return {
     metadataBase: new URL('https://letintl.com'),
@@ -89,9 +87,10 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: logoUrl,
-          width: 1200,
-          height: 630,
+          url: ogImageUrl,
+          width: 1024,
+          height: 687,
+          type: 'image/webp',
           alt: 'LET INT US — Supply Chain & Logistics Control Tower in Colombia',
         },
       ],
@@ -101,7 +100,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'LET INT US — Control Tower for Supply Chain & IOR Services in Colombia',
       description:
         'One U.S. contract. Local operations. Freight, customs, IOR/EOR, and warehousing in Colombia.',
-      images: [logoUrl],
+      images: [ogImageUrl],
     },
     robots: {
       index: true,

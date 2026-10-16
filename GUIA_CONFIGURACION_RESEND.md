@@ -40,30 +40,15 @@ Además, al presionar **"Responder"** en el correo que recibas, le estarás resp
 
 ---
 
-## 🌐 Fase 2 (Opcional): Personalizar el Remitente Oficial con su Dominio
+## 🌐 Fase 2: Personalizar el Remitente Oficial con su Dominio
 
 Si en lugar de `onboarding@resend.dev` prefieren que el remitente diga exactamente `LET INT US <contact@letintl.com>`, se puede vincular el dominio siguiendo estos pasos:
 
 1. En el panel de Resend, ve a **[Domains](https://resend.com/domains)** y haz clic en **"Add Domain"**.
 2. Escribe el dominio: `letintl.com` y selecciona la región `us-east-1`.
-3. Resend te mostrará **3 registros DNS** en una tabla:
-   * **DKIM:** Es un registro de tipo **`TXT`** (en el selector de tipo de tu DNS eliges **TXT**).
-   * **SPF:** Es otro registro de tipo **`TXT`**.
-   * **MX:** Es un registro de tipo **`MX`** (con prioridad `10`).
-
-   | En Resend se llama | Tipo en tu panel DNS | Nombre / Host | Valor / Contenido |
-   | :--- | :---: | :--- | :--- |
-   | **DKIM** | **`TXT`** | `resend._domainkey` | *(El texto largo que te da Resend)* |
-   | **SPF** | **`TXT`** | `bounces` | `v=spf1 include:amazonses.com ~all` |
-   | **MX** | **`MX`** (Prioridad 10) | `bounces` | `feedback-smtp.us-east-1.amazonses.com` |
-
-   > **💡 Nota importante sobre el Nombre/Host:**  
-   > Algunos paneles como Cloudflare o cPanel solo requieren poner `resend._domainkey` y `bounces` (ellos completan el resto automáticamente). Otros proveedores antiguos te piden el nombre completo: `resend._domainkey.letintl.com`. Si dudas, copia el valor exacto que da Resend.
-
+3. Resend te mostrará **3 registros DNS** (DKIM, SPF y MX).
 4. Ingresa al panel donde administras el dominio (Cloudflare, GoDaddy, Namecheap, cPanel, etc.) y añade esos registros en la **Zona DNS**.
 5. Haz clic en **"Verify DNS Records"** en Resend.
 6. Una vez verificado (estado en verde), notifícalo al equipo técnico para cambiar el remitente a `contact@letintl.com`.
 
 ---
-
-*Cualquier inquietud durante el proceso, puedes contactar al equipo de desarrollo.*
