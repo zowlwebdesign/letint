@@ -4,12 +4,12 @@ import './globals.css'
 import { client } from '../sanity/lib/client'
 import { SITE_SETTINGS_QUERY } from '../sanity/lib/queries'
 import { urlForImage } from '../sanity/lib/image'
+import GoogleTranslateScript from '../components/GoogleTranslateScript'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['400', '500', '600', '700', '800'],
 })
 
 export const viewport: Viewport = {
@@ -35,11 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL('https://letintl.com'),
     title: {
-      default: 'LET INT US — Control Tower for Supply Chain & IOR Services in Colombia',
+      default: 'LET INT US — Importer of Record (IOR) & Supply Chain Control Tower in Colombia',
       template: '%s | LET INT US',
     },
     description:
-      'Scale your operations in Colombia with one U.S. contract. Dedicated Control Tower for Importer of Record (IOR/EOR), customs clearance, 3PL warehousing, and freight forwarding.',
+      'Scale your operations in Colombia with one U.S. contract. Dedicated Control Tower for Importer of Record (IOR/EOR), customs clearance, 3PL warehousing, and RETIE compliance.',
     applicationName: 'LET INT US',
     keywords: [
       'Importer of Record Colombia',
@@ -49,6 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'Supply Chain Control Tower Colombia',
       'Colombia Logistics for US Companies',
       'Colombia Customs Brokerage',
+      'Agencia de Aduanas Colombia',
       'DIAN Compliance Logistics',
       'Freight Forwarding Colombia',
       '3PL Warehousing Colombia',
@@ -56,6 +57,8 @@ export async function generateMetadata(): Promise<Metadata> {
       'Last Mile Delivery Colombia',
       'Reverse Logistics Colombia',
       'Warranty FSL Colombia',
+      'Titularidad RETIE Colombia',
+      'Logística Solar Fotovoltaica Colombia',
       'US Contract Colombia Logistics',
       'B2B Distribution Colombia',
       'Medical Device Import Colombia',
@@ -71,25 +74,29 @@ export async function generateMetadata(): Promise<Metadata> {
       telephone: false,
     },
     alternates: {
-      canonical: '/',
+      canonical: 'https://letintl.com',
       languages: {
-        'en-US': '/',
-        'es-CO': '/',
+        'en': 'https://letintl.com',
+        'en-US': 'https://letintl.com',
+        'es': 'https://letintl.com',
+        'es-CO': 'https://letintl.com',
+        'x-default': 'https://letintl.com',
       },
     },
     openGraph: {
-      title: 'LET INT US — Control Tower for Supply Chain & IOR Services in Colombia',
+      title: 'LET INT US — Importer of Record (IOR) & Supply Chain Control Tower in Colombia',
       description:
-        'One U.S. contract. Local operations. Freight, customs clearance, IOR/EOR representation, and warehousing in Colombia.',
+        'One U.S. contract. Local operations. Freight, customs clearance, IOR/EOR representation, 3PL warehousing, and RETIE compliance in Colombia.',
       url: 'https://letintl.com',
       siteName: 'LET INT US',
       locale: 'en_US',
+      alternateLocale: ['es_CO'],
       type: 'website',
       images: [
         {
           url: ogImageUrl,
-          width: 1024,
-          height: 687,
+          width: 1200,
+          height: 630,
           type: 'image/webp',
           alt: 'LET INT US — Supply Chain & Logistics Control Tower in Colombia',
         },
@@ -97,7 +104,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'LET INT US — Control Tower for Supply Chain & IOR Services in Colombia',
+      title: 'LET INT US — Importer of Record (IOR) & Supply Chain Control Tower in Colombia',
       description:
         'One U.S. contract. Local operations. Freight, customs, IOR/EOR, and warehousing in Colombia.',
       images: [ogImageUrl],
@@ -140,24 +147,41 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         '@id': 'https://letintl.com/#organization',
         name: 'LET INT US',
         legalName: 'LET INT US Corp.',
+        alternateName: ['LET International US', 'Grupo LET', 'LET Logistics', 'LET Pro'],
         url: 'https://letintl.com',
         logo: logoUrl,
         email: settings?.corporateData?.contactEmail || 'info@letintl.com',
         telephone: settings?.corporateData?.phoneUS || '+1 (305) 219-4974',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: '4855 W Hillsboro Blvd B3',
-          addressLocality: 'Coconut Creek',
-          addressRegion: 'FL',
-          postalCode: '33073',
-          addressCountry: 'US',
+        sameAs: [
+          'https://www.linkedin.com/company/let-logistics/',
+        ],
+        address: [
+          {
+            '@type': 'PostalAddress',
+            streetAddress: '4855 W Hillsboro Blvd B3',
+            addressLocality: 'Coconut Creek',
+            addressRegion: 'FL',
+            postalCode: '33073',
+            addressCountry: 'US',
+          },
+          {
+            '@type': 'PostalAddress',
+            addressLocality: 'Bogotá',
+            addressRegion: 'Cundinamarca',
+            addressCountry: 'CO',
+          },
+        ],
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 26.3153,
+          longitude: -80.1783,
         },
         contactPoint: [
           {
             '@type': 'ContactPoint',
             telephone: settings?.corporateData?.phoneUS || '+1 (305) 219-4974',
             contactType: 'customer service',
-            areaServed: ['US', 'CO'],
+            areaServed: ['US', 'CO', 'MX', 'BR'],
             availableLanguage: ['English', 'Spanish'],
           },
           {
@@ -176,6 +200,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           'Importer of Record (IOR) in Colombia',
           'Exporter of Record (EOR)',
           'Customs Brokerage and DIAN Compliance',
+          'RETIE 2024 Certification & Representation',
           'International Freight Forwarding (Ocean & Air)',
           'Supply Chain Control Tower Orchestration',
           '3PL Bonded Warehousing & Inventory Management (WMS)',
@@ -188,8 +213,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         '@id': 'https://letintl.com/#website',
         url: 'https://letintl.com',
         name: 'LET INT US',
+        alternateName: 'LET International US — Supply Chain & IOR Services in Colombia',
         publisher: { '@id': 'https://letintl.com/#organization' },
-        inLanguage: 'en-US',
+        inLanguage: ['en-US', 'es-CO'],
       },
       {
         '@type': 'ItemList',
@@ -312,8 +338,64 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              .goog-te-banner-frame,
+              .goog-te-banner-frame.skiptranslate,
+              iframe.goog-te-banner-frame,
+              iframe.skiptranslate,
+              iframe[class*="skiptranslate"],
+              iframe[id*=":1.container"],
+              iframe[id*=":2.container"],
+              iframe[src*="translate.google"],
+              iframe[src*="translate.googleapis"],
+              .VIpgJd-ZVi9od-ORHb-Oxf5Fd,
+              .VIpgJd-ZVi9od-ORHb,
+              .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+              #goog-gt-tt,
+              .goog-te-balloon-frame {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                height: 0 !important;
+                width: 0 !important;
+                position: absolute !important;
+                top: -9999px !important;
+                pointer-events: none !important;
+              }
+              html, body {
+                top: 0px !important;
+                position: static !important;
+                margin-top: 0px !important;
+              }
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('preferred_lang');
+                  var lang = saved || 'en';
+                  if (!saved) {
+                    localStorage.setItem('preferred_lang', 'en');
+                  }
+                  var cookieVal = '/es/' + lang;
+                  if (document.cookie.indexOf('googtrans=' + cookieVal) === -1) {
+                    document.cookie = 'googtrans=' + cookieVal + '; path=/;';
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <GoogleTranslateScript />
+        {children}
+      </body>
     </html>
   )
 }

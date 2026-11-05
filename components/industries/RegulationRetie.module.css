@@ -1,0 +1,107 @@
+.section {
+  padding: 64px 0 72px;
+  background: #f5f6f8;
+  color: #08172c;
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d49a37;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: clamp(1.8rem, 2.7vw, 2.3rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #08172c;
+  margin-bottom: 18px;
+}
+
+.paragraph {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #4b5563;
+  margin: 0 0 14px 0;
+}
+
+/* Checklist Card con borde dorado */
+.checklistCard {
+  background: #ffffff;
+  border: 1px solid #d49a37;
+  border-radius: 6px;
+  padding: 24px 22px;
+}
+
+.checklistTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #08172c;
+  margin: 0 0 16px 0;
+  line-height: 1.35;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.bullet {
+  color: #d49a37;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.itemText {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .section {
+    padding: 48px 0;
+  }
+}

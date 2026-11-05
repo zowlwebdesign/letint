@@ -56,7 +56,7 @@ export default function ContactSection({ data, corporateData }: ContactProps) {
   }
 
   return (
-    <section className={styles.section} id="contact">
+    <section className={styles.section} id="contact" aria-label="Contact LET INT US">
       <div className={styles.inner}>
         <ScrollReveal>
           <div className={styles.header}>

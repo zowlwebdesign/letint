@@ -1,0 +1,566 @@
+/* =========================================================
+   SECTION SHELL
+   ========================================================= */
+
+.section {
+  padding: 72px 0 84px;
+  background-color: #f9f7f4;
+  color: #1a1a2e;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+  margin-bottom: 48px;
+  max-width: 860px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c8a04a;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: clamp(1.8rem, 2.7vw, 2.3rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #111827;
+  margin-bottom: 14px;
+}
+
+.subheadline {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+/* =========================================================
+   DESKTOP SPLIT-SCREEN
+   ========================================================= */
+
+.splitScreen {
+  display: grid;
+  grid-template-columns: 35% 1fr;
+  gap: 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 0;
+  align-items: stretch;
+}
+
+/* ── LEFT COLUMN: step list ── */
+
+.stepList {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  background: #f9f7f4;
+}
+
+.stepRow {
+  all: unset;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.stepRow:last-child {
+  border-bottom: none;
+}
+
+.stepRow:hover:not(.stepRowActive) .stepRowTitle {
+  color: #374151;
+}
+
+/* Active state: left accent line */
+.stepRowActive {
+  background: transparent;
+}
+
+.stepRowActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #c8a04a;
+  border-radius: 0 2px 2px 0;
+}
+
+.stepRowFinal.stepRowActive::before {
+  background: #c8a04a;
+}
+
+/* Step number badge */
+.stepNum {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #aaaaaa;
+  min-width: 20px;
+  margin-top: 2px;
+  transition: color 0.2s ease;
+}
+
+.stepRowActive .stepNum {
+  color: #c8a04a;
+}
+
+.stepNumFinal {
+  color: #c8a04a !important;
+  font-size: 14px;
+}
+
+/* Title + progress container */
+.stepRowContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.stepRowTitle {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #9ca3af;
+  line-height: 1.4;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+  display: block;
+}
+
+.stepRowActive .stepRowTitle {
+  color: #1a1a2e;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* Progress track */
+.progressTrack {
+  display: block;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: 999px;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Progress bar: animated fill */
+.progressBar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #c8a04a;
+  border-radius: 999px;
+  animation: progressFill 10s linear forwards;
+}
+
+.stepRowFinal .progressBar {
+  background: #c8a04a;
+}
+
+/* When user has paused, freeze the bar at 100% instantly */
+.progressBarPaused {
+  animation: none;
+  width: 100%;
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ── RIGHT COLUMN: content panel ── */
+
+.contentPanel {
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 32px rgba(0, 0, 0, 0.07);
+}
+
+/* panelInner gets a unique key so React re-mounts it → replays animation */
+.panelInner {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 36px 32px;
+  flex: 1;
+  height: 100%;
+  box-sizing: border-box;
+  animation: panelFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Panel badge — small text label, no circle */
+.panelBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c8a04a;
+  margin-bottom: 14px;
+}
+
+.panelBadgeFinal {
+  color: #c8a04a;
+}
+
+/* Panel title */
+.panelTitle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: #111827;
+  margin: 0 0 16px;
+}
+
+.panelTitleFinal {
+  color: #111827;
+}
+
+/* Panel body */
+.panelDescription {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6b7280;
+  margin: 0 0 20px;
+}
+
+/* Return-to-FSL note (step 06) */
+.panelReturnNote {
+  font-size: 13px;
+  color: #c8a04a;
+  line-height: 1.4;
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.returnIcon {
+  font-size: 14px;
+  color: #c8a04a;
+  flex-shrink: 0;
+}
+
+/* DIAN callout — simple separator + stacked text, no border box */
+.calloutBox {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.calloutTitleCol {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.calloutTitle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #c8a04a;
+  margin: 0;
+}
+
+.calloutTextCol {
+  display: flex;
+  align-items: flex-start;
+}
+
+.calloutDescription {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* =========================================================
+   MOBILE SWIPEABLE CAROUSEL
+   ========================================================= */
+
+.timelineMobile {
+  display: none;
+  margin-bottom: 0;
+}
+
+.mobileCarouselHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.mobileStepCounter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.counterCurrent {
+  color: #c8a04a;
+  font-size: 16px;
+}
+
+.counterDivider {
+  color: #d1d5db;
+}
+
+.counterTotal {
+  color: #9ca3af;
+}
+
+.mobileClosedBadge {
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(200, 160, 74, 0.1);
+  color: #c8a04a;
+  border: 1px solid rgba(200, 160, 74, 0.35);
+}
+
+.mobileNavArrows {
+  display: flex;
+  gap: 8px;
+}
+
+.navBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #374151;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.navBtn:not(:disabled):hover {
+  background: #f3f4f6;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.carouselContainer {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 14px;
+  padding: 6px 4px 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.carouselContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselSlide {
+  flex: 0 0 82%;
+  scroll-snap-align: start;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.carouselSlideFinal {
+  border-color: rgba(200, 160, 74, 0.4);
+  background: #ffffff;
+}
+
+.slideTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.slideNode {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f9f7f4;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slideNodeFinal {
+  border-color: rgba(200, 160, 74, 0.5);
+  color: #c8a04a;
+  font-size: 16px;
+}
+
+.slideStepTag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.carouselSlideFinal .slideStepTag {
+  color: #c8a04a;
+}
+
+.slideTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.slideDescription {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #6b7280;
+  margin: 0;
+}
+
+.slideReturnNote {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(200, 160, 74, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #c8a04a;
+  line-height: 1.4;
+}
+
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.dotActive {
+  background: #c8a04a;
+  width: 22px;
+  border-radius: 999px;
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+@media (max-width: 1080px) {
+  .splitScreen {
+    grid-template-columns: 38% 1fr;
+  }
+
+  .panelInner {
+    padding: 28px 24px;
+  }
+
+  .calloutBox {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .splitScreen {
+    display: none;
+  }
+
+  .timelineMobile {
+    display: block;
+  }
+
+  .section {
+    padding: 50px 0 60px;
+    background-color: #f9f7f4;
+  }
+
+  .calloutBox {
+    flex-direction: column;
+    padding-top: 16px;
+  }
+}

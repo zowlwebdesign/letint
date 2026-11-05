@@ -1,36 +1,153 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import styles from './Navbar.module.css'
 import { urlForImage } from '../sanity/lib/image'
+import { getCurrentLanguage, setLanguage, type Language } from '../lib/language'
+
+export interface NavDropdownItem {
+  title: string
+  description: string
+  href: string
+  badge?: string
+  badgeType?: 'active' | 'upcoming'
+}
+
+export interface NavItem {
+  label: string
+  href: string
+  dropdown?: NavDropdownItem[]
+}
 
 interface NavbarProps {
   data?: {
     navigationLinks?: Array<{ label: string; href: string }>
     logo?: any
   }
+  variant?: 'default' | 'industry'
+  activeItem?: string
+  lang?: 'es' | 'en'
 }
 
-const DEFAULT_LINKS = [
-  { label: 'Company', href: '#company' },
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Services', href: '#services' },
-  { label: 'Who we serve', href: '#audience' },
-  { label: 'Why Us', href: '#why-choose' },
+const INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
+  {
+    title: 'Energía solar y almacenamiento',
+    description: 'Inversores, paneles, baterías y BESS. RETIE 2024, custodia FSL y garantías.',
+    href: '/industrias/energia-solar',
+    badge: 'Activa',
+    badgeType: 'active',
+  },
+]
+
+// Single unified navbar links for the specialized industry landing page
+const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
+  { label: 'Soluciones', href: '#soluciones' },
+  { label: 'Garantías', href: '#garantias' },
+  { label: 'RETIE', href: '#retie' },
+  { label: 'Contacto', href: '#contacto' },
+]
+
+// Corporate links for the main website
+const DEFAULT_LINKS: NavItem[] = [
+  { label: 'Company', href: '/#company' },
+  { label: 'How it works', href: '/#how-it-works' },
+  { label: 'Services', href: '/#services' },
+  {
+    label: 'Industrias',
+    href: '/industrias/energia-solar',
+    dropdown: INDUSTRIES_DROPDOWN,
+  },
+  { label: 'Who we serve', href: '/#audience' },
+  { label: 'Why Us', href: '/#why-choose' },
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Navbar({ data }: NavbarProps) {
-  const links = data?.navigationLinks && data.navigationLinks.length > 0 
-    ? data.navigationLinks 
-    : DEFAULT_LINKS
+export default function Navbar({
+  data,
+  variant = 'default',
+  activeItem,
+  lang = 'es',
+}: NavbarProps) {
+  const isEs = lang === 'es'
+  const isIndustry = variant === 'industry'
+
+  // Determine navigation items
+  const links: NavItem[] = (() => {
+    if (isIndustry) {
+      return INDUSTRY_NAVBAR_LINKS
+    }
+
+    if (data?.navigationLinks && data.navigationLinks.length > 0) {
+      const hasIndustrias = data.navigationLinks.some((l) =>
+        l.label.toLowerCase().includes('industri')
+      )
+
+      const mapped: NavItem[] = data.navigationLinks.map((l) => ({
+        label: l.label,
+        href: l.href,
+        dropdown: l.label.toLowerCase().includes('industri') ? INDUSTRIES_DROPDOWN : undefined,
+      }))
+
+      if (!hasIndustrias) {
+        const serviceIdx = mapped.findIndex((l) => l.label.toLowerCase().includes('service'))
+        const insertAt = serviceIdx >= 0 ? serviceIdx + 1 : 3
+        mapped.splice(insertAt, 0, {
+          label: isEs ? 'Industrias' : 'Industries',
+          href: '/industrias/energia-solar',
+          dropdown: INDUSTRIES_DROPDOWN,
+        })
+      }
+      return mapped
+    }
+    return DEFAULT_LINKS
+  })()
 
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [mobileIndustriasOpen, setMobileIndustriasOpen] = useState(false)
+  const [currentLang, setCurrentLang] = useState<Language>('en')
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleDropdownEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current)
+      dropdownTimeoutRef.current = null
+    }
+    setDropdownOpen(true)
+  }
+
+  const handleDropdownLeave = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current)
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false)
+    }, 250)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    setCurrentLang(getCurrentLanguage())
+  }, [])
+
+  const handleLanguageChange = (target: Language) => {
+    if (target === currentLang) return
+    setCurrentLang(target)
+    setLanguage(target)
+  }
 
   // Track scroll position to adjust navbar backdrop
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -47,18 +164,30 @@ export default function Navbar({ data }: NavbarProps) {
     }
   }, [mobileMenuOpen])
 
-  // Close menu on Escape key
+  // Close on Escape or click outside desktop dropdown
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
-        setMobileMenuOpen(false)
+      if (e.key === 'Escape') {
+        if (mobileMenuOpen) setMobileMenuOpen(false)
+        if (dropdownOpen) setDropdownOpen(false)
       }
     }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [mobileMenuOpen])
 
-  // Automatically close mobile menu if resized to desktop viewport
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [mobileMenuOpen, dropdownOpen])
+
+  // Close mobile menu if resized to desktop viewport
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 900 && mobileMenuOpen) {
@@ -69,52 +198,220 @@ export default function Navbar({ data }: NavbarProps) {
     return () => window.removeEventListener('resize', handleResize)
   }, [mobileMenuOpen])
 
-  const toggleMobileMenu = () => setMobileMenuOpen(prev => !prev)
-  const closeMobileMenu = () => setMobileMenuOpen(false)
+  const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev)
+  const closeMobileMenu = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+    setMobileMenuOpen(false)
+    setDropdownOpen(false)
+  }
+
+  // Smooth scroll handler for anchor links
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      const targetId = href.replace('#', '')
+      const el = document.getElementById(targetId)
+      if (el) {
+        e.preventDefault()
+        const offset = 80
+        const yPos = el.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top: yPos, behavior: 'smooth' })
+        closeMobileMenu()
+      }
+    }
+  }
 
   return (
     <header className={`${styles.header}${scrolled || mobileMenuOpen ? ` ${styles.scrolled}` : ''}`}>
       <nav className={styles.nav} aria-label="Main Navigation">
         <div className={styles.navInner}>
-          {/* Brand Logo */}
-          <a
-            href="/"
-            className={styles.logo}
-            aria-label="LET INT US Home — Supply Chain Control Tower"
-            onClick={closeMobileMenu}
-          >
-            {data?.logo ? (
-              <img 
-                src={urlForImage(data.logo)?.width(160).fit('max').auto('format').url()} 
-                alt="LET INT US Logo" 
-                width={80}
-                height={54}
-                decoding="async"
-                className={styles.logoImg} 
-              />
-            ) : (
-              <svg className={styles.logoSvg} width={42} height={42} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="LET INT US Logo">
-                <path d="M50 5C25.147 5 5 25.147 5 50C5 74.853 25.147 95 50 95C74.853 95 95 74.853 95 50C95 25.147 74.853 5 50 5ZM50 88.571C28.698 88.571 11.429 71.302 11.429 50C11.429 28.698 28.698 11.429 50 11.429C71.302 11.429 88.571 28.698 88.571 50C88.571 71.302 71.302 88.571 50 88.571Z" fill="white" opacity="0.8"/>
-                <path d="M50 16.429C31.46 16.429 16.429 31.46 16.429 50C16.429 68.54 31.46 83.571 50 83.571C68.54 83.571 83.571 68.54 83.571 50C83.571 31.46 68.54 16.429 50 16.429ZM50 78.571C34.221 78.571 21.429 65.779 21.429 50C21.429 34.221 34.221 21.429 50 21.429C65.779 21.429 78.571 34.221 78.571 50C78.571 65.779 65.779 78.571 50 78.571Z" fill="white" opacity="0.5"/>
-                <text x="50" y="58" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="900" fill="white" textAnchor="middle" fontStyle="italic">LET</text>
-              </svg>
-            )}
-          </a>
+          {/* Logo Group: Logo LET + Botón volver a letintl.com + Breadcrumb */}
+          <div className={styles.logoGroup}>
+            <a
+              href="/"
+              className={styles.logo}
+              aria-label="LET INT US Home — Supply Chain Control Tower"
+              onClick={closeMobileMenu}
+            >
+              {data?.logo ? (
+                <img
+                  src={urlForImage(data.logo)?.width(160).fit('max').auto('format').url()}
+                  alt="LET Logo"
+                  width={84}
+                  height={50}
+                  decoding="async"
+                  className={styles.logoImg}
+                />
+              ) : (
+                <img
+                  src="/Logo_let.webp"
+                  alt="LET Logo"
+                  width={84}
+                  height={50}
+                  className={styles.logoImg}
+                />
+              )}
+            </a>
 
-          {/* Desktop Navigation Links */}
+            {/* Botoncito para volver al home de letintl */}
+            {isIndustry && (
+              <>
+                <a
+                  href="/"
+                  className={styles.backHomeBtn}
+                  title="Volver a la página principal de letintl.com"
+                >
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>letintl.com</span>
+                </a>
+
+                <div className={styles.industryBreadcrumb}>
+                  <span className={styles.crumbDivider}>/</span>
+                  <span className={styles.crumbParent}>Industrias ›</span>
+                  <span className={styles.crumbCurrent}>Energía solar</span>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Desktop Navigation Links (Unified, single row) */}
           <div className={styles.navLinks} role="menubar">
-            {links.map((link, i) => (
-              <a key={i} href={link.href} className={styles.navLink} role="menuitem">
-                {link.label}
-              </a>
-            ))}
+            {links.map((link, i) => {
+              const isIndustrias = !!link.dropdown
+              const isActive = activeItem === link.label
+
+              if (isIndustrias) {
+                return (
+                  <div
+                    key={i}
+                    ref={dropdownRef}
+                    className={styles.dropdownContainer}
+                    onMouseEnter={handleDropdownEnter}
+                    onMouseLeave={handleDropdownLeave}
+                  >
+                    <a
+                      href={link.href}
+                      className={`${styles.navLink} ${styles.dropdownTrigger} ${isActive ? styles.navLinkActive : ''}`}
+                      onClick={(e) => {
+                        if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+                        setDropdownOpen((prev) => !prev)
+                      }}
+                      aria-expanded={dropdownOpen}
+                      aria-haspopup="true"
+                    >
+                      <span>{link.label}</span>
+                      <svg
+                        className={`${styles.chevronIcon} ${dropdownOpen ? styles.chevronOpen : ''}`}
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </a>
+
+                    {/* Dropdown Menu */}
+                    {dropdownOpen && (
+                      <div
+                        className={styles.dropdownMenu}
+                        role="menu"
+                        onMouseEnter={handleDropdownEnter}
+                        onMouseLeave={handleDropdownLeave}
+                      >
+                        <div className={styles.dropdownEyebrow}>
+                          {isEs ? 'Verticales B2B & Regulación' : 'B2B Industry Verticals'}
+                        </div>
+                        <div className={styles.dropdownList}>
+                          {link.dropdown?.map((sub, sIdx) => (
+                            <a
+                              key={sIdx}
+                              href={sub.href}
+                              className={styles.dropdownItem}
+                              role="menuitem"
+                              onClick={() => {
+                                if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+                                setDropdownOpen(false)
+                              }}
+                            >
+                              <div className={styles.dropdownItemTop}>
+                                <span className={styles.dropdownItemTitle}>{sub.title}</span>
+                                {sub.badge && (
+                                  <span
+                                    className={
+                                      sub.badgeType === 'active'
+                                        ? styles.badgeActive
+                                        : styles.badgeUpcoming
+                                    }
+                                  >
+                                    {sub.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <p className={styles.dropdownItemDesc}>{sub.description}</p>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              }
+
+              return (
+                <a
+                  key={i}
+                  href={link.href}
+                  className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+                  role="menuitem"
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                >
+                  {link.label}
+                </a>
+              )
+            })}
+
+            {/* Selector de idioma original del header */}
+            <button
+              type="button"
+              className={styles.langToggle}
+              onClick={() => handleLanguageChange(currentLang === 'en' ? 'es' : 'en')}
+              aria-label={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+              title={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+            >
+              {currentLang === 'en' ? 'ES' : 'EN'}
+            </button>
           </div>
 
           {/* Action Group: CTA + Hamburger Toggle */}
           <div className={styles.actionsGroup}>
-            <a href="#contact" className={styles.navCta} aria-label="Talk to an Expert - Start Your Operations in Colombia">
-              <span className={styles.navCtaFull}>Talk to an Expert</span>
-              <span className={styles.navCtaShort}>Contact</span>
+            <a
+              href={isIndustry ? '#contacto' : '#contact'}
+              className={`${styles.navCta} ${isIndustry ? styles.navCtaGold : ''}`}
+              aria-label="Talk to an Expert - Start Your Operations in Colombia"
+              onClick={(e) => handleAnchorClick(e, isIndustry ? '#contacto' : '#contact')}
+            >
+              <span className={styles.navCtaFull}>
+                {isEs ? 'Hablar con un especialista' : 'Talk to an Expert'}
+              </span>
+              <span className={styles.navCtaShort}>
+                {isEs ? 'Contacto' : 'Contact'}
+              </span>
             </a>
 
             {/* Mobile Hamburger Toggle Button */}
@@ -135,52 +432,178 @@ export default function Navbar({ data }: NavbarProps) {
       </nav>
 
       {/* Mobile Menu Backdrop & Drawer */}
-      <div 
+      <div
         id="mobile-navigation"
         className={`${styles.mobileDrawer}${mobileMenuOpen ? ` ${styles.drawerOpen}` : ''}`}
         aria-hidden={!mobileMenuOpen}
       >
         <div className={styles.drawerContent}>
-          <div className={styles.drawerLinks}>
-            {links.map((link, i) => (
-              <a
-                key={i}
-                href={link.href}
-                className={styles.drawerLink}
-                onClick={closeMobileMenu}
-              >
-                <div className={styles.drawerLinkLeft}>
-                  <span className={styles.drawerLinkIndex}>0{i + 1}</span>
-                  <span className={styles.drawerLinkLabel}>{link.label}</span>
-                </div>
-                <svg className={styles.drawerChevron} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                  <polyline points="9 18 15 12 9 6" />
+          {/* Botoncito volver a letintl en móvil */}
+          {isIndustry && (
+            <div className={styles.mobileBackHomeWrapper}>
+              <a href="/" className={styles.mobileBackHomeBtn} onClick={closeMobileMenu}>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
                 </svg>
+                <span>Volver al sitio principal letintl.com</span>
               </a>
-            ))}
-            <a
-              href="/privacy"
-              className={styles.drawerLink}
-              onClick={closeMobileMenu}
-            >
+            </div>
+          )}
+
+          <div className={styles.drawerLinks}>
+            {links.map((link, i) => {
+              if (link.dropdown) {
+                return (
+                  <div key={i} className={styles.mobileDropdownWrapper}>
+                    <button
+                      type="button"
+                      className={styles.mobileDropdownBtn}
+                      onClick={() => setMobileIndustriasOpen((prev) => !prev)}
+                    >
+                      <div className={styles.drawerLinkLeft}>
+                        <span className={styles.drawerLinkIndex}>0{i + 1}</span>
+                        <span className={styles.drawerLinkLabel}>{link.label}</span>
+                      </div>
+                      <svg
+                        className={`${styles.drawerChevron} ${mobileIndustriasOpen ? styles.chevronOpen : ''}`}
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        aria-hidden="true"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
+
+                    {mobileIndustriasOpen && (
+                      <div className={styles.mobileSubmenu}>
+                        {link.dropdown.map((sub, sIdx) => (
+                          <a
+                            key={sIdx}
+                            href={sub.href}
+                            className={styles.mobileSubLink}
+                            onClick={closeMobileMenu}
+                          >
+                            <div className={styles.mobileSubTop}>
+                              <span className={styles.mobileSubTitle}>{sub.title}</span>
+                              {sub.badge && (
+                                <span
+                                  className={
+                                    sub.badgeType === 'active'
+                                      ? styles.badgeActive
+                                      : styles.badgeUpcoming
+                                  }
+                                >
+                                  {sub.badge}
+                                </span>
+                              )}
+                            </div>
+                            <span className={styles.mobileSubDesc}>{sub.description}</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              }
+
+              return (
+                <a
+                  key={i}
+                  href={link.href}
+                  className={styles.drawerLink}
+                  onClick={(e) => {
+                    handleAnchorClick(e, link.href)
+                    closeMobileMenu()
+                  }}
+                >
+                  <div className={styles.drawerLinkLeft}>
+                    <span className={styles.drawerLinkIndex}>0{i + 1}</span>
+                    <span className={styles.drawerLinkLabel}>{link.label}</span>
+                  </div>
+                  <svg
+                    className={styles.drawerChevron}
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    aria-hidden="true"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+              )
+            })}
+
+            <a href="/privacy" className={styles.drawerLink} onClick={closeMobileMenu}>
               <div className={styles.drawerLinkLeft}>
                 <span className={styles.drawerLinkIndex}>0{links.length + 1}</span>
                 <span className={styles.drawerLinkLabel}>Privacy Policy</span>
               </div>
-              <svg className={styles.drawerChevron} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <svg
+                className={styles.drawerChevron}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden="true"
+              >
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </a>
           </div>
 
           <div className={styles.drawerFooter}>
+            <div className={styles.drawerLangRow}>
+              <span className={styles.drawerLangLabel}>Idioma / Language</span>
+              <button
+                type="button"
+                className={styles.langToggle}
+                onClick={() => {
+                  handleLanguageChange(currentLang === 'en' ? 'es' : 'en')
+                  closeMobileMenu()
+                }}
+                aria-label={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+              >
+                {currentLang === 'en' ? 'ES' : 'EN'}
+              </button>
+            </div>
+
             <a
-              href="#contact"
-              className={styles.drawerCta}
-              onClick={closeMobileMenu}
+              href={isIndustry ? '#contacto' : '#contact'}
+              className={`${styles.drawerCta} ${isIndustry ? styles.drawerCtaGold : ''}`}
+              onClick={(e) => {
+                handleAnchorClick(e, isIndustry ? '#contacto' : '#contact')
+                closeMobileMenu()
+              }}
             >
-              <span>Talk to an Expert</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <span>{isEs ? 'Hablar con un especialista' : 'Talk to an Expert'}</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden="true"
+              >
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>

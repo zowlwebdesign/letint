@@ -29,3 +29,31 @@ export const PRIVACY_POLICY_QUERY = `*[_type == "privacyPolicy"][0]{
   contactEmail
 }`
 
+export const INDUSTRY_PAGE_QUERY = `*[_type == "industryPage" && slug.current == $slug][0]{
+  _id,
+  title,
+  slug,
+  status,
+  categoryTags,
+  hero,
+  solutionsTitle,
+  solutionsIntro,
+  solutions,
+  customSolutionCard,
+  featuredSolutionFlow,
+  operationalCapabilities,
+  regulationSection,
+  caseStudy,
+  "brochureUrl": brochurePdf.brochureFile.asset->url,
+  seoAndSocial {
+    metaTitle,
+    metaDescription,
+    "ogImageUrl": openGraphImage.asset->url
+  }
+}`
+
+export const ALL_INDUSTRIES_QUERY = `*[_type == "industryPage"]{
+  title,
+  slug,
+  status
+}`

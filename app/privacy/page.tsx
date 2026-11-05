@@ -10,9 +10,20 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Privacy Policy | LET INT US Corp.',
   description:
-    'Review the official Privacy Policy of LET INT US Corp. Learn how we collect, protect, and handle your data when using our supply chain services.',
+    'Review the official Privacy Policy of LET INT US Corp. Learn how we collect, protect, and handle your data under Colombian Law 1581 and global compliance standards.',
   alternates: {
-    canonical: '/privacy',
+    canonical: 'https://letintl.com/privacy',
+    languages: {
+      en: 'https://letintl.com/privacy',
+      'en-US': 'https://letintl.com/privacy',
+      es: 'https://letintl.com/privacy',
+      'es-CO': 'https://letintl.com/privacy',
+      'x-default': 'https://letintl.com/privacy',
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }
 
@@ -38,8 +49,31 @@ export default async function PrivacyPage() {
   const contactEmail =
     privacyData?.contactEmail || siteSettings?.corporateData?.contactEmail || 'info@letintl.com'
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://letintl.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Privacy Policy',
+        item: 'https://letintl.com/privacy',
+      },
+    ],
+  }
+
   return (
     <div className={styles.wrapper}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Navbar data={siteSettings} />
 
       <header className={styles.header}>

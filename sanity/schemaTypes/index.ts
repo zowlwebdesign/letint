@@ -12,6 +12,9 @@ import servicesSection from './objects/servicesSection'
 import whyChooseSection from './objects/whyChooseSection'
 import contactSection from './objects/contactSection'
 
+import industryPage from './industryPage'
+import solarLead from './solarLead'
+
 export const schemaTypes = [
   // Singletons
   siteSettings,
@@ -27,5 +30,9 @@ export const schemaTypes = [
   audienceSection,
   servicesSection,
   whyChooseSection,
-  contactSection
+  contactSection,
+
+  // Documents
+  industryPage,
+  solarLead,
 ]

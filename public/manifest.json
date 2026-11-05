@@ -1,16 +1,25 @@
 {
-  "name": "LET INT US — Supply Chain Control Tower",
+  "name": "LET INT US — Importer of Record & Supply Chain Control Tower",
   "short_name": "LET INT US",
-  "description": "One U.S. contract. Local operations. Freight, customs, IOR/EOR, warehousing and more in Colombia.",
+  "description": "Scale in Colombia under one U.S. contract. Dedicated Control Tower for Importer of Record (IOR/EOR), customs clearance, 3PL warehousing, and RETIE compliance.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "lang": "en-US",
   "background_color": "#0c1424",
   "theme_color": "#0c1424",
+  "categories": ["business", "logistics", "trade", "productivity"],
   "icons": [
     {
       "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/Logo_let.webp",
+      "sizes": "1024x687",
+      "type": "image/webp",
+      "purpose": "any maskable"
     }
   ]
 }

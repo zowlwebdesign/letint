@@ -8,14 +8,37 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/studio', '/api/'],
+        disallow: [
+          '/studio',
+          '/studio/*',
+          '/api/',
+          '/api/*',
+          '/_next/',
+          '/static/',
+        ],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/studio', '/api/'],
+        disallow: [
+          '/studio',
+          '/studio/*',
+          '/api/',
+          '/api/*',
+        ],
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        disallow: [
+          '/studio',
+          '/studio/*',
+          '/api/',
+          '/api/*',
+        ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   }
 }
