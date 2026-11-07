@@ -1,5 +1,5 @@
 import { client } from '../sanity/lib/client'
-import { LANDING_PAGE_QUERY, SITE_SETTINGS_QUERY } from '../sanity/lib/queries'
+import { LANDING_PAGE_QUERY, SITE_SETTINGS_QUERY, ALL_INDUSTRIES_QUERY } from '../sanity/lib/queries'
 
 import Navbar from '../components/Navbar'
 import HeroSection from '../components/HeroSection'
@@ -17,13 +17,16 @@ export const revalidate = 60
 export default async function Page() {
   let landingData: any = null
   let siteSettings: any = null
+  let industries: any[] = []
   try {
-    const [landing, settings] = await Promise.all([
+    const [landing, settings, inds] = await Promise.all([
       client.fetch(LANDING_PAGE_QUERY),
-      client.fetch(SITE_SETTINGS_QUERY)
+      client.fetch(SITE_SETTINGS_QUERY),
+      client.fetch(ALL_INDUSTRIES_QUERY),
     ])
     landingData = landing
     siteSettings = settings
+    industries = inds || []
   } catch (e) {
     // Graceful degradation
   }
@@ -33,7 +36,7 @@ export default async function Page() {
       <a href="#main-content" className="skipLink">
         Skip to main content
       </a>
-      <Navbar data={siteSettings} />
+      <Navbar data={siteSettings} industries={industries} />
       <main id="main-content">
         <HeroSection data={landingData?.hero} />
         <CredibilitySection data={landingData?.credibility} />

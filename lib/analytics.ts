@@ -6,7 +6,8 @@ export function trackEvent(eventName: string, payload: Record<string, unknown>) 
 }
 
 export function trackLinkedInConversion(conversionId?: string | number) {
-  if (typeof window !== 'undefined' && typeof (window as any).lintrk === 'function' && conversionId) {
-    (window as any).lintrk('track', { conversion_id: conversionId })
+  const targetId = conversionId || process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_ID
+  if (typeof window !== 'undefined' && typeof (window as any).lintrk === 'function' && targetId) {
+    (window as any).lintrk('track', { conversion_id: targetId })
   }
 }

@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { client } from '../sanity/lib/client'
 import { SITE_SETTINGS_QUERY } from '../sanity/lib/queries'
 import { urlForImage } from '../sanity/lib/image'
 import GoogleTranslateScript from '../components/GoogleTranslateScript'
+import CookieConsentBanner from '../components/CookieConsentBanner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -130,6 +132,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
+  const ga4Id = process.env.NEXT_PUBLIC_GA4_ID
+  const linkedinPartnerId = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID
+
   let settings: any = null
   try {
     settings = await client.fetch(SITE_SETTINGS_QUERY)
@@ -393,8 +399,85 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body className={inter.className}>
+        {gtmId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+        )}
+        {linkedinPartnerId && (
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: 'none' }}
+              alt=""
+              src={`https://px.ads.linkedin.com/collect/?pid=${linkedinPartnerId}&fmt=gif`}
+            />
+          </noscript>
+        )}
+        {gtmId && (
+          <Script
+            id="google-tag-manager"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'dataLayer','${gtmId}');`,
+            }}
+          />
+        )}
+        {ga4Id && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${ga4Id}', { page_path: window.location.pathname });
+                `,
+              }}
+            />
+          </>
+        )}
+        {linkedinPartnerId && (
+          <Script
+            id="linkedin-partner-tag"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                _linkedin_partner_id = "${linkedinPartnerId}";
+                window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+                window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+                (function(l) {
+                  if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+                  window.lintrk.q=[]}
+                  var s = document.getElementsByTagName("script")[0];
+                  var b = document.createElement("script");
+                  b.type = "text/javascript";b.async = true;
+                  b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+                  s.parentNode.insertBefore(b, s);
+                })(window.lintrk);
+              `,
+            }}
+          />
+        )}
         <GoogleTranslateScript />
         {children}
+        <CookieConsentBanner />
       </body>
     </html>
   )

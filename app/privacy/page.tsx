@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { client } from '../../sanity/lib/client'
-import { PRIVACY_POLICY_QUERY, SITE_SETTINGS_QUERY } from '../../sanity/lib/queries'
+import { PRIVACY_POLICY_QUERY, SITE_SETTINGS_QUERY, ALL_INDUSTRIES_QUERY } from '../../sanity/lib/queries'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import styles from './page.module.css'
@@ -30,14 +30,17 @@ export const metadata: Metadata = {
 export default async function PrivacyPage() {
   let privacyData: any = null
   let siteSettings: any = null
+  let industries: any[] = []
 
   try {
-    const [privacy, settings] = await Promise.all([
+    const [privacy, settings, inds] = await Promise.all([
       client.fetch(PRIVACY_POLICY_QUERY),
       client.fetch(SITE_SETTINGS_QUERY),
+      client.fetch(ALL_INDUSTRIES_QUERY),
     ])
     privacyData = privacy
     siteSettings = settings
+    industries = inds || []
   } catch (e) {
     // Graceful degradation
   }
@@ -74,7 +77,7 @@ export default async function PrivacyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Navbar data={siteSettings} />
+      <Navbar data={siteSettings} industries={industries} />
 
       <header className={styles.header}>
         <div className={styles.headerInner}>

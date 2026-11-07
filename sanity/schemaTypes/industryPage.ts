@@ -37,6 +37,14 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'shortDescription',
+      title: 'Descripción Corta (Para el menú de navegación)',
+      type: 'text',
+      rows: 2,
+      initialValue: 'Inversores, paneles, baterías y BESS. RETIE 2024, custodia FSL y garantías.',
+      description: 'Breve resumen de 1 a 2 líneas que aparecerá debajo del título en el menú desplegable del sitio web.',
+    }),
+    defineField({
       name: 'categoryTags',
       title: 'Etiquetas de Categoría (Chips superiores del Hero)',
       type: 'array',
@@ -510,11 +518,28 @@ export default defineType({
     defineField({
       name: 'brochurePdf',
       title: 'Archivo PDF Brochure Ejecutivo',
+      description:
+        'Suba aquí los brochures ejecutivos en PDF (español e inglés) para que se adjunten automáticamente a los correos enviados por Resend a cada prospecto.',
       type: 'object',
       fields: [
         {
+          name: 'brochureEs',
+          title: 'Brochure PDF en Español',
+          description: 'Documento PDF para prospectos que completan el formulario en español.',
+          type: 'file',
+          options: { accept: '.pdf' },
+        },
+        {
+          name: 'brochureEn',
+          title: 'Brochure PDF en Inglés (English)',
+          description: 'Documento PDF para prospectos que completan el formulario en inglés.',
+          type: 'file',
+          options: { accept: '.pdf' },
+        },
+        {
           name: 'brochureFile',
-          title: 'Brochure PDF para Descarga / Envío Automático',
+          title: 'Brochure PDF General (Opcional / Respaldo)',
+          description: 'Archivo de respaldo si falta alguno de los dos idiomas.',
           type: 'file',
           options: { accept: '.pdf' },
         },

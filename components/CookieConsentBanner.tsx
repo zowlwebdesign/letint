@@ -4,15 +4,21 @@ import { useState, useEffect } from 'react'
 import styles from './CookieConsentBanner.module.css'
 
 interface CookieConsentBannerProps {
-  lang: 'es' | 'en'
+  lang?: 'es' | 'en'
 }
 
 export default function CookieConsentBanner({ lang }: CookieConsentBannerProps) {
-  const isEs = lang === 'es'
+  const [currentLang, setCurrentLang] = useState<'es' | 'en'>(lang || 'es')
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     try {
+      if (!lang) {
+        const savedLang = localStorage.getItem('preferred_lang') as 'es' | 'en'
+        if (savedLang === 'en' || savedLang === 'es') {
+          setCurrentLang(savedLang)
+        }
+      }
       const consent = localStorage.getItem('let_cookie_consent')
       if (!consent) {
         setVisible(true)
@@ -21,7 +27,9 @@ export default function CookieConsentBanner({ lang }: CookieConsentBannerProps) 
       // LocalStorage access may fail in strict private browsing
       setVisible(true)
     }
-  }, [])
+  }, [lang])
+
+  const isEs = currentLang === 'es'
 
   const handleAccept = () => {
     try {

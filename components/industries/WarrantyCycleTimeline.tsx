@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import ScrollReveal from '../ScrollReveal'
 import styles from './WarrantyCycleTimeline.module.css'
 import { WarrantyStep } from '../../lib/solar-data'
+import { trackEvent } from '../../lib/analytics'
 
 interface WarrantyCycleTimelineProps {
   steps: WarrantyStep[]
@@ -84,6 +85,12 @@ export default function WarrantyCycleTimeline({
     if (intervalRef.current) clearInterval(intervalRef.current)
     setUserPaused(true)
     setActiveIdx(idx)
+    trackEvent('solution_tab_click', {
+      industry: 'solar',
+      language: lang,
+      warranty_step: idx + 1,
+      step_title: steps[idx]?.title || '',
+    })
   }
 
   // ── Mobile helpers ───────────────────────────────────────────────
@@ -102,6 +109,12 @@ export default function WarrantyCycleTimeline({
     const cardWidth = carouselRef.current.offsetWidth * 0.82
     carouselRef.current.scrollTo({ left: index * cardWidth, behavior: 'smooth' })
     setActiveMobileIdx(index)
+    trackEvent('solution_tab_click', {
+      industry: 'solar',
+      language: lang,
+      warranty_step: index + 1,
+      step_title: steps[index]?.title || '',
+    })
   }
 
   const handlePrev = () => scrollToIndex(Math.max(0, activeMobileIdx - 1))

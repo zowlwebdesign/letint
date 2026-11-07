@@ -45,6 +45,8 @@ export const INDUSTRY_PAGE_QUERY = `*[_type == "industryPage" && slug.current ==
   regulationSection,
   caseStudy,
   "brochureUrl": brochurePdf.brochureFile.asset->url,
+  "brochureEsUrl": brochurePdf.brochureEs.asset->url,
+  "brochureEnUrl": brochurePdf.brochureEn.asset->url,
   seoAndSocial {
     metaTitle,
     metaDescription,
@@ -52,8 +54,11 @@ export const INDUSTRY_PAGE_QUERY = `*[_type == "industryPage" && slug.current ==
   }
 }`
 
-export const ALL_INDUSTRIES_QUERY = `*[_type == "industryPage"]{
+export const ALL_INDUSTRIES_QUERY = `*[_type == "industryPage"] | order(_createdAt asc) {
+  _id,
   title,
   slug,
-  status
+  status,
+  shortDescription,
+  categoryTags
 }`

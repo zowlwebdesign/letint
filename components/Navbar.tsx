@@ -19,17 +19,27 @@ export interface NavItem {
   dropdown?: NavDropdownItem[]
 }
 
+export interface IndustrySummary {
+  _id?: string
+  title?: string
+  slug?: { current?: string }
+  status?: string
+  shortDescription?: string
+  categoryTags?: string[]
+}
+
 interface NavbarProps {
   data?: {
     navigationLinks?: Array<{ label: string; href: string }>
     logo?: any
   }
+  industries?: IndustrySummary[]
   variant?: 'default' | 'industry'
   activeItem?: string
   lang?: 'es' | 'en'
 }
 
-const INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
+const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
   {
     title: 'Energía solar y almacenamiento',
     description: 'Inversores, paneles, baterías y BESS. RETIE 2024, custodia FSL y garantías.',
@@ -47,29 +57,59 @@ const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
   { label: 'Contacto', href: '#contacto' },
 ]
 
-// Corporate links for the main website
-const DEFAULT_LINKS: NavItem[] = [
-  { label: 'Company', href: '/#company' },
-  { label: 'How it works', href: '/#how-it-works' },
-  { label: 'Services', href: '/#services' },
-  {
-    label: 'Industrias',
-    href: '/industrias/energia-solar',
-    dropdown: INDUSTRIES_DROPDOWN,
-  },
-  { label: 'Who we serve', href: '/#audience' },
-  { label: 'Why Us', href: '/#why-choose' },
-  { label: 'Contact', href: '#contact' },
-]
-
 export default function Navbar({
   data,
+  industries,
   variant = 'default',
   activeItem,
   lang = 'es',
 }: NavbarProps) {
   const isEs = lang === 'es'
   const isIndustry = variant === 'industry'
+
+  // Dynamic dropdown items from Sanity or fallback
+  const activeDropdownItems: NavDropdownItem[] = (() => {
+    if (industries && industries.length > 0) {
+      const items = industries
+        .filter((ind) => ind?.slug?.current)
+        .map((ind) => {
+          const isActive = ind.status !== 'coming_soon'
+          const slug = ind.slug?.current || ''
+          return {
+            title: ind.title || 'Industria',
+            description:
+              ind.shortDescription ||
+              (ind.categoryTags && ind.categoryTags.length > 0
+                ? ind.categoryTags.join(' · ')
+                : 'Soluciones B2B, cumplimiento regulatorio y representación en Colombia.'),
+            href: isActive ? `/industrias/${slug}` : '#',
+            badge: isActive ? 'Activa' : 'Próximamente',
+            badgeType: (isActive ? 'active' : 'upcoming') as 'active' | 'upcoming',
+          }
+        })
+      if (items.length > 0) return items
+    }
+    return DEFAULT_INDUSTRIES_DROPDOWN
+  })()
+
+  const firstActiveHref =
+    activeDropdownItems.find((item) => item.badgeType === 'active')?.href ||
+    '/industrias/energia-solar'
+
+  // Corporate links for the main website
+  const defaultLinks: NavItem[] = [
+    { label: 'Company', href: '/#company' },
+    { label: 'How it works', href: '/#how-it-works' },
+    { label: 'Services', href: '/#services' },
+    {
+      label: 'Industrias',
+      href: firstActiveHref,
+      dropdown: activeDropdownItems,
+    },
+    { label: 'Who we serve', href: '/#audience' },
+    { label: 'Why Us', href: '/#why-choose' },
+    { label: 'Contact', href: '#contact' },
+  ]
 
   // Determine navigation items
   const links: NavItem[] = (() => {
@@ -85,7 +125,7 @@ export default function Navbar({
       const mapped: NavItem[] = data.navigationLinks.map((l) => ({
         label: l.label,
         href: l.href,
-        dropdown: l.label.toLowerCase().includes('industri') ? INDUSTRIES_DROPDOWN : undefined,
+        dropdown: l.label.toLowerCase().includes('industri') ? activeDropdownItems : undefined,
       }))
 
       if (!hasIndustrias) {
@@ -93,13 +133,13 @@ export default function Navbar({
         const insertAt = serviceIdx >= 0 ? serviceIdx + 1 : 3
         mapped.splice(insertAt, 0, {
           label: isEs ? 'Industrias' : 'Industries',
-          href: '/industrias/energia-solar',
-          dropdown: INDUSTRIES_DROPDOWN,
+          href: firstActiveHref,
+          dropdown: activeDropdownItems,
         })
       }
       return mapped
     }
-    return DEFAULT_LINKS
+    return defaultLinks
   })()
 
   const [scrolled, setScrolled] = useState(false)

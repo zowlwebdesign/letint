@@ -99,12 +99,33 @@ export async function POST(request: Request) {
       ? process.env.SOLAR_BROCHURE_ES_URL
       : process.env.SOLAR_BROCHURE_EN_URL
 
+    // Query Sanity for uploaded brochure PDF asset (if not overridden by env)
+    let sanityBrochureUrl: string | null = null
+    try {
+      const sanityDoc = await client.fetch(
+        `*[_type == "industryPage" && slug.current == "energia-solar"][0]{
+          "brochureEsUrl": brochurePdf.brochureEs.asset->url,
+          "brochureEnUrl": brochurePdf.brochureEn.asset->url,
+          "brochureGeneralUrl": brochurePdf.brochureFile.asset->url
+        }`
+      )
+      if (sanityDoc) {
+        sanityBrochureUrl = isEs
+          ? (sanityDoc.brochureEsUrl || sanityDoc.brochureGeneralUrl)
+          : (sanityDoc.brochureEnUrl || sanityDoc.brochureGeneralUrl)
+      }
+    } catch (sanityPdfErr) {
+      console.warn('[Sanity Brochure Lookup Warning]:', sanityPdfErr)
+    }
+
+    const effectiveBrochureUrl = envBrochureUrl || sanityBrochureUrl
+
     let attachmentObj: any = null
     try {
-      if (envBrochureUrl && (envBrochureUrl.startsWith('http://') || envBrochureUrl.startsWith('https://'))) {
+      if (effectiveBrochureUrl && (effectiveBrochureUrl.startsWith('http://') || effectiveBrochureUrl.startsWith('https://'))) {
         attachmentObj = {
           filename: isEs ? 'Brochure_LET_Pro_Energia_Solar_ES.pdf' : 'Brochure_LET_Pro_Solar_Energy_EN.pdf',
-          path: envBrochureUrl,
+          path: effectiveBrochureUrl,
         }
       } else {
         const localPath = path.join(process.cwd(), 'public', 'docs', brochureFileName)

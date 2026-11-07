@@ -8,7 +8,6 @@ import ReferenceCaseMetrics from '../../../components/industries/ReferenceCaseMe
 import SolutionsSection from '../../../components/industries/SolutionsSection'
 import WarrantyCycleTimeline from '../../../components/industries/WarrantyCycleTimeline'
 import SolarContactForm from '../../../components/industries/SolarContactForm'
-import CookieConsentBanner from '../../../components/CookieConsentBanner'
 import ScrollReveal from '../../../components/ScrollReveal'
 
 export const revalidate = 60
@@ -198,9 +197,6 @@ export default async function SolarCampaignPage() {
           </div>
         </div>
       </footer>
-
-      {/* Cookie Consent Banner */}
-      <CookieConsentBanner lang="es" />
     </div>
   )
 }
