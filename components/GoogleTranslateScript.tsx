@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { getCurrentLanguage } from '../lib/language'
+import { getCurrentLanguage, enforceDefaultLanguage } from '../lib/language'
 
 declare global {
   interface Window {
@@ -14,25 +14,11 @@ export default function GoogleTranslateScript() {
   useEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return
 
-    const preferred = getCurrentLanguage()
-    const host = window.location.hostname
-    const hostParts = host.split('.')
-    const rootDomain = hostParts.length > 1 ? `.${hostParts.slice(-2).join('.')}` : null
-
-    // 1. Ensure cookie matches preferred language
-    if (preferred === 'en') {
-      const cookieVal = '/es/en'
-      if (!document.cookie.includes('googtrans=/es/en')) {
-        document.cookie = `googtrans=${cookieVal}; path=/;`
-        document.cookie = `googtrans=${cookieVal}; path=/; domain=${host};`
-        if (rootDomain) document.cookie = `googtrans=${cookieVal}; path=/; domain=${rootDomain};`
-      }
-    } else {
-      if (!document.cookie.includes('googtrans=/es/es')) {
-        document.cookie = 'googtrans=/es/es; path=/;'
-        document.cookie = `googtrans=/es/es; path=/; domain=${host};`
-        if (rootDomain) document.cookie = `googtrans=/es/es; path=/; domain=${rootDomain};`
-      }
+    // 1. Site source is English: only translate when the visitor asked for Spanish
+    enforceDefaultLanguage()
+    if (getCurrentLanguage() === 'en') {
+      // Nothing to translate: don't even load the Google widget
+      return
     }
 
     // 2. Continuous banner killer & layout reset
@@ -79,8 +65,8 @@ export default function GoogleTranslateScript() {
         if (window.google?.translate?.TranslateElement) {
           new window.google.translate.TranslateElement(
             {
-              pageLanguage: 'es',
-              includedLanguages: 'en,es',
+              pageLanguage: 'en',
+              includedLanguages: 'es',
               autoDisplay: false,
             },
             'google_translate_element'

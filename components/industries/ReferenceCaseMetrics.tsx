@@ -15,7 +15,7 @@ export default function ReferenceCaseMetrics({
   lang,
 }: ReferenceCaseMetricsProps) {
   return (
-    <section className={styles.section} aria-label="Caso de Referencia">
+    <section className={styles.section} aria-label="Reference case">
       <div className={styles.container}>
         <ScrollReveal variant="up">
           <div className={styles.caseCard}>

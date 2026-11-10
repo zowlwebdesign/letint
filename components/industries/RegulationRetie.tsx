@@ -11,7 +11,7 @@ export default function RegulationRetie({ data, lang }: RegulationRetieProps) {
   const isEs = lang === 'es'
 
   return (
-    <section id="retie" className={styles.section} aria-label="Regulación RETIE 2024">
+    <section id="retie" className={styles.section} aria-label="RETIE 2024 regulation">
       <div className={styles.container}>
         <div className={styles.layoutGrid}>
           {/* Left Column: Explanatory Text */}

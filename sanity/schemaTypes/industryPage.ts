@@ -231,12 +231,12 @@ export default defineType({
         {
           number: '03',
           badge: 'Desarrollo comercial',
-          title: 'Muestras, demostraciones y pilotos',
+          title: 'Samples, demos & prototypes',
           whenApplies:
             'El fabricante envía unidades a prospectos o socios que no están registrados como importadores.',
           industryApplication:
-            'Equipos para pruebas técnicas, proyectos piloto, estudios de factibilidad y ferias, con retorno a origen o nacionalización si el cliente compra.',
-          capabilityTags: ['IOR', 'EOR', 'PILOT', 'TESTING'],
+            'Equipos para pruebas técnicas, prototipos, estudios de factibilidad y ferias, con retorno a origen o nacionalización si el cliente compra.',
+          capabilityTags: ['IOR', 'EOR', 'PROTOTYPE', 'TESTING'],
         },
         {
           number: '04',

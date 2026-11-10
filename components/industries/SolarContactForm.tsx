@@ -24,15 +24,16 @@ export default function SolarContactForm({
   variant = 'full',
   lang,
 }: SolarContactFormProps) {
-  const isEs = lang === 'es'
+  // The site is English-first: Spanish is only produced by Google Translate.
+  const isEs = false
   const isCampaign = variant === 'campaign'
 
   const [formData, setFormData] = useState<FormState>({
     nombre: '',
     empresa: '',
     correo: '',
-    solucionInteres: 'Posventa y garantías',
-    entidadLegalColombia: 'No',
+    solucionInteres: 'After-sales & warranties',
+    entidadLegalColombia: '',
     mensaje: '',
     aceptaDatos: false,
   })
@@ -101,6 +102,10 @@ export default function SolarContactForm({
       errs.correo = isEs ? 'Ingrese un correo electrónico válido' : 'Enter a valid corporate email'
     }
 
+    if (!formData.entidadLegalColombia) {
+      errs.entidadLegalColombia = 'Please select an option'
+    }
+
     if (!formData.aceptaDatos) {
       errs.aceptaDatos = isEs
         ? 'Debe autorizar el tratamiento de datos para continuar'
@@ -127,13 +132,13 @@ export default function SolarContactForm({
         solucionInteres: formData.solucionInteres,
         mensaje: formData.mensaje,
         aceptaDatos: formData.aceptaDatos,
-        paisOrigen: 'No especificado',
-        producto: 'Energía Solar / BESS',
+        paisOrigen: 'Not specified',
+        producto: 'Solar Energy / BESS',
         entidadLegalColombia: formData.entidadLegalColombia,
-        certificadoRetie: 'No especificado',
+        certificadoRetie: 'Not specified',
         ...utms,
         idioma: lang,
-        vistaOrigen: isCampaign ? 'campana_landing' : 'sitio_industrias',
+        vistaOrigen: isCampaign ? 'campaign_landing' : 'industry_site',
       }
 
       const res = await fetch('/api/solar-contact', {
@@ -145,7 +150,7 @@ export default function SolarContactForm({
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || 'Error al procesar la solicitud')
+        throw new Error(data.error || 'Error processing the request')
       }
 
       setSubmitted(true)
@@ -173,7 +178,7 @@ export default function SolarContactForm({
   }
 
   return (
-    <section id="contacto" className={styles.section} aria-label="Contacto Comercial">
+    <section id="contacto" className={styles.section} aria-label="Sales contact">
       <div className={styles.container}>
         <div className={styles.layout}>
           {/* Left Column: Context Info */}
@@ -306,22 +311,22 @@ export default function SolarContactForm({
                         onChange={handleChange}
                         className={styles.select}
                       >
-                        <option value="Posventa y garantías">
+                        <option value="After-sales & warranties">
                           {isEs ? 'Posventa y garantías' : 'After-sales & warranties'}
                         </option>
-                        <option value="Titular regulatorio en Colombia">
+                        <option value="Regulatory holder in Colombia">
                           {isEs ? 'Titular regulatorio en Colombia' : 'Regulatory holder in Colombia'}
                         </option>
-                        <option value="Muestras / pilotos">
-                          {isEs ? 'Muestras, demostraciones y pilotos' : 'Samples, demos & pilots'}
+                        <option value="Samples, demos & prototypes">
+                          {isEs ? 'Muestras, demostraciones y pilotos' : 'Samples, demos & prototypes'}
                         </option>
-                        <option value="Venta directa con entrega en destino">
+                        <option value="Direct delivery at place">
                           {isEs ? 'Venta directa con entrega en destino' : 'Direct delivery at place'}
                         </option>
-                        <option value="Equipos propios en sede del cliente">
-                          {isEs ? 'Equipos propios en sede del cliente' : 'Client-site equipment'}
+                        <option value="Manufacturer-owned equipment at client site">
+                          {isEs ? 'Equipos propios en sede del cliente' : 'Manufacturer-owned equipment at client site'}
                         </option>
-                        <option value="Revisión general">
+                        <option value="General operational review">
                           {isEs ? 'Revisión general de operación' : 'General operational review'}
                         </option>
                       </select>
@@ -338,18 +343,19 @@ export default function SolarContactForm({
                       name="entidadLegalColombia"
                       value={formData.entidadLegalColombia}
                       onChange={handleChange}
-                      className={styles.select}
+                      className={`${styles.select} ${errors.entidadLegalColombia ? styles.inputError : ''}`}
+                      required
                     >
-                      <option value="No">
-                        {isEs ? 'No — LET Pro actúa como mi brazo legal local' : 'No — LET Pro acts as my local legal & operating arm'}
+                      <option value="" disabled>
+                        Select an option
                       </option>
-                      <option value="Yes">
-                        {isEs ? 'Sí — tenemos filial local' : 'Yes — we have a local subsidiary'}
-                      </option>
-                      <option value="Evaluating">
-                        {isEs ? 'En evaluación / Explorando entrada' : 'Under evaluation / Exploring market entry'}
-                      </option>
+                      <option value="No">No — LET Pro acts as my local legal &amp; operating arm</option>
+                      <option value="Yes">Yes — we have a local legal entity</option>
+                      <option value="Evaluating">Under evaluation / exploring market entry</option>
                     </select>
+                    {errors.entidadLegalColombia && (
+                      <span className={styles.errorText}>{errors.entidadLegalColombia}</span>
+                    )}
                   </div>
 
                   {/* Fila 4: Mensaje o producto específico (Opcional, altura reducida) */}

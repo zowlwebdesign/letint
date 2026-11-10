@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { client } from '../../../sanity/lib/client'
 import { INDUSTRY_PAGE_QUERY } from '../../../sanity/lib/queries'
-import { getMergedSolarData, solarDataEs } from '../../../lib/solar-data'
+import { getMergedSolarData } from '../../../lib/solar-data'
 
 import styles from './campaign.module.css'
 import ReferenceCaseMetrics from '../../../components/industries/ReferenceCaseMetrics'
@@ -22,9 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   const title =
-    'Soluciones de Posventa, Garantías y RETIE para Fabricantes Solares en Colombia | LET Pro'
+    'Inverter Warranty, RMA & RETIE Solutions for Solar Manufacturers in Colombia | LET Pro'
   const description =
-    'Representación legal y operativa en Colombia para fabricantes de inversores, paneles y BESS. Custodia FSL y cumplimiento RETIE 2024 sin filial local.'
+    'Legal and operating arm in Colombia for inverter, panel and BESS manufacturers. Swap-ready FSL stock, end-to-end RMA and RETIE 2024 compliance with no local entity.'
 
   const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl || 'https://letintl.com/Logo_let.webp'
 
@@ -42,15 +42,15 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       url: 'https://letintl.com/campanas/energia-solar',
-      siteName: 'LET Pro | Energía Solar',
-      locale: 'es_CO',
+      siteName: 'LET Pro | Solar Energy',
+      locale: 'en_US',
       type: 'website',
       images: [
         {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: 'LET Pro Solar — Campaña de Operación y Posventa en Colombia',
+          alt: 'LET Pro Solar — Operations and After-Sales in Colombia',
         },
       ],
     },
@@ -72,7 +72,7 @@ export default async function SolarCampaignPage() {
     // Fallback
   }
 
-  const data = getMergedSolarData(industryDoc, 'es')
+  const data = getMergedSolarData(industryDoc, 'en')
 
   return (
     <div className={styles.campaignPage}>
@@ -86,12 +86,10 @@ export default async function SolarCampaignPage() {
 
           <div className={styles.headerActions}>
             <div className={styles.langSwitch}>
-              <span className={styles.langActive}>ES</span>
-              <span>|</span>
-              <span style={{ opacity: 0.5 }}>EN</span>
+              <span className={styles.langActive}>EN</span>
             </div>
             <a href="#contacto" className={styles.headerCta}>
-              <span>Solicitar Brochure</span>
+              <span>Request Brochure</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -108,35 +106,35 @@ export default async function SolarCampaignPage() {
             <div className={styles.heroContent}>
               <ScrollReveal variant="fade">
                 <div className={styles.campaignPill}>
-                  <span>PROGRAMA DE POSVENTA Y RETIE 2024</span>
+                  <span>INVERTER WARRANTY & RMA PROGRAM · RETIE 2024</span>
                 </div>
               </ScrollReveal>
 
               <ScrollReveal variant="up" delay={100}>
                 <h1 className={styles.heroTitle}>
-                  Usted conserva la marca y el cliente.{' '}
+                  You keep the brand and the customer.{' '}
                   <span className={styles.heroTitleAccent}>
-                    LET Pro asume la operación y representación en Colombia.
+                    LET Pro is your legal and operating arm in Colombia.
                   </span>
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal variant="up" delay={150}>
                 <p className={styles.heroSub}>
-                  Cumpla garantías de largo plazo, sostenga certificados RETIE y atienda reemplazos en días sin constituir una entidad legal local ni depender de su distribuidor.
+                  Honor long-term inverter warranties, cut downtime with swap-ready stock in Colombia, and let one accountable partner run the full RMA cycle, with no local entity and no distributor dependency.
                 </p>
               </ScrollReveal>
             </div>
 
             {/* Immediate Proof of Authority: Reference Case Metrics */}
-            <ReferenceCaseMetrics data={data.caseStudy} lang="es" compact />
+            <ReferenceCaseMetrics data={data.caseStudy} lang="en" compact />
           </div>
         </section>
 
         {/* ─── 3. Solutions in Interactive Tabs ─── */}
         <SolutionsSection
           data={data.solutions}
-          lang="es"
+          lang="en"
           variant="tabs"
           intro={data.solutionsIntro}
           customCard={data.customSolutionCard}
@@ -145,7 +143,7 @@ export default async function SolarCampaignPage() {
         {/* ─── 4. Warranty Lifecycle in Detail ─── */}
         <WarrantyCycleTimeline
           steps={data.featuredSolutionFlow.steps}
-          lang="es"
+          lang="en"
           title={data.featuredSolutionFlow.title}
           subheadline={data.featuredSolutionFlow.subheadline}
           callout={data.featuredSolutionFlow.callout}
@@ -157,9 +155,9 @@ export default async function SolarCampaignPage() {
             <ScrollReveal variant="up">
               <div className={styles.hookCard}>
                 <div className={styles.hookLeft}>
-                  <h3>RETIE 2024: Resolución 40117 de 2024</h3>
+                  <h3>RETIE 2024: Resolution 40117 of 2024</h3>
                   <p>
-                    Los inversores fotovoltaicos, paneles y controladores requieren certificado de conformidad para nacionalizarse. Con LET Pro como titular regulatorio, el control legal y técnico permanece 100% en el fabricante sin cederlo a terceros.
+                    PV inverters, panels and controllers require a certificate of conformity to clear customs. With LET Pro as regulatory holder, legal and technical control stays 100% with the manufacturer and is never ceded to third parties.
                   </p>
                 </div>
                 <div className={styles.hookRight}>
@@ -171,10 +169,10 @@ export default async function SolarCampaignPage() {
                       <line x1="16" y1="17" x2="8" y2="17"></line>
                     </svg>
                   </div>
-                  <div className={styles.pdfTitle}>Brochure Ejecutivo B2B</div>
-                  <div className={styles.pdfSub}>Detalle técnico, operativo y regulatorio en PDF</div>
+                  <div className={styles.pdfTitle}>B2B Executive Brochure</div>
+                  <div className={styles.pdfSub}>Technical, operational and regulatory detail in PDF</div>
                   <a href="#contacto" className={styles.hookCta}>
-                    <span>Recibir Brochure en mi Correo</span>
+                    <span>Send the Brochure to My Inbox</span>
                   </a>
                 </div>
               </div>
@@ -183,7 +181,7 @@ export default async function SolarCampaignPage() {
         </section>
 
         {/* ─── 6. High-Conversion Campaign Form ─── */}
-        <SolarContactForm variant="campaign" lang="es" />
+        <SolarContactForm variant="campaign" lang="en" />
       </main>
 
       {/* ─── 7. Minimal KYC Footer ─── */}
@@ -192,7 +190,7 @@ export default async function SolarCampaignPage() {
           <p className={styles.disclaimerText}>{data.legalDisclaimer}</p>
           <div className={styles.footerLinks}>
             <a href="/privacy" className={styles.footerLink}>
-              Política de Privacidad
+              Privacy Policy
             </a>
           </div>
         </div>

@@ -383,15 +383,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             __html: `
               (function() {
                 try {
-                  var saved = localStorage.getItem('preferred_lang');
-                  var lang = saved || 'en';
-                  if (!saved) {
-                    localStorage.setItem('preferred_lang', 'en');
+                  // English is the source language. Spanish only through Google Translate,
+                  // and only if the visitor explicitly chose it in this session.
+                  var es = sessionStorage.getItem('preferred_lang') === 'es';
+                  if (!es && document.cookie.indexOf('googtrans=') !== -1) {
+                    var host = location.hostname, parts = host.split('.');
+                    var doms = ['', '; domain=' + host];
+                    if (parts.length > 1) doms.push('; domain=.' + parts.slice(-2).join('.'));
+                    for (var i = 0; i < doms.length; i++) {
+                      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + doms[i];
+                    }
                   }
-                  var cookieVal = '/es/' + lang;
-                  if (document.cookie.indexOf('googtrans=' + cookieVal) === -1) {
-                    document.cookie = 'googtrans=' + cookieVal + '; path=/;';
+                  if (es && document.cookie.indexOf('googtrans=/en/es') === -1) {
+                    document.cookie = 'googtrans=/en/es; path=/';
                   }
+                  try { localStorage.removeItem('preferred_lang'); } catch (e2) {}
                 } catch(e) {}
               })();
             `,

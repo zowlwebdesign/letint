@@ -18,8 +18,8 @@ export async function POST(request: Request) {
       solucionInteres,
       mensaje,
       aceptaDatos,
-      idioma = 'es',
-      vistaOrigen = 'sitio_industrias',
+      idioma = 'en',
+      vistaOrigen = 'industry_site',
       utm_source = '',
       utm_medium = '',
       utm_campaign = '',
@@ -30,14 +30,14 @@ export async function POST(request: Request) {
     // 1. Validation
     if (!nombre || !empresa || !correo) {
       return NextResponse.json(
-        { error: 'Campos requeridos faltantes: nombre, empresa y correo corporativo son obligatorios.' },
+        { error: 'Missing required fields: name, company and corporate email are required.' },
         { status: 400 }
       )
     }
 
     if (!aceptaDatos) {
       return NextResponse.json(
-        { error: 'Debe aceptar la política de tratamiento de datos personales (Ley 1581 de 2012).' },
+        { error: 'You must accept the personal data processing policy (Law 1581 of 2012).' },
         { status: 400 }
       )
     }
@@ -60,11 +60,11 @@ export async function POST(request: Request) {
           nombre,
           empresa,
           correo,
-          paisOrigen: paisOrigen || 'No especificado',
+          paisOrigen: paisOrigen || 'Not specified',
           producto: producto || 'Inversores',
-          entidadLegalColombia: entidadLegalColombia || 'No especificado',
-          certificadoRetie: certificadoRetie || 'No especificado',
-          solucionInteres: solucionInteres || 'Posventa y garantías',
+          entidadLegalColombia: entidadLegalColombia || 'Not specified',
+          certificadoRetie: certificadoRetie || 'Not specified',
+          solucionInteres: solucionInteres || 'After-sales & warranties',
           mensaje: mensaje || '',
           aceptaDatos: Boolean(aceptaDatos),
           idioma,
@@ -417,7 +417,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error('[Solar Contact API Error]:', error)
     return NextResponse.json(
-      { error: 'Error procesando la solicitud de contacto.' },
+      { error: 'Error processing the contact request.' },
       { status: 500 }
     )
   }

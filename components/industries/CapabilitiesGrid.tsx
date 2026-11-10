@@ -45,16 +45,16 @@ export default function CapabilitiesGrid({
   }
 
   return (
-    <section className={styles.section} aria-label="Capacidades Operativas">
+    <section className={styles.section} aria-label="Operational capabilities">
       <div className={styles.container}>
         <ScrollReveal variant="up">
           <div className={styles.header}>
             <div className={styles.headerLeft}>
               <h2 className={styles.title}>
-                {title || 'Los componentes con los que se construye cada solución.'}
+                {title || 'The building blocks behind every solution.'}
               </h2>
               <p className={styles.subtitle}>
-                {subtitle || 'Haga clic en cada componente para desplegar su descripción.'}
+                {subtitle || 'Click each component to expand its description.'}
               </p>
             </div>
 

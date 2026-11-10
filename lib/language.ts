@@ -1,78 +1,86 @@
 export type Language = 'en' | 'es'
 
+/**
+ * The site source language is ENGLISH. Every page is rendered in English by
+ * default. Spanish is only ever produced by the Google Translate widget
+ * (pageLanguage "en" -> "es"), triggered explicitly by the visitor through the
+ * language toggle. The choice only lasts for the current browser session
+ * (sessionStorage), so every new visit starts in English again.
+ */
+const STORAGE_KEY = 'preferred_lang'
+const COOKIE_NAME = 'googtrans'
+
+function cookieDomains(): Array<string | undefined> {
+  const host = window.location.hostname
+  const parts = host.split('.')
+  const domains: Array<string | undefined> = [undefined, host]
+  if (parts.length > 1) domains.push(`.${parts.slice(-2).join('.')}`)
+  return domains
+}
+
+function writeCookie(value: string) {
+  cookieDomains().forEach((domain) => {
+    const d = domain ? `; domain=${domain}` : ''
+    document.cookie = `${COOKIE_NAME}=${value}; path=/${d}`
+  })
+}
+
+function clearCookie() {
+  cookieDomains().forEach((domain) => {
+    const d = domain ? `; domain=${domain}` : ''
+    document.cookie = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/${d}`
+  })
+}
+
 export function getCurrentLanguage(): Language {
   if (typeof document === 'undefined') return 'en'
 
-  // 1. Check localStorage first
   try {
-    const saved = localStorage.getItem('preferred_lang') as Language | null
-    if (saved === 'es' || saved === 'en') {
-      return saved
-    }
-  } catch (e) {
+    if (sessionStorage.getItem(STORAGE_KEY) === 'es') return 'es'
+  } catch {
     // Ignore storage errors
   }
 
-  // 2. Check if user already set googtrans cookie
-  const match = document.cookie.match(/googtrans=\/es\/(en|es)/i)
-  if (match && match[1]) {
-    return match[1].toLowerCase() as Language
-  }
+  // Fallback to the translate cookie only when it explicitly asks for Spanish
+  if (/googtrans=\/en\/es/i.test(document.cookie)) return 'es'
 
-  // Default is English as requested by user
   return 'en'
+}
+
+/**
+ * Runs on every page load: guarantees English unless the visitor explicitly
+ * switched to Spanish during this session. Also wipes legacy cookies
+ * (/es/en, /es/es) written by previous versions of the site.
+ */
+export function enforceDefaultLanguage() {
+  if (typeof window === 'undefined') return
+  const lang = getCurrentLanguage()
+  if (lang === 'es') {
+    if (!/googtrans=\/en\/es/i.test(document.cookie)) writeCookie('/en/es')
+  } else if (/googtrans=/i.test(document.cookie)) {
+    clearCookie()
+  }
+  try {
+    localStorage.removeItem(STORAGE_KEY) // legacy persistent value
+  } catch {
+    // Ignore storage errors
+  }
 }
 
 export function setLanguage(targetLang: Language) {
   if (typeof window === 'undefined') return
 
-  // 1. Persist preference in localStorage
   try {
-    localStorage.setItem('preferred_lang', targetLang)
-  } catch (e) {
+    if (targetLang === 'es') sessionStorage.setItem(STORAGE_KEY, 'es')
+    else sessionStorage.removeItem(STORAGE_KEY)
+  } catch {
     // Ignore storage errors
   }
 
-  // 2. Manage cookies
-  const host = window.location.hostname
-  const hostParts = host.split('.')
-  const rootDomain = hostParts.length > 1 ? `.${hostParts.slice(-2).join('.')}` : null
+  clearCookie()
+  if (targetLang === 'es') writeCookie('/en/es')
 
-  if (targetLang === 'es') {
-    // Clear / reset translation for Spanish
-    const clearCookie = (name: string, domain?: string) => {
-      const d = domain ? `; domain=${domain}` : ''
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;${d}`
-    }
-    clearCookie('googtrans')
-    clearCookie('googtrans', host)
-    if (rootDomain) clearCookie('googtrans', rootDomain)
-
-    // Set explicitly to /es/es to signal source language
-    document.cookie = 'googtrans=/es/es; path=/;'
-    document.cookie = `googtrans=/es/es; path=/; domain=${host};`
-    if (rootDomain) document.cookie = `googtrans=/es/es; path=/; domain=${rootDomain};`
-  } else {
-    // English (/es/en)
-    const cookieVal = '/es/en'
-    document.cookie = `googtrans=${cookieVal}; path=/;`
-    document.cookie = `googtrans=${cookieVal}; path=/; domain=${host};`
-    if (rootDomain) document.cookie = `googtrans=${cookieVal}; path=/; domain=${rootDomain};`
-  }
-
-  // 3. Dispatch change event to Google Translate combo if available in DOM
-  const select = document.querySelector<HTMLSelectElement>('.goog-te-combo')
-  if (select) {
-    if (targetLang === 'es') {
-      select.value = ''
-      select.dispatchEvent(new Event('change'))
-    } else {
-      select.value = 'en'
-      select.dispatchEvent(new Event('change'))
-    }
-  }
-
-  // 4. Reload page to ensure complete and clean translation across all components
+  // Reload so Google Translate applies (or removes) the translation cleanly
   setTimeout(() => {
     window.location.reload()
   }, 120)

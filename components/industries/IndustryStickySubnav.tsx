@@ -31,7 +31,7 @@ export default function IndustryStickySubnav({ lang }: IndustryStickySubnavProps
   }
 
   return (
-    <nav className={styles.subnav} aria-label="Subnavegación de Industria">
+    <nav className={styles.subnav} aria-label="Industry sub-navigation">
       <div className={styles.container}>
         {/* Left: Breadcrumbs */}
         <div className={styles.breadcrumbs}>

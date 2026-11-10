@@ -1,4 +1,5 @@
 import { urlForImage } from '../sanity/lib/image'
+import { looksSpanish } from './english-guard'
 
 export interface TrustBadge {
   title: string
@@ -189,12 +190,12 @@ export const solarDataEs: SolarPageData = {
     {
       number: '03',
       badge: 'Desarrollo comercial',
-      title: 'Muestras, demostraciones y pilotos',
+      title: 'Muestras, demostraciones y prototipos',
       whenApplies:
         'El fabricante envía unidades a prospectos o socios que no están registrados como importadores.',
       industryApplication:
-        'Equipos para pruebas técnicas, proyectos piloto, estudios de factibilidad y ferias, con retorno a origen o nacionalización si el cliente compra.',
-      capabilityTags: ['IOR', 'EOR', 'PILOT', 'TESTING'],
+        'Equipos para pruebas técnicas, prototipos, estudios de factibilidad y ferias, con retorno a origen o nacionalización si el cliente compra.',
+      capabilityTags: ['IOR', 'EOR', 'PROTOTYPE', 'TESTING'],
     },
     {
       number: '04',
@@ -463,7 +464,7 @@ export const solarDataEn: SolarPageData = {
         'The manufacturer ships units to prospects or partners who are not registered importers.',
       industryApplication:
         'Equipment for technical testing, prototype validations, feasibility studies, and trade expos, with return to origin or customs clearance if the client purchases.',
-      capabilityTags: ['IOR', 'EOR', 'PILOT', 'TESTING'],
+      capabilityTags: ['IOR', 'EOR', 'PROTOTYPE', 'TESTING'],
     },
     {
       number: '04',
@@ -649,31 +650,46 @@ export const solarDataEn: SolarPageData = {
     'LET Group: LET Logistics · LET Pro (LET Procurement S.A.S.) · LET Logistics Customs Brokerage. Importer and Exporter of Record, regulatory representation, and Merchant of Record services are structured through mandate agreements and are subject to approval by LET Group’s KYC & Compliance Division and prior case-by-case validation. Regulatory information is general in nature and does not replace case-specific verification.',
 }
 
-function valStr(val: any, fallback: string = ''): string {
-  if (val === undefined || val === null) return fallback
-  if (typeof val === 'string') return val
+/**
+ * Resolve a CMS value for the requested language.
+ * - Localized objects ({ en, es }) use the matching key.
+ * - Plain strings are used as-is, except in English mode when they look like
+ *   Spanish source text: then the English fallback copy wins, so the site
+ *   never shows mixed languages.
+ */
+function pickStr(val: any, fallback: string = '', lang: 'es' | 'en' = 'en'): string {
+  if (val === undefined || val === null || val === '') return fallback
   if (typeof val === 'object') {
-    return val.es || val.en || fallback
+    const picked = lang === 'en' ? val.en : val.es || val.en
+    return typeof picked === 'string' && picked ? (lang === 'en' && looksSpanish(picked) ? fallback : picked) : fallback
   }
-  return String(val)
+  const str = String(val)
+  if (lang === 'en' && looksSpanish(str)) return fallback
+  return str
 }
 
-function valArr(val: any, fallback: string[] = []): string[] {
+function pickArr(val: any, fallback: string[] = [], lang: 'es' | 'en' = 'en'): string[] {
   if (!val) return fallback
+  let items: string[] | null = null
   if (Array.isArray(val)) {
-    return val.map((item) =>
-      typeof item === 'object' && item !== null ? item.es || item.text || String(item) : String(item)
+    items = val.map((item) =>
+      typeof item === 'object' && item !== null ? item[lang] || item.text || item.en || item.es || '' : String(item)
     )
+  } else if (typeof val === 'object' && Array.isArray(val[lang])) {
+    items = val[lang]
   }
-  if (typeof val === 'object' && Array.isArray(val.es)) {
-    return val.es
-  }
-  return fallback
+  if (!items || items.length === 0) return fallback
+  if (lang === 'en' && items.some((i) => looksSpanish(i))) return fallback
+  return items
 }
 
-export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'es'): SolarPageData {
+export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): SolarPageData {
   const fallback = lang === 'en' ? solarDataEn : solarDataEs
   if (!sanityDoc) return fallback
+
+  const valStr = (val: any, fb: string = '') => pickStr(val, fb, lang)
+  const valArr = (val: any, fb: string[] = []) => pickArr(val, fb, lang)
+  const en = lang === 'en'
 
   const heroDoc = sanityDoc.hero || {}
 
@@ -685,13 +701,16 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'es'): So
     },
     hero: {
       tags: valArr(sanityDoc.categoryTags, fallback.hero.tags),
-      headline: valStr(heroDoc.headline, fallback.hero.headline),
+      headline: valStr(heroDoc.headline, fallback.hero.headline).replace(
+        /(?<!legal and )operating arm/i,
+        'legal and operating arm'
+      ),
       subheadline: valStr(heroDoc.subheadline, fallback.hero.subheadline),
       statNumber: valStr(heroDoc.statNumber, fallback.hero.statNumber || '18+'),
-      statLabel: valStr(heroDoc.statLabel, fallback.hero.statLabel || 'Años de operación en Colombia · Desde 2006'),
-      manufacturerKeepsTitle: valStr(heroDoc.manufacturerKeepsTitle, 'El Fabricante Conserva'),
+      statLabel: valStr(heroDoc.statLabel, fallback.hero.statLabel || 'Years of operation in Colombia · Since 2006'),
+      manufacturerKeepsTitle: valStr(heroDoc.manufacturerKeepsTitle, en ? 'The Manufacturer Keeps' : 'El Fabricante Conserva'),
       manufacturerKeeps: valArr(heroDoc.manufacturerKeeps, fallback.hero.manufacturerKeeps),
-      letProAssumesTitle: valStr(heroDoc.letProAssumesTitle, 'LET Pro Asume'),
+      letProAssumesTitle: valStr(heroDoc.letProAssumesTitle, en ? 'LET Pro Assumes' : 'LET Pro Asume'),
       letProAssumes: valArr(heroDoc.letProAssumes, fallback.hero.letProAssumes),
       primaryCta: {
         label: valStr(heroDoc.primaryCtaLabel, fallback.hero.primaryCta.label),
@@ -716,7 +735,9 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'es'): So
     },
     solutionsTitle: valStr(
       sanityDoc.solutionsTitle,
-      'Cada una responde a una situación concreta del fabricante, no a un servicio aislado.'
+      en
+        ? 'Each addresses a specific manufacturer challenge, not an isolated service.'
+        : 'Cada una responde a una situación concreta del fabricante, no a un servicio aislado.'
     ),
     solutionsIntro: valStr(sanityDoc.solutionsIntro, fallback.solutionsIntro),
     solutions:
@@ -727,7 +748,9 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'es'): So
             title: valStr(s.title, fallback.solutions[idx]?.title || ''),
             whenApplies: valStr(s.whenApplies, fallback.solutions[idx]?.whenApplies || ''),
             industryApplication: valStr(s.industryApplication, fallback.solutions[idx]?.industryApplication || ''),
-            capabilityTags: s.capabilityTags || fallback.solutions[idx]?.capabilityTags || [],
+            capabilityTags: (s.capabilityTags || fallback.solutions[idx]?.capabilityTags || []).map((t: string) =>
+              String(t).toUpperCase() === 'PILOT' ? 'PROTOTYPE' : t
+            ),
             footnote: s.footnote ? valStr(s.footnote) : fallback.solutions[idx]?.footnote,
           }))
         : fallback.solutions,

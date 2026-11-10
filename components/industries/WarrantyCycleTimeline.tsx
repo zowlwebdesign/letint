@@ -124,7 +124,7 @@ export default function WarrantyCycleTimeline({
   const isLastActive = activeIdx === steps.length - 1
 
   return (
-    <section id="garantias" className={styles.section} aria-label="Ciclo de Garantías">
+    <section id="garantias" className={styles.section} aria-label="Warranty cycle">
       <div className={styles.container}>
         {/* Header */}
         <ScrollReveal variant="up">

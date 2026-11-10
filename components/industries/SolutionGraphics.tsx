@@ -74,7 +74,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
 
           {/* Bottom Trust Stamp */}
           <text x="160" y="324" fill="#64748b" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="0.08em">
-            LET PRO · CUSTODIA LOCAL Y GARANTÍAS
+            LET PRO · LOCAL CUSTODY & WARRANTIES
           </text>
         </svg>
       )
@@ -148,7 +148,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
       )
 
     case '03':
-      // Muestras, demostraciones y pilotos
+      // Samples, demos & prototypes
       return (
         <svg
           viewBox="0 0 320 380"
@@ -188,7 +188,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
             {/* Custom Stamp */}
             <rect x="42" y="32" width="56" height="24" rx="3" fill="#f59e0b" fillOpacity="0.15" stroke="#f59e0b" strokeWidth="1" />
             <text x="70" y="47" fill="#fbbf24" fontSize="8" fontWeight="bold" textAnchor="middle" letterSpacing="0.06em">
-              TEST / PILOT
+              TEST / PROTOTYPE
             </text>
 
             <text x="70" y="80" fill="#e2e8f0" fontSize="9" textAnchor="middle" fontWeight="bold">
@@ -211,7 +211,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
           </g>
 
           <text x="160" y="324" fill="#fbbf24" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="0.08em">
-            FERIAS · SHOWROOMS · PRUEBAS TÉCNICAS
+            TRADE SHOWS · SHOWROOMS · TECHNICAL TESTING
           </text>
         </svg>
       )
@@ -262,7 +262,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
 
             {/* Checkpoints */}
             <text x="20" y="78" fill="#94a3b8" fontSize="8.5">✓ Desaduanamiento nacional</text>
-            <text x="20" y="92" fill="#94a3b8" fontSize="8.5">✓ Facturación en Colombia</text>
+            <text x="20" y="92" fill="#94a3b8" fontSize="8.5">✓ Invoicing in Colombia</text>
           </g>
 
           {/* Target Audience Box */}
@@ -277,7 +277,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
           </g>
 
           <text x="160" y="324" fill="#7dd3fc" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="0.08em">
-            MERCHANT OF RECORD · LOGÍSTICA CAPILAR
+            MERCHANT OF RECORD · LAST-MILE LOGISTICS
           </text>
         </svg>
       )

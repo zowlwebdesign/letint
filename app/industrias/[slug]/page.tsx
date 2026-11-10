@@ -8,9 +8,10 @@ import {
 } from '../../../sanity/lib/queries'
 import { urlForImage } from '../../../sanity/lib/image'
 import { getMergedSolarData, solarDataEn } from '../../../lib/solar-data'
+import { looksSpanish } from '../../../lib/english-guard'
 
 import Navbar from '../../../components/Navbar'
-import IndustryFooter from '../../../components/industries/IndustryFooter'
+import Footer from '../../../components/Footer'
 import IndustryHero from '../../../components/industries/IndustryHero'
 import SolutionsSection from '../../../components/industries/SolutionsSection'
 import WarrantyCycleTimeline from '../../../components/industries/WarrantyCycleTimeline'
@@ -72,10 +73,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : `Specialized solutions for manufacturers and brands: IOR/EOR representation, regulatory compliance, and logistics in Colombia.`
 
   const rawTitle = industryDoc?.seoAndSocial?.metaTitle
-  const title = (typeof rawTitle === 'string' ? rawTitle : rawTitle?.en || rawTitle?.es) || fallbackTitle
+  const pickedTitle = typeof rawTitle === 'string' ? rawTitle : rawTitle?.en
+  const title = pickedTitle && !looksSpanish(pickedTitle) ? pickedTitle : fallbackTitle
 
   const rawDesc = industryDoc?.seoAndSocial?.metaDescription
-  const description = (typeof rawDesc === 'string' ? rawDesc : rawDesc?.en || rawDesc?.es) || fallbackDescription
+  const pickedDesc = typeof rawDesc === 'string' ? rawDesc : rawDesc?.en
+  const description = pickedDesc && !looksSpanish(pickedDesc) ? pickedDesc : fallbackDescription
 
   const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl
     ? industryDoc.seoAndSocial.ogImageUrl
@@ -174,7 +177,12 @@ export default async function IndustryDynamicPage({ params }: Props) {
 
   const data = getMergedSolarData(industryDoc, 'en')
   const canonicalUrl = `https://letintl.com/industrias/${slug}`
-  const pageTitle = industryDoc?.title || data.meta.title
+  const pageTitle =
+    industryDoc?.title && !looksSpanish(industryDoc.title)
+      ? industryDoc.title
+      : slug === 'energia-solar'
+      ? 'Solar Energy & Storage'
+      : data.meta.title
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -186,13 +194,13 @@ export default async function IndustryDynamicPage({ params }: Props) {
           {
             '@type': 'ListItem',
             position: 1,
-            name: 'Inicio',
+            name: 'Home',
             item: 'https://letintl.com',
           },
           {
             '@type': 'ListItem',
             position: 2,
-            name: 'Industrias',
+            name: 'Industries',
             item: 'https://letintl.com/#industrias',
           },
           {
@@ -209,7 +217,7 @@ export default async function IndustryDynamicPage({ params }: Props) {
         url: canonicalUrl,
         name: data.meta.title,
         description: data.meta.description,
-        inLanguage: ['es-CO', 'en-US'],
+        inLanguage: 'en-US',
         isPartOf: {
           '@id': 'https://letintl.com/#website',
         },
@@ -220,10 +228,10 @@ export default async function IndustryDynamicPage({ params }: Props) {
       {
         '@type': 'Service',
         '@id': `${canonicalUrl}#service-ior`,
-        name: `Importador y Exportador de Record (IOR / EOR) — ${pageTitle}`,
-        serviceType: 'Agenciamiento Aduanero y Comercio Exterior',
+        name: `Importer & Exporter of Record (IOR / EOR) — ${pageTitle}`,
+        serviceType: 'Customs Brokerage and Foreign Trade',
         description:
-          'Representación legal y fiscal como Importador y Exportador de Record en Colombia para el ingreso seguro de equipos y tecnología bajo normativas DIAN.',
+          'Legal and tax representation as Importer and Exporter of Record in Colombia for compliant entry of equipment and technology under DIAN regulations.',
         provider: {
           '@id': 'https://letintl.com/#organization',
         },
@@ -235,10 +243,10 @@ export default async function IndustryDynamicPage({ params }: Props) {
       {
         '@type': 'Service',
         '@id': `${canonicalUrl}#service-fsl`,
-        name: `Hub FSL de Posventa, Stock de Garantías y Repuestos Críticos — ${pageTitle}`,
-        serviceType: 'Logística Inversa y Custodia FSL',
+        name: `After-Sales FSL Hub, Warranty Stock and Critical Spares — ${pageTitle}`,
+        serviceType: 'Reverse Logistics and FSL Custody',
         description:
-          'Custodia de stock de contingencia FSL (Field Service Logistics) con trazabilidad por número de serie, reemplazo swap y reexportación bajo régimen aduanero DIAN.',
+          'FSL (Forward Stocking Location) contingency stock custody with serial-number traceability, swap replacement and re-export under DIAN customs regimes.',
         provider: {
           '@id': 'https://letintl.com/#organization',
         },
@@ -318,8 +326,8 @@ export default async function IndustryDynamicPage({ params }: Props) {
         />
       </main>
 
-      {/* Global Site Footer */}
-      <IndustryFooter lang="en" />
+      {/* Global Site Footer (shared with the home page) */}
+      <Footer data={siteSettings ?? {}} />
     </>
   )
 }

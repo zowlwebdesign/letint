@@ -20,12 +20,12 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
   const remainingSentences = headlineParts.slice(1).join(' ')
 
   return (
-    <header className={styles.heroWrapper} aria-label="Hero de Industria">
+    <header className={styles.heroWrapper} aria-label="Industry hero">
       {/* Background Photographic Image & Dark Gradient Overlay */}
       <div className={styles.bgContainer} aria-hidden="true">
         <Image
           src={bgImageSrc}
-          alt="Operaciones de logística portuaria y aduanera para proyectos de energía solar y BESS en Colombia — LET Pro"
+          alt="Port and customs logistics operations for solar energy and BESS projects in Colombia — LET Pro"
           fill
           priority
           sizes="100vw"
@@ -63,7 +63,7 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
 
               <ScrollReveal variant="up" delay={180}>
                 <a href={data.secondaryCta?.href || '#soluciones'} className={styles.secondaryLink}>
-                  <span>{data.secondaryCta?.label || 'Ver las cinco soluciones'}</span>
+                  <span>{data.secondaryCta?.label || 'See the five solutions'}</span>
                   <span className={styles.secondaryArrow}>↓</span>
                 </a>
               </ScrollReveal>
@@ -75,12 +75,12 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
             <ScrollReveal variant="up" delay={160}>
               <aside
                 className={styles.comparisonCard}
-                aria-label="División de responsabilidades operativas"
+                aria-label="Division of responsibilities"
               >
-                {/* Panel Superior: El Fabricante Conserva */}
+                {/* Top panel */}
                 <div className={styles.panelTop}>
                   <div className={styles.panelHeadingTop}>
-                    {data.manufacturerKeepsTitle || 'El Fabricante Conserva'}
+                    {data.manufacturerKeepsTitle || 'The Manufacturer Keeps'}
                   </div>
                   <ul className={styles.panelList}>
                     {manufacturerItems.map((item, idx) => (
@@ -95,7 +95,7 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
                 {/* Panel Inferior: LET Pro Asume */}
                 <div className={styles.panelBottom}>
                   <div className={styles.panelHeadingBottom}>
-                    {data.letProAssumesTitle || 'LET Pro Asume'}
+                    {data.letProAssumesTitle || 'LET Pro Assumes'}
                   </div>
                   <ul className={styles.panelList}>
                     {letProItems.map((item, idx) => (
@@ -112,10 +112,10 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
                   <a
                     href={data.primaryCta?.href || '#contacto'}
                     className={styles.ghostCta}
-                    aria-label={data.primaryCta?.label || 'Solicitar una revisión de su operación'}
+                    aria-label={data.primaryCta?.label || 'Request an operation review'}
                   >
                     <span className={styles.ghostLabel}>
-                      {data.primaryCta?.label || 'Solicitar una revisión de su operación'}
+                      {data.primaryCta?.label || 'Request an operation review'}
                     </span>
                     <svg
                       className={styles.ghostArrow}

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import styles from './Navbar.module.css'
 import { urlForImage } from '../sanity/lib/image'
 import { getCurrentLanguage, setLanguage, type Language } from '../lib/language'
+import { looksSpanish } from '../lib/english-guard'
 
 export interface NavDropdownItem {
   title: string
@@ -41,10 +42,10 @@ interface NavbarProps {
 
 const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
   {
-    title: 'Energía solar y almacenamiento',
-    description: 'Inversores, paneles, baterías y BESS. RETIE 2024, custodia FSL y garantías.',
+    title: 'Solar Energy & Storage',
+    description: 'Inverters, panels, batteries and BESS. RETIE 2024, FSL custody and warranties.',
     href: '/industrias/energia-solar',
-    badge: 'Activa',
+    badge: 'Active',
     badgeType: 'active',
   },
 ]
@@ -57,12 +58,18 @@ const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
   { label: 'Contact', href: '#contacto' },
 ]
 
+/** Sanity fields may still hold Spanish source text: never show it on the English site. */
+function englishOnly(value: string | undefined, fallback: string): string {
+  if (!value) return fallback
+  return looksSpanish(value) ? fallback : value
+}
+
 export default function Navbar({
   data,
   industries,
   variant = 'default',
   activeItem,
-  lang = 'es',
+  lang = 'en',
 }: NavbarProps) {
   const isEs = lang === 'es'
   const isIndustry = variant === 'industry'
@@ -76,14 +83,14 @@ export default function Navbar({
           const isActive = ind.status !== 'coming_soon'
           const slug = ind.slug?.current || ''
           return {
-            title: ind.title || 'Industria',
+            title: englishOnly(ind.title, slug === 'energia-solar' ? 'Solar Energy & Storage' : 'Industry'),
             description:
-              ind.shortDescription ||
-              (ind.categoryTags && ind.categoryTags.length > 0
-                ? ind.categoryTags.join(' · ')
-                : 'Soluciones B2B, cumplimiento regulatorio y representación en Colombia.'),
+              englishOnly(ind.shortDescription, '') ||
+              (slug === 'energia-solar'
+                ? 'Inverters, panels, batteries and BESS. RETIE 2024, FSL custody and warranties.'
+                : 'B2B solutions, regulatory compliance and representation in Colombia.'),
             href: isActive ? `/industrias/${slug}` : '#',
-            badge: isActive ? 'Activa' : 'Próximamente',
+            badge: isActive ? 'Active' : 'Coming soon',
             badgeType: (isActive ? 'active' : 'upcoming') as 'active' | 'upcoming',
           }
         })
@@ -102,7 +109,7 @@ export default function Navbar({
     { label: 'How it works', href: '/#how-it-works' },
     { label: 'Services', href: '/#services' },
     {
-      label: 'Industrias',
+      label: 'Industries',
       href: firstActiveHref,
       dropdown: activeDropdownItems,
     },
@@ -264,7 +271,7 @@ export default function Navbar({
     <header className={`${styles.header}${scrolled || mobileMenuOpen ? ` ${styles.scrolled}` : ''}`}>
       <nav className={styles.nav} aria-label="Main Navigation">
         <div className={styles.navInner}>
-          {/* Logo Group: Logo LET + Botón volver a letintl.com + Breadcrumb */}
+          {/* Logo Group: LET logo + back to letintl.com + breadcrumb */}
           <div className={styles.logoGroup}>
             <a
               href="/"
@@ -298,7 +305,7 @@ export default function Navbar({
                 <a
                   href="/"
                   className={styles.backHomeBtn}
-                  title="Volver a la página principal de letintl.com"
+                  title="Back to the letintl.com home page"
                 >
                   <svg
                     width="13"
@@ -318,7 +325,7 @@ export default function Navbar({
 
                 <div className={styles.industryBreadcrumb}>
                   <span className={styles.crumbDivider}>/</span>
-                  <span className={styles.crumbParent}>Industrias ›</span>
+                  <span className={styles.crumbParent}>Industries ›</span>
                   <span className={styles.crumbCurrent}>Solar &amp; Storage</span>
                 </div>
               </>
@@ -431,8 +438,8 @@ export default function Navbar({
               type="button"
               className={styles.langToggle}
               onClick={() => handleLanguageChange(currentLang === 'en' ? 'es' : 'en')}
-              aria-label={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
-              title={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+              aria-label={currentLang === 'en' ? 'Switch to Spanish (Google Translate)' : 'Switch to English'}
+              title={currentLang === 'en' ? 'Switch to Spanish (Google Translate)' : 'Switch to English'}
             >
               {currentLang === 'en' ? 'ES' : 'EN'}
             </button>
@@ -602,7 +609,7 @@ export default function Navbar({
                   handleLanguageChange(currentLang === 'en' ? 'es' : 'en')
                   closeMobileMenu()
                 }}
-                aria-label={currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+                aria-label={currentLang === 'en' ? 'Switch to Spanish (Google Translate)' : 'Switch to English'}
               >
                 {currentLang === 'en' ? 'ES' : 'EN'}
               </button>

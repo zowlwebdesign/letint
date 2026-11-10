@@ -96,7 +96,7 @@ export default function SolutionsSection({
   const effectiveCustomCard = customCard || defaultCustomCard
 
   return (
-    <section id="soluciones" className={styles.section} aria-label="Cinco Soluciones">
+    <section id="soluciones" className={styles.section} aria-label="Five solutions">
       <div className={styles.container}>
         {/* Header with Eyebrow and Deduplicated Title / Subtitle */}
         <ScrollReveal variant="up">
