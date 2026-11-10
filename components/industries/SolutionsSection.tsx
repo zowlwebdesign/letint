@@ -112,7 +112,7 @@ export default function SolutionsSection({
             {/* Navigation Controls (Desktop & Mobile accessible) */}
             <div className={styles.navControls}>
               <span className={styles.counterText}>
-                0{activeIdx + 1} <span className={styles.counterDivider}>/</span> 0{data.length}
+                {String(activeIdx + 1).padStart(2, '0')} <span className={styles.counterDivider}>/</span> {String(data.length).padStart(2, '0')}
               </span>
               <button
                 type="button"
@@ -260,6 +260,27 @@ export default function SolutionsSection({
                               <polyline points="12 5 19 12 12 19" />
                             </svg>
                           </a>
+                          <button
+                            type="button"
+                            className={styles.backToBoardBtn}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              const el = document.getElementById('soluciones')
+                              if (el) {
+                                const offset = 80
+                                window.scrollTo({
+                                  top: el.getBoundingClientRect().top + window.scrollY - offset,
+                                  behavior: 'smooth',
+                                })
+                              }
+                            }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <line x1="19" y1="12" x2="5" y2="12" />
+                              <polyline points="12 5 5 12 12 19" />
+                            </svg>
+                            <span>{isEs ? 'Volver al tablero' : 'Back to Solutions'}</span>
+                          </button>
                         </div>
                       </div>
                     </div>

@@ -15,6 +15,7 @@ interface FormState {
   empresa: string
   correo: string
   solucionInteres: string
+  entidadLegalColombia: string
   mensaje: string
   aceptaDatos: boolean
 }
@@ -31,6 +32,7 @@ export default function SolarContactForm({
     empresa: '',
     correo: '',
     solucionInteres: 'Posventa y garantías',
+    entidadLegalColombia: 'No',
     mensaje: '',
     aceptaDatos: false,
   })
@@ -127,7 +129,7 @@ export default function SolarContactForm({
         aceptaDatos: formData.aceptaDatos,
         paisOrigen: 'No especificado',
         producto: 'Energía Solar / BESS',
-        entidadLegalColombia: 'No especificado',
+        entidadLegalColombia: formData.entidadLegalColombia,
         certificadoRetie: 'No especificado',
         ...utms,
         idioma: lang,
@@ -326,7 +328,31 @@ export default function SolarContactForm({
                     </div>
                   </div>
 
-                  {/* Fila 3: Mensaje o producto específico (Opcional, altura reducida) */}
+                  {/* Fila 3: Legal Entity in Colombia */}
+                  <div className={styles.field}>
+                    <label htmlFor="entidadLegalColombia" className={styles.label}>
+                      {isEs ? '¿Tiene entidad legal en Colombia? *' : 'Do you have a legal entity in Colombia? *'}
+                    </label>
+                    <select
+                      id="entidadLegalColombia"
+                      name="entidadLegalColombia"
+                      value={formData.entidadLegalColombia}
+                      onChange={handleChange}
+                      className={styles.select}
+                    >
+                      <option value="No">
+                        {isEs ? 'No — LET Pro actúa como mi brazo legal local' : 'No — LET Pro acts as my local legal & operating arm'}
+                      </option>
+                      <option value="Yes">
+                        {isEs ? 'Sí — tenemos filial local' : 'Yes — we have a local subsidiary'}
+                      </option>
+                      <option value="Evaluating">
+                        {isEs ? 'En evaluación / Explorando entrada' : 'Under evaluation / Exploring market entry'}
+                      </option>
+                    </select>
+                  </div>
+
+                  {/* Fila 4: Mensaje o producto específico (Opcional, altura reducida) */}
                   <div className={styles.field}>
                     <label htmlFor="mensaje" className={styles.label}>
                       {isEs ? 'Mensaje o producto específico (opcional)' : 'Specific product or message (optional)'}

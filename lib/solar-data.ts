@@ -389,9 +389,9 @@ export const solarDataEn: SolarPageData = {
   },
   hero: {
     tags: ['PANELS', 'INVERTERS', 'BATTERIES', 'BESS'],
-    headline: 'You keep the brand, the product, and the customer. LET Pro is your legal and operational arm in Colombia.',
+    headline: 'You keep the brand, the product, and the customer. LET Pro is your legal and operating arm in Colombia.',
     subheadline:
-      'Solutions for solar manufacturers that need to honor warranties, hold certifications, ship samples, or deploy equipment in Colombia—without incorporating a local entity or surrendering control to a distributor.',
+      'Every hour an inverter is down costs your customer lost generation and costs you warranty credibility. LET Pro eliminates prolonged downtime with swap-ready stock in Colombia and manages the full RMA cycle—collection, temporary export, re-importation, and restocking—without you needing a local entity or depending on a distributor.',
     backgroundImage: '/images/solar-hero-bg.jpg',
     statNumber: '18+',
     statLabel: 'Years of operation in Colombia · Since 2006',
@@ -440,9 +440,9 @@ export const solarDataEn: SolarPageData = {
       badge: 'Flagship Solution',
       title: 'After-Sales & Warranty Program',
       whenApplies:
-        'The manufacturer sells through distributors and must fulfill long-term warranties without depending on them for after-sales operations.',
+        'The manufacturer sells through distributors and must fulfill long-term inverter warranties without depending on them—each day of downtime means lost solar generation for the end customer and eroded brand credibility.',
       industryApplication:
-        'Inverters and batteries with warranties of 10+ years, replacements within days rather than weeks, and serial-number-level failure tracking.',
+        'Swap-ready inverter stock staged in Colombia (FSL). Replacement dispatched by serial number within 48 h of approval. Defective unit collected, exported, and re-imported duty-free. Complete RMA cycle from failure report to restocked buffer—managed end-to-end by a single accountable partner.',
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
@@ -458,11 +458,11 @@ export const solarDataEn: SolarPageData = {
     {
       number: '03',
       badge: 'Commercial Expansion',
-      title: 'Samples, Demos & Pilots',
+      title: 'Samples, Demos & Prototypes',
       whenApplies:
         'The manufacturer ships units to prospects or partners who are not registered importers.',
       industryApplication:
-        'Equipment for technical testing, pilot projects, feasibility studies, and trade expos, with return to origin or customs clearance if the client purchases.',
+        'Equipment for technical testing, prototype validations, feasibility studies, and trade expos, with return to origin or customs clearance if the client purchases.',
       capabilityTags: ['IOR', 'EOR', 'PILOT', 'TESTING'],
     },
     {
@@ -497,9 +497,9 @@ export const solarDataEn: SolarPageData = {
   },
   featuredSolutionFlow: {
     title:
-      'When an inverter fails, the replacement is already in Colombia, and the defective unit returns repaired without repaying customs duties.',
+      'When an inverter fails, the replacement is already in Colombia—and the defective unit returns repaired without repaying customs duties.',
     subheadline:
-      'The complete warranty lifecycle, operated by a single accountable partner and documented serial by serial.',
+      'Zero distributor dependency. Zero new duty payments. The complete RMA cycle, operated by a single accountable partner and documented serial by serial.',
     steps: [
       {
         stepNumber: '01',
@@ -672,13 +672,13 @@ function valArr(val: any, fallback: string[] = []): string[] {
 }
 
 export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'es'): SolarPageData {
-  const fallback = solarDataEs
+  const fallback = lang === 'en' ? solarDataEn : solarDataEs
   if (!sanityDoc) return fallback
 
   const heroDoc = sanityDoc.hero || {}
 
   return {
-    lang: 'es',
+    lang,
     meta: {
       title: valStr(sanityDoc.seoAndSocial?.metaTitle, fallback.meta.title),
       description: valStr(sanityDoc.seoAndSocial?.metaDescription, fallback.meta.description),

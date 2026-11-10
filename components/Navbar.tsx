@@ -51,10 +51,10 @@ const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
 
 // Single unified navbar links for the specialized industry landing page
 const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
-  { label: 'Soluciones', href: '#soluciones' },
-  { label: 'Garantías', href: '#garantias' },
-  { label: 'RETIE', href: '#retie' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Solutions', href: '#soluciones' },
+  { label: 'Warranty Cycle', href: '#garantias' },
+  { label: 'RETIE Compliance', href: '#retie' },
+  { label: 'Contact', href: '#contacto' },
 ]
 
 export default function Navbar({
@@ -319,7 +319,7 @@ export default function Navbar({
                 <div className={styles.industryBreadcrumb}>
                   <span className={styles.crumbDivider}>/</span>
                   <span className={styles.crumbParent}>Industrias ›</span>
-                  <span className={styles.crumbCurrent}>Energía solar</span>
+                  <span className={styles.crumbCurrent}>Solar &amp; Storage</span>
                 </div>
               </>
             )}
@@ -495,7 +495,7 @@ export default function Navbar({
                   <line x1="19" y1="12" x2="5" y2="12" />
                   <polyline points="12 19 5 12 12 5" />
                 </svg>
-                <span>Volver al sitio principal letintl.com</span>
+                <span>Back to letintl.com</span>
               </a>
             </div>
           )}
@@ -590,24 +590,6 @@ export default function Navbar({
               )
             })}
 
-            <a href="/privacy" className={styles.drawerLink} onClick={closeMobileMenu}>
-              <div className={styles.drawerLinkLeft}>
-                <span className={styles.drawerLinkIndex}>0{links.length + 1}</span>
-                <span className={styles.drawerLinkLabel}>Privacy Policy</span>
-              </div>
-              <svg
-                className={styles.drawerChevron}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                aria-hidden="true"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </a>
           </div>
 
           <div className={styles.drawerFooter}>

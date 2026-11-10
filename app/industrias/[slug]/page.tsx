@@ -7,7 +7,7 @@ import {
   ALL_INDUSTRIES_QUERY,
 } from '../../../sanity/lib/queries'
 import { urlForImage } from '../../../sanity/lib/image'
-import { getMergedSolarData, solarDataEs } from '../../../lib/solar-data'
+import { getMergedSolarData, solarDataEn } from '../../../lib/solar-data'
 
 import Navbar from '../../../components/Navbar'
 import IndustryFooter from '../../../components/industries/IndustryFooter'
@@ -58,24 +58,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!industryDoc && slug !== 'energia-solar') {
     return {
-      title: 'Industria no encontrada | LET Pro',
+      title: 'Industry not found | LET Pro',
       robots: { index: false, follow: false },
     }
   }
 
   const isSolar = slug === 'energia-solar'
   const fallbackTitle = isSolar
-    ? solarDataEs.meta.title
-    : `${industryDoc?.title || 'Industria'} en Colombia | LET Pro`
+    ? solarDataEn.meta.title
+    : `${industryDoc?.title || 'Industry'} in Colombia | LET Pro`
   const fallbackDescription = isSolar
-    ? solarDataEs.meta.description
-    : `Soluciones para fabricantes y marcas: logística especializada, representación IOR/EOR y cumplimiento en Colombia.`
+    ? solarDataEn.meta.description
+    : `Specialized solutions for manufacturers and brands: IOR/EOR representation, regulatory compliance, and logistics in Colombia.`
 
   const rawTitle = industryDoc?.seoAndSocial?.metaTitle
-  const title = (typeof rawTitle === 'string' ? rawTitle : rawTitle?.es) || fallbackTitle
+  const title = (typeof rawTitle === 'string' ? rawTitle : rawTitle?.en || rawTitle?.es) || fallbackTitle
 
   const rawDesc = industryDoc?.seoAndSocial?.metaDescription
-  const description = (typeof rawDesc === 'string' ? rawDesc : rawDesc?.es) || fallbackDescription
+  const description = (typeof rawDesc === 'string' ? rawDesc : rawDesc?.en || rawDesc?.es) || fallbackDescription
 
   const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl
     ? industryDoc.seoAndSocial.ogImageUrl
@@ -89,14 +89,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: [
-      `${industryDoc?.title || 'Industria'} Colombia`,
-      'Importador de Record Colombia',
+      `${industryDoc?.title || 'Solar Energy'} Colombia`,
+      'Importer of Record Colombia',
       'IOR Colombia',
-      'Cumplimiento Regulatorio Colombia',
-      'Custodia FSL Repuestos',
-      'Logística Inversa Colombia',
+      'Inverter Warranty Service Colombia',
+      'RMA Logistics Colombia',
+      'FSL Forward Stock Colombia',
+      'RETIE 2024 Compliance',
       'LET Pro',
-      'Mandato Comercial Aduanas Colombia',
+      'Mandate Agreement Customs Colombia',
     ],
     alternates: {
       canonical: canonicalUrl,
@@ -112,9 +113,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'LET Pro | Grupo LET',
-      locale: 'es_CO',
-      alternateLocale: ['en_US'],
+      siteName: 'LET Pro | LET Group',
+      locale: 'en_US',
+      alternateLocale: ['es_CO'],
       type: 'website',
       images: [
         {
@@ -171,7 +172,7 @@ export default async function IndustryDynamicPage({ params }: Props) {
     notFound()
   }
 
-  const data = getMergedSolarData(industryDoc, 'es')
+  const data = getMergedSolarData(industryDoc, 'en')
   const canonicalUrl = `https://letintl.com/industrias/${slug}`
   const pageTitle = industryDoc?.title || data.meta.title
 
@@ -257,7 +258,7 @@ export default async function IndustryDynamicPage({ params }: Props) {
       />
 
       <a href="#main-content" className="skipLink">
-        Saltar al contenido principal
+        Skip to main content
       </a>
 
       {/* Global Site Navbar with dynamic industries list */}
@@ -266,59 +267,59 @@ export default async function IndustryDynamicPage({ params }: Props) {
         industries={allIndustries}
         variant="industry"
         activeItem={pageTitle}
-        lang="es"
+        lang="en"
       />
 
       <main id="main-content">
-        {/* Bloque 1: Hero & Comparativa + 4 Pilares */}
-        <IndustryHero data={data.hero} lang="es" />
+        {/* Block 1: Hero & Comparative + 4 Trust Pillars */}
+        <IndustryHero data={data.hero} lang="en" />
 
-        {/* Bloque 2: Las 5 Soluciones en Grilla */}
+        {/* Block 2: Five Solutions Accordion */}
         <SolutionsSection
           data={data.solutions}
-          lang="es"
+          lang="en"
           variant="grid"
           title={data.solutionsTitle}
           intro={data.solutionsIntro}
           customCard={data.customSolutionCard}
         />
 
-        {/* Bloque 3: Solución 01 en Detalle (Ciclo de Garantías en 6 pasos + Callout DIAN) */}
+        {/* Block 3: Solution 01 in Detail (6-step Warranty Cycle + DIAN Callout) */}
         <WarrantyCycleTimeline
           steps={data.featuredSolutionFlow.steps}
-          lang="es"
+          lang="en"
           title={data.featuredSolutionFlow.title}
           subheadline={data.featuredSolutionFlow.subheadline}
           callout={data.featuredSolutionFlow.callout}
         />
 
-        {/* Bloque 4: Capacidades Operativas (8 Siglas) */}
+        {/* Block 4: Operational Capabilities (8 Codes) */}
         <CapabilitiesGrid
           capabilities={data.operationalCapabilities}
-          lang="es"
+          lang="en"
         />
 
-        {/* Bloque 5: Regulación Técnica + Checklist Pre-embarque */}
+        {/* Block 5: RETIE Technical Regulation + Pre-shipment Checklist */}
         <RegulationRetie
           data={data.regulation}
-          lang="es"
+          lang="en"
         />
 
-        {/* Bloque 6: Caso de Referencia Confidencial en 2 columnas */}
+        {/* Block 6: Confidential Reference Case (2-column layout) */}
         <ReferenceCaseMetrics
           data={data.caseStudy}
-          lang="es"
+          lang="en"
         />
 
-        {/* Bloque 7: Formulario de Contacto B2B Completo */}
+        {/* Block 7: Full B2B Contact Form */}
         <SolarContactForm
           variant="full"
-          lang="es"
+          lang="en"
         />
       </main>
 
       {/* Global Site Footer */}
-      <IndustryFooter lang="es" />
+      <IndustryFooter lang="en" />
     </>
   )
 }

@@ -8,7 +8,7 @@ interface CookieConsentBannerProps {
 }
 
 export default function CookieConsentBanner({ lang }: CookieConsentBannerProps) {
-  const [currentLang, setCurrentLang] = useState<'es' | 'en'>(lang || 'es')
+  const [currentLang, setCurrentLang] = useState<'es' | 'en'>(lang || 'en')
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -17,6 +17,10 @@ export default function CookieConsentBanner({ lang }: CookieConsentBannerProps) 
         const savedLang = localStorage.getItem('preferred_lang') as 'es' | 'en'
         if (savedLang === 'en' || savedLang === 'es') {
           setCurrentLang(savedLang)
+        } else {
+          // Detect from URL: industry pages are English-first
+          const isIndustryPage = typeof window !== 'undefined' && window.location.pathname.startsWith('/industrias/')
+          setCurrentLang(isIndustryPage ? 'en' : 'en')
         }
       }
       const consent = localStorage.getItem('let_cookie_consent')
