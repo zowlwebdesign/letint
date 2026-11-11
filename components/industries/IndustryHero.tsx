@@ -63,7 +63,7 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
 
               <ScrollReveal variant="up" delay={180}>
                 <a href={data.secondaryCta?.href || '#soluciones'} className={styles.secondaryLink}>
-                  <span>{data.secondaryCta?.label || 'See the five solutions'}</span>
+                  <span>{data.secondaryCta?.label || 'See the four solutions'}</span>
                   <span className={styles.secondaryArrow}>↓</span>
                 </a>
               </ScrollReveal>

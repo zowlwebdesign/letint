@@ -3,7 +3,8 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import ScrollReveal from '../ScrollReveal'
 import styles from './WarrantyCycleTimeline.module.css'
-import { WarrantyStep } from '../../lib/solar-data'
+import { WarrantyStep, SectionImageData } from '../../lib/solar-data'
+import SectionImage from './SectionImage'
 import { trackEvent } from '../../lib/analytics'
 
 interface WarrantyCycleTimelineProps {
@@ -15,6 +16,7 @@ interface WarrantyCycleTimelineProps {
     title: string
     description: string
   }
+  image?: SectionImageData
 }
 
 const AUTO_CYCLE_MS = 10000
@@ -25,6 +27,7 @@ export default function WarrantyCycleTimeline({
   title,
   subheadline,
   callout,
+  image,
 }: WarrantyCycleTimelineProps) {
   const isEs = lang === 'es'
 
@@ -134,10 +137,16 @@ export default function WarrantyCycleTimeline({
           </div>
         </ScrollReveal>
 
+        {image && (
+          <div className={styles.photoBand}>
+            <SectionImage image={image} ratio="wide" />
+          </div>
+        )}
+
         {/* ── DESKTOP SPLIT-SCREEN ─────────────────────────────── */}
         <div className={styles.splitScreen}>
           {/* LEFT: step list */}
-          <div className={styles.stepList} role="tablist" aria-label="Pasos del ciclo">
+          <div className={styles.stepList} role="tablist" aria-label={isEs ? 'Pasos del ciclo' : 'Warranty cycle steps'}>
             {steps.map((step, idx) => {
               const isActive = idx === activeIdx
               const isFinal = idx === steps.length - 1
@@ -233,7 +242,7 @@ export default function WarrantyCycleTimeline({
                 className={styles.navBtn}
                 onClick={handlePrev}
                 disabled={activeMobileIdx === 0}
-                aria-label="Paso anterior"
+                aria-label={isEs ? 'Paso anterior' : 'Previous step'}
               >
                 ‹
               </button>
@@ -242,7 +251,7 @@ export default function WarrantyCycleTimeline({
                 className={styles.navBtn}
                 onClick={handleNext}
                 disabled={activeMobileIdx === steps.length - 1}
-                aria-label="Siguiente paso"
+                aria-label={isEs ? 'Siguiente paso' : 'Next step'}
               >
                 ›
               </button>
@@ -270,7 +279,7 @@ export default function WarrantyCycleTimeline({
                         ? isEs
                           ? 'Paso 06 · Ciclo cerrado'
                           : 'Step 06 · Closed loop'
-                        : `Paso ${step.stepNumber}`}
+                        : `${isEs ? 'Paso' : 'Step'} ${step.stepNumber}`}
                     </span>
                   </div>
                   <h3 className={styles.slideTitle}>{step.title}</h3>
@@ -299,7 +308,7 @@ export default function WarrantyCycleTimeline({
                 type="button"
                 role="tab"
                 aria-selected={activeMobileIdx === idx}
-                aria-label={`Paso 0${idx + 1}`}
+                aria-label={`${isEs ? 'Paso' : 'Step'} 0${idx + 1}`}
                 className={`${styles.dot} ${activeMobileIdx === idx ? styles.dotActive : ''}`}
                 onClick={() => scrollToIndex(idx)}
               />

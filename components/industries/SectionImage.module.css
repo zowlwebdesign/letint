@@ -1,0 +1,35 @@
+.frame {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(8, 23, 44, 0.08);
+}
+
+.wide {
+  aspect-ratio: 21 / 8;
+}
+
+.card {
+  aspect-ratio: 4 / 3;
+}
+
+.tall {
+  aspect-ratio: 4 / 5;
+}
+
+.img {
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .wide {
+    aspect-ratio: 16 / 9;
+  }
+
+  .tall {
+    aspect-ratio: 4 / 3;
+  }
+}

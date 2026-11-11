@@ -58,3 +58,31 @@
     margin-bottom: 18px;
   }
 }
+
+/* With photo: text on the left, image on the right */
+.withImage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.withImage .paragraphsGrid {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.textCol {
+  min-width: 0;
+}
+
+.photoCol {
+  min-width: 0;
+}
+
+@media (max-width: 820px) {
+  .withImage {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

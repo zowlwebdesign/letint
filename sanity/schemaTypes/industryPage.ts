@@ -77,12 +77,12 @@ export default defineType({
         ],
         primaryCtaLabel: 'Solicitar una revisión de su operación',
         primaryCtaHref: '#contacto',
-        secondaryCtaLabel: 'Ver las cinco soluciones',
+        secondaryCtaLabel: 'Ver las cuatro soluciones',
         secondaryCtaHref: '#soluciones',
         trustBadges: [
           {
             title: 'Desde 2006',
-            description: 'Respaldo de LET Logistics, grupo logístico colombiano con operación propia.',
+            description: 'Respaldo de LET: LET INT en EE. UU. y LET PRO, LET ADA y LET LOG en Colombia, con operación propia.',
           },
           {
             title: 'Agencia de aduanas',
@@ -205,7 +205,7 @@ export default defineType({
     }),
     defineField({
       name: 'solutions',
-      title: 'Bloque 2: Las 5 Soluciones',
+      title: 'Bloque 2: Las 4 Soluciones',
       type: 'array',
       initialValue: [
         {
@@ -240,17 +240,6 @@ export default defineType({
         },
         {
           number: '04',
-          badge: 'Entrega llave en mano',
-          title: 'Venta directa con entrega en destino',
-          whenApplies:
-            'El cliente final quiere comprar al fabricante y recibir en su sede, sin ocuparse de aduana, tributos ni logística.',
-          industryApplication:
-            'Venta a EPC, industrias o proyectos específicos, con facturación local, nacionalización y entrega en obra.',
-          capabilityTags: ['IOR', 'EOR', 'MoR', 'DDP'],
-          footnote: 'Sujeto a validación previa del caso',
-        },
-        {
-          number: '05',
           badge: 'Energía como servicio',
           title: 'Equipos propios en sede del cliente',
           whenApplies:
@@ -258,6 +247,7 @@ export default defineType({
           industryApplication:
             'Sistemas de almacenamiento, monitoreo o generación en esquemas de energía como servicio, bajo la figura de comodato, con trazabilidad y retiro al final del contrato.',
           capabilityTags: ['SN', 'ICR', 'SLA', 'BESS'],
+          footnote: 'Sujeto a aprobación previa del caso',
         },
       ],
       of: [
@@ -282,10 +272,10 @@ export default defineType({
     }),
     defineField({
       name: 'customSolutionCard',
-      title: 'Tarjeta de Caso a Medida (Debajo de las 5 soluciones)',
+      title: 'Tarjeta de Caso a Medida (Debajo de las 4 soluciones)',
       type: 'object',
       initialValue: {
-        title: '¿Su caso no encaja exactamente en una de estas cinco?',
+        title: '¿Su caso no encaja exactamente en una de estas cuatro?',
         description:
           'Las soluciones se diseñan sobre los mismos componentes. Una revisión inicial define la combinación correcta para su operación.',
         badge: 'Estructuración caso a caso',
@@ -508,6 +498,77 @@ export default defineType({
                 { name: 'value', title: 'Valor (ej. 24+, 100%, 48h)', type: 'string' },
                 { name: 'label', title: 'Etiqueta del Indicador', type: 'string' },
               ],
+            },
+          ],
+        },
+      ],
+    }),
+
+    // ─── IMÁGENES DE SECCIÓN ───
+    defineField({
+      name: 'sectionImages',
+      title: 'Imágenes de las secciones',
+      description:
+        'Fotos que acompañan cada bloque de la página. Si un campo queda vacío, se muestra la imagen provisional. Formato horizontal recomendado, mínimo 1600 px de ancho (JPG, PNG o WebP).',
+      type: 'object',
+      fields: [
+        {
+          name: 'warranty',
+          title: 'Ciclo de garantía (Bloque 3) · banner ancho',
+          description: 'Técnico reemplazando un inversor o equipo instalado en sitio.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Texto alternativo (en inglés)',
+              description: 'Describe la imagen para accesibilidad y SEO.',
+              type: 'string',
+            },
+          ],
+        },
+        {
+          name: 'capabilities',
+          title: 'Capacidades operativas (Bloque 4) · banner ancho',
+          description: 'Bodega con equipos identificados por número de serie. Sin camiones, contenedores ni aviones.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Texto alternativo (en inglés)',
+              description: 'Describe la imagen para accesibilidad y SEO.',
+              type: 'string',
+            },
+          ],
+        },
+        {
+          name: 'caseStudy',
+          title: 'Caso de referencia (Bloque 6) · banner ancho',
+          description: 'Planta solar, trackers, inversores o baterías BESS instalados.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Texto alternativo (en inglés)',
+              description: 'Describe la imagen para accesibilidad y SEO.',
+              type: 'string',
+            },
+          ],
+        },
+        {
+          name: 'contact',
+          title: 'Contacto (Bloque 7) · imagen lateral',
+          description: 'Imagen 4:3 bajo los datos de contacto, por ejemplo una instalación BESS.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Texto alternativo (en inglés)',
+              description: 'Describe la imagen para accesibilidad y SEO.',
+              type: 'string',
             },
           ],
         },

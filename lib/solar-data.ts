@@ -83,6 +83,37 @@ export interface OtherIndustryItem {
   href?: string
 }
 
+export interface SectionImageData {
+  src: string
+  alt: string
+}
+
+export interface SectionImages {
+  warranty: SectionImageData
+  capabilities: SectionImageData
+  caseStudy: SectionImageData
+  contact: SectionImageData
+}
+
+export const defaultSectionImages: SectionImages = {
+  warranty: {
+    src: '/images/solar/warranty-technician.webp',
+    alt: 'Technician servicing installed solar equipment on site',
+  },
+  capabilities: {
+    src: '/images/solar/capabilities-warehouse.webp',
+    alt: 'Warehouse racking with pallets identified by serial and barcode labels',
+  },
+  caseStudy: {
+    src: '/images/solar/case-trackers.webp',
+    alt: 'Utility-scale solar tracker field',
+  },
+  contact: {
+    src: '/images/solar/contact-bess.webp',
+    alt: 'Battery energy storage system installed next to a solar plant',
+  },
+}
+
 export interface SolarPageData {
   lang: 'es' | 'en'
   meta: {
@@ -110,6 +141,7 @@ export interface SolarPageData {
     items: OtherIndustryItem[]
   }
   legalDisclaimer: string
+  images: SectionImages
 }
 
 export const solarDataEs: SolarPageData = {
@@ -120,10 +152,10 @@ export const solarDataEs: SolarPageData = {
       'Soluciones para fabricantes fotovoltaicos: posventa, garantías RETIE 2024, importador/exportador de record (IOR/EOR) y custodia FSL sin filial local.',
   },
   hero: {
-    tags: ['PANELES', 'INVERSORES', 'BATERÍAS', 'BESS'],
+    tags: ['INVERSORES', 'BATERÍAS', 'BESS', 'SEGUIDORES SOLARES'],
     headline: 'Usted conserva la marca, el producto y el cliente. LET Pro es su brazo legal y operativo en Colombia.',
     subheadline:
-      'Soluciones para fabricantes del sector solar que necesitan cumplir garantías, sostener certificados, enviar muestras o desplegar equipos en Colombia, sin constituir una sociedad local y sin ceder el control a un distribuidor.',
+      'Los dos grandes problemas de la posventa fotovoltaica son el downtime prolongado y la gestión del RMA de principio a fin, empezando por la garantía del inversor. Para inversores, baterías de almacenamiento y seguidores solares, LET Pro cumple garantías, sostiene certificados, envía muestras y despliega equipos en Colombia, sin constituir una sociedad local y sin ceder el control a un distribuidor.',
     backgroundImage: '/images/solar-hero-bg.jpg',
     statNumber: '18+',
     statLabel: 'Años de operación en Colombia · Desde 2006',
@@ -142,13 +174,13 @@ export const solarDataEs: SolarPageData = {
       href: '#contacto',
     },
     secondaryCta: {
-      label: 'Ver las cinco soluciones',
+      label: 'Ver las cuatro soluciones',
       href: '#soluciones',
     },
     trustBadges: [
       {
         title: 'Desde 2006',
-        description: 'Respaldo de LET Logistics, grupo logístico colombiano con operación propia.',
+        description: 'Respaldo de LET: LET INT en EE. UU. y LET PRO, LET ADA y LET LOG en Colombia, con operación propia.',
       },
       {
         title: 'Agencia de aduanas',
@@ -174,7 +206,7 @@ export const solarDataEs: SolarPageData = {
       whenApplies:
         'El fabricante vende a través de distribuidores y debe cumplir garantías de largo plazo sin depender de ellos para su operación de posventa.',
       industryApplication:
-        'Inversores y baterías con garantías de 10 años o más, reemplazos en días y no en semanas, y control de la información de fallas por número de serie.',
+        'Inversores, baterías y seguidores solares con garantías de 10 años o más, reemplazos en días y no en semanas, y control de la información de fallas por número de serie.',
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
@@ -199,17 +231,6 @@ export const solarDataEs: SolarPageData = {
     },
     {
       number: '04',
-      badge: 'Entrega llave en mano',
-      title: 'Venta directa con entrega en destino',
-      whenApplies:
-        'El cliente final quiere comprar al fabricante y recibir en su sede, sin ocuparse de aduana, tributos ni logística.',
-      industryApplication:
-        'Venta a EPC, industrias o proyectos específicos, con facturación local, nacionalización y entrega en obra.',
-      capabilityTags: ['IOR', 'EOR', 'MoR', 'DDP'],
-      footnote: 'Sujeto a validación previa del caso',
-    },
-    {
-      number: '05',
       badge: 'Energía como servicio',
       title: 'Equipos propios en sede del cliente',
       whenApplies:
@@ -217,10 +238,11 @@ export const solarDataEs: SolarPageData = {
       industryApplication:
         'Sistemas de almacenamiento, monitoreo o generación en esquemas de energía como servicio, bajo la figura de comodato, con trazabilidad y retiro al final del contrato.',
       capabilityTags: ['SN', 'ICR', 'SLA', 'BESS'],
+      footnote: 'Sujeto a aprobación previa del caso',
     },
   ],
   customSolutionCard: {
-    title: '¿Su caso no encaja exactamente en una de estas cinco?',
+    title: '¿Su caso no encaja exactamente en una de estas cuatro?',
     description:
       'Las soluciones se diseñan sobre los mismos componentes. Una revisión inicial define la combinación correcta para su operación.',
     badge: 'Estructuración caso a caso',
@@ -229,7 +251,7 @@ export const solarDataEs: SolarPageData = {
   },
   featuredSolutionFlow: {
     title:
-      'Cuando un inversor falla, el reemplazo ya está en Colombia, y la unidad dañada vuelve reparada sin pagar tributos otra vez.',
+      'Cuando un inversor falla, el reemplazo ya está en Colombia, y la unidad reparada o de reemplazo reingresa sin pagar tributos, siempre que la unidad dañada se haya exportado temporalmente con ese fin.',
     subheadline:
       'El ciclo completo de una garantía, operado por un solo responsable y documentado unidad por unidad.',
     steps: [
@@ -253,13 +275,13 @@ export const solarDataEs: SolarPageData = {
         stepNumber: '04',
         title: 'Exportación temporal',
         description:
-          'Salida de la parte o el equipo dañado a fábrica para reparación o reemplazo, con LET Pro como exportador de record.',
+          'Salida temporal de la parte o el equipo dañado a fábrica para reparación o reemplazo, con LET Pro como exportador de record.',
       },
       {
         stepNumber: '05',
         title: 'Reimportación sin nuevos tributos',
         description:
-          'Retorno de la unidad reparada o de reemplazo sin un nuevo pago de tributos aduaneros, en los términos de la regulación aduanera.',
+          'Reingreso de la unidad reparada o de reemplazo sin pago de tributos aduaneros, siempre que la unidad dañada se haya exportado temporalmente con ese fin, en los términos de la regulación aduanera.',
       },
       {
         stepNumber: '06',
@@ -305,9 +327,9 @@ export const solarDataEs: SolarPageData = {
       description: 'Transferencia directa a distribuidores y proyectos sin almacenamiento prolongado.',
     },
     {
-      code: 'UNIT',
-      title: 'Distribución por unidad',
-      description: 'Despacho nacional con prueba de entrega (POD) por serie.',
+      code: 'WMS',
+      title: 'WMS y distribución last mile',
+      description: 'Gestión de bodega con WMS y despacho nacional hasta última milla, con prueba de entrega (POD) por serie.',
     },
     {
       code: 'RMA',
@@ -378,7 +400,8 @@ export const solarDataEs: SolarPageData = {
     ],
   },
   legalDisclaimer:
-    'Grupo LET: LET Logistics · LET Pro (LET Procurement S.A.S.) · Agencia de Aduanas LET Logistics. Los servicios de importación y exportación de record, representación y Merchant of Record se estructuran mediante contratos de mandato y están sujetos a la aprobación de la División de KYC y Cumplimiento del Grupo LET y a la validación previa de cada caso. La información regulatoria es de carácter general y no reemplaza la verificación caso a caso.',
+    'LET: LET INT (EE. UU.) · LET PRO (LET Procurement S.A.S.), LET ADA y LET LOG (Colombia). Los servicios de importación y exportación de record y representación se estructuran mediante contratos de mandato y están sujetos a la aprobación de la División de KYC y Cumplimiento de LET y a la validación previa de cada caso. La información regulatoria es de carácter general y no reemplaza la verificación caso a caso.',
+  images: defaultSectionImages,
 }
 
 export const solarDataEn: SolarPageData = {
@@ -389,10 +412,10 @@ export const solarDataEn: SolarPageData = {
       'Operational and legal solutions for solar manufacturers: warranty fulfillment, RETIE 2024 compliance, Importer/Exporter of Record (IOR/EOR), and local FSL inventory.',
   },
   hero: {
-    tags: ['PANELS', 'INVERTERS', 'BATTERIES', 'BESS'],
+    tags: ['INVERTERS', 'BATTERIES', 'BESS', 'SOLAR TRACKERS'],
     headline: 'You keep the brand, the product, and the customer. LET Pro is your legal and operating arm in Colombia.',
     subheadline:
-      'Every hour an inverter is down costs your customer lost generation and costs you warranty credibility. LET Pro eliminates prolonged downtime with swap-ready stock in Colombia and manages the full RMA cycle—collection, temporary export, re-importation, and restocking—without you needing a local entity or depending on a distributor.',
+      'Prolonged downtime and end-to-end RMA management are the two biggest after-sales problems in photovoltaics, starting with inverter warranties. Every hour a unit is down costs your customer lost generation and costs you warranty credibility. For inverters, storage batteries, and solar trackers, LET Pro eliminates prolonged downtime with swap-ready stock in Colombia and manages the full RMA cycle—collection, temporary export, re-importation, and restocking—without you needing a local entity or depending on a distributor.',
     backgroundImage: '/images/solar-hero-bg.jpg',
     statNumber: '18+',
     statLabel: 'Years of operation in Colombia · Since 2006',
@@ -411,13 +434,13 @@ export const solarDataEn: SolarPageData = {
       href: '#contacto',
     },
     secondaryCta: {
-      label: 'See the five solutions',
+      label: 'See the four solutions',
       href: '#soluciones',
     },
     trustBadges: [
       {
         title: 'Since 2006',
-        description: 'Backed by LET Logistics, Colombian logistics group with proprietary operations.',
+        description: 'Backed by LET: LET INT in the U.S. and LET PRO, LET ADA, and LET LOG in Colombia, with proprietary operations.',
       },
       {
         title: 'Customs Brokerage',
@@ -443,7 +466,7 @@ export const solarDataEn: SolarPageData = {
       whenApplies:
         'The manufacturer sells through distributors and must fulfill long-term inverter warranties without depending on them—each day of downtime means lost solar generation for the end customer and eroded brand credibility.',
       industryApplication:
-        'Swap-ready inverter stock staged in Colombia (FSL). Replacement dispatched by serial number within 48 h of approval. Defective unit collected, exported, and re-imported duty-free. Complete RMA cycle from failure report to restocked buffer—managed end-to-end by a single accountable partner.',
+        'Swap-ready stock of inverters, batteries, and trackers staged in Colombia (FSL). Replacement dispatched by serial number within 48 h of approval. Defective unit collected and temporarily exported for repair or replacement; the repaired or replacement unit re-enters without new duties. Complete RMA cycle from failure report to restocked buffer—managed end-to-end by a single accountable partner.',
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
@@ -468,17 +491,6 @@ export const solarDataEn: SolarPageData = {
     },
     {
       number: '04',
-      badge: 'Turnkey Delivery',
-      title: 'Direct Drop-Ship / Delivery at Place',
-      whenApplies:
-        'The end customer wants to purchase directly from the manufacturer and receive on-site without handling customs, duties, or local freight.',
-      industryApplication:
-        'Direct sales to EPCs, industrial clients, or utility projects with local invoicing, customs clearance, and job-site delivery.',
-      capabilityTags: ['IOR', 'EOR', 'MoR', 'DDP'],
-      footnote: 'Subject to prior case validation',
-    },
-    {
-      number: '05',
       badge: 'Energy as a Service',
       title: 'Manufacturer-Owned Equipment at Client Site',
       whenApplies:
@@ -486,10 +498,11 @@ export const solarDataEn: SolarPageData = {
       industryApplication:
         'Storage, monitoring, or generation systems deployed under energy-as-a-service or bailment (comodato) agreements, with complete serial traceability and retrieval upon contract end.',
       capabilityTags: ['SN', 'ICR', 'SLA', 'BESS'],
+      footnote: 'Subject to prior case approval',
     },
   ],
   customSolutionCard: {
-    title: 'Does your case not fit neatly into one of these five?',
+    title: 'Does your case not fit neatly into one of these four?',
     description:
       'Our solutions are engineered from the same operational building blocks. An initial review determines the exact combination for your model.',
     badge: 'Tailored Case Design',
@@ -498,9 +511,9 @@ export const solarDataEn: SolarPageData = {
   },
   featuredSolutionFlow: {
     title:
-      'When an inverter fails, the replacement is already in Colombia—and the defective unit returns repaired without repaying customs duties.',
+      'When an inverter fails, the replacement is already in Colombia—and the repaired or replacement unit re-enters without paying duties, provided the damaged unit was temporarily exported for that purpose.',
     subheadline:
-      'Zero distributor dependency. Zero new duty payments. The complete RMA cycle, operated by a single accountable partner and documented serial by serial.',
+      'Zero distributor dependency. The complete RMA cycle, operated by a single accountable partner and documented serial by serial.',
     steps: [
       {
         stepNumber: '01',
@@ -522,13 +535,13 @@ export const solarDataEn: SolarPageData = {
         stepNumber: '04',
         title: 'Temporary Export',
         description:
-          'Defective unit outbound dispatch to factory for repair/replacement, with LET Pro as Exporter of Record (EOR).',
+          'Temporary export of the defective unit to the factory for repair or replacement, with LET Pro as Exporter of Record (EOR).',
       },
       {
         stepNumber: '05',
-        title: 'Duty-Free Re-importation',
+        title: 'Re-importation Without New Duties',
         description:
-          'Return of repaired or replacement unit without repayment of customs duties, under compliant return regimes.',
+          'The repaired or replacement unit re-enters without payment of customs duties, provided the damaged unit was temporarily exported for that purpose, under compliant return regimes.',
       },
       {
         stepNumber: '06',
@@ -574,9 +587,9 @@ export const solarDataEn: SolarPageData = {
       description: 'Direct staging and handoff to EPCs and distributors without long-term holding.',
     },
     {
-      code: 'UNIT',
-      title: 'Unit-Level Distribution',
-      description: 'Nationwide dispatch with serial-recorded proof of delivery.',
+      code: 'WMS',
+      title: 'WMS & Last-Mile Distribution',
+      description: 'WMS-managed warehousing and nationwide dispatch through last mile, with serial-recorded proof of delivery.',
     },
     {
       code: 'RMA',
@@ -647,7 +660,8 @@ export const solarDataEn: SolarPageData = {
     ],
   },
   legalDisclaimer:
-    'LET Group: LET Logistics · LET Pro (LET Procurement S.A.S.) · LET Logistics Customs Brokerage. Importer and Exporter of Record, regulatory representation, and Merchant of Record services are structured through mandate agreements and are subject to approval by LET Group’s KYC & Compliance Division and prior case-by-case validation. Regulatory information is general in nature and does not replace case-specific verification.',
+    'LET: LET INT (United States) · LET PRO (LET Procurement S.A.S.), LET ADA, and LET LOG (Colombia). Importer and Exporter of Record and regulatory representation services are structured through mandate agreements and are subject to approval by LET’s KYC & Compliance Division and prior case-by-case validation. Regulatory information is general in nature and does not replace case-specific verification.',
+  images: defaultSectionImages,
 }
 
 /**
@@ -683,6 +697,22 @@ function pickArr(val: any, fallback: string[] = [], lang: 'es' | 'en' = 'en'): s
   return items
 }
 
+function resolveSectionImages(doc: any, fallback: SectionImages): SectionImages {
+  const pick = (key: keyof SectionImages): SectionImageData => {
+    const field = doc?.[key]
+    const src = field?.asset ? urlForImage(field)?.width(1800).url() : undefined
+    if (!src) return fallback[key]
+    const alt = typeof field.alt === 'string' && field.alt.trim() && !looksSpanish(field.alt) ? field.alt : fallback[key].alt
+    return { src, alt }
+  }
+  return {
+    warranty: pick('warranty'),
+    capabilities: pick('capabilities'),
+    caseStudy: pick('caseStudy'),
+    contact: pick('contact'),
+  }
+}
+
 export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): SolarPageData {
   const fallback = lang === 'en' ? solarDataEn : solarDataEs
   if (!sanityDoc) return fallback
@@ -692,6 +722,11 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
   const en = lang === 'en'
 
   const heroDoc = sanityDoc.hero || {}
+
+  // The Merchant of Record solution was retired: ignore any stale CMS entry for it.
+  const cmsSolutions: any[] = (Array.isArray(sanityDoc.solutions) ? sanityDoc.solutions : []).filter(
+    (s: any) => !(s?.capabilityTags || []).some((t: string) => /^(MoR|DDP)$/i.test(String(t)))
+  )
 
   return {
     lang,
@@ -741,9 +776,9 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
     ),
     solutionsIntro: valStr(sanityDoc.solutionsIntro, fallback.solutionsIntro),
     solutions:
-      Array.isArray(sanityDoc.solutions) && sanityDoc.solutions.length > 0
-        ? sanityDoc.solutions.map((s: any, idx: number) => ({
-            number: s.number || fallback.solutions[idx]?.number || `0${idx + 1}`,
+      cmsSolutions.length > 0
+        ? cmsSolutions.map((s: any, idx: number) => ({
+            number: fallback.solutions[idx]?.number || `0${idx + 1}`,
             badge: valStr(s.badge, fallback.solutions[idx]?.badge || ''),
             title: valStr(s.title, fallback.solutions[idx]?.title || ''),
             whenApplies: valStr(s.whenApplies, fallback.solutions[idx]?.whenApplies || ''),
@@ -788,7 +823,7 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
     operationalCapabilities:
       Array.isArray(sanityDoc.operationalCapabilities) && sanityDoc.operationalCapabilities.length > 0
         ? sanityDoc.operationalCapabilities.map((c: any, idx: number) => ({
-            code: c.code || fallback.operationalCapabilities[idx]?.code || '',
+            code: fallback.operationalCapabilities[idx]?.code || c.code || '',
             title: valStr(c.title, fallback.operationalCapabilities[idx]?.title || ''),
             description: valStr(c.description, fallback.operationalCapabilities[idx]?.description || ''),
           }))
@@ -814,6 +849,7 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
     },
     otherIndustries: fallback.otherIndustries,
     legalDisclaimer: fallback.legalDisclaimer,
+    images: resolveSectionImages(sanityDoc.sectionImages, fallback.images),
   }
 }
 

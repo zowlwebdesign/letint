@@ -293,11 +293,11 @@ export async function POST(request: Request) {
               <p style="margin-top: 28px;">
                 Atentamente,<br>
                 <strong>Dirección de Cuentas Corporativas & Energía</strong><br>
-                Grupo LET · LET Pro · LET Logistics
+                LET · LET PRO
               </p>
             </div>
             <div class="footer">
-              Grupo LET: LET Logistics · LET Pro (LET Procurement S.A.S.) · Agencia de Aduanas LET Logistics.<br>
+              LET: LET INT (EE. UU.) · LET PRO (LET Procurement S.A.S.), LET ADA y LET LOG (Colombia).<br>
               Bogotá · Barranquilla · Medellín · Miami, FL.
             </div>
           </div>
@@ -355,11 +355,11 @@ export async function POST(request: Request) {
               <p style="margin-top: 28px;">
                 Best regards,<br>
                 <strong>Corporate Accounts & Energy Division</strong><br>
-                LET Group · LET Pro · LET Logistics
+                LET · LET PRO
               </p>
             </div>
             <div class="footer">
-              LET Group: LET Logistics · LET Pro (LET Procurement S.A.S.) · LET Logistics Customs Brokerage.<br>
+              LET: LET INT (United States) · LET PRO (LET Procurement S.A.S.), LET ADA, and LET LOG (Colombia).<br>
               Bogotá · Barranquilla · Medellín · Miami, FL.
             </div>
           </div>

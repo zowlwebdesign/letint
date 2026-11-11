@@ -44,6 +44,7 @@ export const INDUSTRY_PAGE_QUERY = `*[_type == "industryPage" && slug.current ==
   operationalCapabilities,
   regulationSection,
   caseStudy,
+  sectionImages,
   "brochureUrl": brochurePdf.brochureFile.asset->url,
   "brochureEsUrl": brochurePdf.brochureEs.asset->url,
   "brochureEnUrl": brochurePdf.brochureEn.asset->url,

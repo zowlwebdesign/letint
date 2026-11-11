@@ -282,7 +282,7 @@ export default async function IndustryDynamicPage({ params }: Props) {
         {/* Block 1: Hero & Comparative + 4 Trust Pillars */}
         <IndustryHero data={data.hero} lang="en" />
 
-        {/* Block 2: Five Solutions Accordion */}
+        {/* Block 2: Four Solutions Accordion */}
         <SolutionsSection
           data={data.solutions}
           lang="en"
@@ -299,12 +299,14 @@ export default async function IndustryDynamicPage({ params }: Props) {
           title={data.featuredSolutionFlow.title}
           subheadline={data.featuredSolutionFlow.subheadline}
           callout={data.featuredSolutionFlow.callout}
+          image={data.images.warranty}
         />
 
         {/* Block 4: Operational Capabilities (8 Codes) */}
         <CapabilitiesGrid
           capabilities={data.operationalCapabilities}
           lang="en"
+          image={data.images.capabilities}
         />
 
         {/* Block 5: RETIE Technical Regulation + Pre-shipment Checklist */}
@@ -317,12 +319,14 @@ export default async function IndustryDynamicPage({ params }: Props) {
         <ReferenceCaseMetrics
           data={data.caseStudy}
           lang="en"
+          image={data.images.caseStudy}
         />
 
         {/* Block 7: Full B2B Contact Form */}
         <SolarContactForm
           variant="full"
           lang="en"
+          image={data.images.contact}
         />
       </main>
 

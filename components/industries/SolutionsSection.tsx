@@ -83,8 +83,8 @@ export default function SolutionsSection({
 
   const defaultCustomCard: CustomCardProps = {
     title: isEs
-      ? '¿Su caso no encaja exactamente en una de estas cinco?'
-      : 'Does your case not fit neatly into one of these five?',
+      ? '¿Su caso no encaja exactamente en una de estas cuatro?'
+      : 'Does your case not fit neatly into one of these four?',
     description: isEs
       ? 'Las soluciones se diseñan sobre los mismos componentes. Una revisión inicial define la combinación correcta para su operación.'
       : 'Our solutions are engineered from the same operational building blocks. An initial review determines the exact combination for your model.',
@@ -96,14 +96,14 @@ export default function SolutionsSection({
   const effectiveCustomCard = customCard || defaultCustomCard
 
   return (
-    <section id="soluciones" className={styles.section} aria-label="Five solutions">
+    <section id="soluciones" className={styles.section} aria-label="Four solutions">
       <div className={styles.container}>
         {/* Header with Eyebrow and Deduplicated Title / Subtitle */}
         <ScrollReveal variant="up">
           <div className={styles.header}>
             <div className={styles.headerText}>
               <div className={styles.eyebrow}>
-                {isEs ? 'CINCO SOLUCIONES' : 'FIVE SOLUTIONS'}
+                {isEs ? 'CUATRO SOLUCIONES' : 'FOUR SOLUTIONS'}
               </div>
               <h2 className={styles.title}>{title || defaultTitle}</h2>
               <p className={styles.intro}>{cleanIntro}</p>
