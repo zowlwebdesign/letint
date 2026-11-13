@@ -22,11 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   const title =
-    'Inverter Warranty, RMA & RETIE Solutions for Solar Manufacturers in Colombia | LET Pro'
+    'Inverter Warranty, RMA & RETIE Solutions for Solar Manufacturers in Colombia | LET PRO'
   const description =
     'Legal and operating arm in Colombia for inverter, panel and BESS manufacturers. Swap-ready FSL stock, end-to-end RMA and RETIE 2024 compliance with no local entity.'
 
-  const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl || 'https://letintl.com/Logo_let.webp'
+  const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl || 'https://letintl.com/images/solar/hero-bess.webp'
 
   return {
     title,
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       url: 'https://letintl.com/campanas/energia-solar',
-      siteName: 'LET Pro | Solar Energy',
+      siteName: 'LET PRO | Solar Energy',
       locale: 'en_US',
       type: 'website',
       images: [
@@ -50,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: 'LET Pro Solar — Operations and After-Sales in Colombia',
+          alt: 'LET PRO Solar — Operations and After-Sales in Colombia',
         },
       ],
     },
@@ -79,8 +79,8 @@ export default async function SolarCampaignPage() {
       {/* ─── 1. Minimal Header (Zero-leakage conversion navigation) ─── */}
       <header className={styles.campaignHeader}>
         <div className={styles.headerContainer}>
-          <a href="/campanas/energia-solar" className={styles.brandLogo} aria-label="LET Pro Home">
-            <span className={styles.brandText}>LET Pro</span>
+          <a href="/campanas/energia-solar" className={styles.brandLogo} aria-label="LET PRO Home">
+            <span className={styles.brandText}>LET PRO</span>
             <span className={styles.brandTag}>SOLAR & STORAGE</span>
           </a>
 
@@ -114,7 +114,7 @@ export default async function SolarCampaignPage() {
                 <h1 className={styles.heroTitle}>
                   You keep the brand and the customer.{' '}
                   <span className={styles.heroTitleAccent}>
-                    LET Pro is your legal and operating arm in Colombia.
+                    LET PRO is your legal and operating arm in Colombia.
                   </span>
                 </h1>
               </ScrollReveal>
@@ -157,7 +157,7 @@ export default async function SolarCampaignPage() {
                 <div className={styles.hookLeft}>
                   <h3>RETIE 2024: Resolution 40117 of 2024</h3>
                   <p>
-                    PV inverters, panels and controllers require a certificate of conformity to clear customs. With LET Pro as regulatory holder, legal and technical control stays 100% with the manufacturer and is never ceded to third parties.
+                    PV inverters, panels, charge controllers and batteries require a certificate of conformity to clear customs. With LET PRO as regulatory holder, legal and technical control stays 100% with the manufacturer and is never ceded to third parties.
                   </p>
                 </div>
                 <div className={styles.hookRight}>

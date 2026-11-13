@@ -58,7 +58,7 @@ export default defineType({
       title: 'Bloque 1: Hero & Comparativa',
       type: 'object',
       initialValue: {
-        headline: 'Usted conserva la marca, el producto y el cliente. LET Pro es su brazo operativo en Colombia.',
+        headline: 'Usted conserva la marca, el producto y el cliente. LET PRO es su brazo operativo en Colombia.',
         subheadline:
           'Soluciones para fabricantes del sector solar que necesitan cumplir garantías, sostener certificados, enviar muestras o desplegar equipos en Colombia, sin constituir una sociedad local y sin ceder el control a un distribuidor.',
         statNumber: '18+',
@@ -69,7 +69,7 @@ export default defineType({
           'La propiedad de sus equipos y repuestos',
           'La relación directa con sus clientes y distribuidores',
         ],
-        letProAssumesTitle: 'LET Pro Asume',
+        letProAssumesTitle: 'LET PRO Asume',
         letProAssumes: [
           'La representación ante DIAN, SIC y organismos RETIE',
           'El rol de importador y exportador de record (IOR / EOR)',
@@ -142,12 +142,12 @@ export default defineType({
         },
         {
           name: 'letProAssumesTitle',
-          title: 'Título Panel Inferior (ej: LET Pro Asume)',
+          title: 'Título Panel Inferior (ej: LET PRO Asume)',
           type: 'string',
         },
         {
           name: 'letProAssumes',
-          title: 'Puntos: Lo que Asume LET Pro',
+          title: 'Puntos: Lo que Asume LET PRO',
           type: 'array',
           of: [{ type: 'string' }],
         },
@@ -201,7 +201,7 @@ export default defineType({
       type: 'text',
       rows: 2,
       initialValue:
-        'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, del certificado a la venta, de la venta a la posventa.',
+        'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, y del certificado a la posventa y los equipos en sede del cliente.',
     }),
     defineField({
       name: 'solutions',
@@ -241,7 +241,7 @@ export default defineType({
         {
           number: '04',
           badge: 'Energía como servicio',
-          title: 'Equipos propios en sede del cliente',
+          title: 'Customer Premises Equipment (CPE)',
           whenApplies:
             'El fabricante presta un servicio bajo contrato y el equipo sigue siendo de su propiedad mientras opera en las instalaciones del cliente.',
           industryApplication:
@@ -322,7 +322,7 @@ export default defineType({
             stepNumber: '04',
             title: 'Exportación temporal',
             description:
-              'Salida de la parte o el equipo dañado a fábrica para reparación o reemplazo, con LET Pro como exportador de record.',
+              'Salida de la parte o el equipo dañado a fábrica para reparación o reemplazo, con LET PRO como exportador de record.',
           },
           {
             stepNumber: '05',
@@ -337,9 +337,9 @@ export default defineType({
           },
         ],
         dianCommitmentCallout: {
-          title: 'El compromiso ante la aduana lo asume LET Pro',
+          title: 'El compromiso ante la aduana lo asume LET PRO',
           description:
-            'LET Pro constituye y responde ante la DIAN por el compromiso de retorno de la parte o el equipo reparado o de reemplazo. El fabricante no necesita entidad local ni garantías aduaneras propias para operar su posventa en Colombia.',
+            'LET PRO constituye y responde ante la DIAN por el compromiso de retorno de la parte o el equipo reparado o de reemplazo. El fabricante no necesita entidad local ni garantías aduaneras propias para operar su posventa en Colombia.',
         },
       },
       fields: [
@@ -378,46 +378,14 @@ export default defineType({
       title: 'Bloque 4: Capacidades Operativas (8 Siglas)',
       type: 'array',
       initialValue: [
-        {
-          code: 'ICR',
-          title: 'Representación regulatoria y aduanera',
-          description: 'DIAN, organismos RETIE, SIC y MinCIT/VUCE.',
-        },
-        {
-          code: 'SN',
-          title: 'Inventario por número de serie',
-          description: 'Trazabilidad unidad por unidad en todo el ciclo.',
-        },
-        {
-          code: 'IOR / EOR',
-          title: 'Importador y exportador de record',
-          description: 'Envíos sin valor comercial, temporales y de retorno.',
-        },
-        {
-          code: 'INBOUND',
-          title: 'Logística de entrada y nacionalización',
-          description: 'De origen a bodega, con recepción documentada y verificación técnica.',
-        },
-        {
-          code: 'FSL',
-          title: 'Custodia de stock en destino',
-          description: 'Equipos y repuestos listos en Colombia para despacho inmediato.',
-        },
-        {
-          code: 'XDOCK',
-          title: 'Cross-docking',
-          description: 'Transferencia directa a distribuidores y proyectos sin almacenamiento prolongado.',
-        },
-        {
-          code: 'UNIT',
-          title: 'Distribución por unidad',
-          description: 'Despacho nacional con prueba de entrega (POD) por serie.',
-        },
-        {
-          code: 'RMA',
-          title: 'Logística de reversa',
-          description: 'Recolección, diagnóstico preliminar, consolidación y retorno a fábrica.',
-        },
+        { code: 'ICR', title: 'Representación regulatoria y aduanera', description: 'DIAN, organismos RETIE, SIC y MinCIT/VUCE.' },
+        { code: 'IOR / EOR', title: 'Importador y exportador de record', description: 'Envíos sin valor comercial, temporales y de retorno.' },
+        { code: 'INBOUND', title: 'Logística de entrada y nacionalización', description: 'De origen a bodega, con recepción documentada y verificación técnica.' },
+        { code: 'FSL', title: 'Custodia de stock en destino', description: 'Equipos y repuestos listos en Colombia para despacho inmediato.' },
+        { code: 'WMS', title: 'Sistema de gestión de bodega', description: 'Cada movimiento registrado en un solo sistema, desde la recepción hasta la entrega.' },
+        { code: 'SN', title: 'Inventario por número de serie', description: 'Trazabilidad unidad por unidad en todo el ciclo.' },
+        { code: 'LMD', title: 'Last Mile Distribution', description: 'Despacho nacional hasta cualquier municipio, con prueba de entrega (POD) por número de serie.' },
+        { code: 'RMA', title: 'Logística de reversa', description: 'Recolección, diagnóstico preliminar, consolidación y retorno a fábrica.' },
       ],
       of: [
         {
@@ -439,7 +407,7 @@ export default defineType({
       initialValue: {
         title: 'RETIE 2024: sin certificado de conformidad, el equipo no se nacionaliza.',
         description:
-          'Desde la Resolución 40117 de 2024, los inversores para sistemas fotovoltaicos, los paneles de 100 W o más y los controladores de baterías solares requieren certificado de conformidad de producto para importarse y comercializarse en Colombia. Quién figura como titular de ese certificado define quién controla la entrada de la marca al país. Con LET Pro como titular regulatorio, ese control permanece en el fabricante.',
+          'Desde la Resolución 40117 de 2024, los inversores para sistemas fotovoltaicos, los paneles de 100 W o más, los controladores de carga y las baterías requieren certificado de conformidad de producto para importarse y comercializarse en Colombia. Quién figura como titular de ese certificado define quién controla la entrada de la marca al país. Con LET PRO como titular regulatorio, ese control permanece en el fabricante.',
         checklistTitle: 'Antes de embarcar, se verifica:',
         checklistItems: [
           'Certificado RETIE vigente y su alcance por referencia.',
@@ -474,7 +442,7 @@ export default defineType({
         problemDescription:
           'Con varios años de presencia en Colombia a través de distribuidores y garantías de hasta 10 años, la marca operaba su posventa por medio de uno de ellos, perdiendo visibilidad del stock, de los tiempos reales de reemplazo y de las fallas reportadas.',
         solutionDescription:
-          'Con LET Pro, la marca recuperó el control de su posventa: stock propio en Colombia, inventario por número de serie, reemplazos directos en días y retorno documentado de unidades a fábrica para su análisis, sin constituir sociedad local ni depender de su distribuidor.',
+          'Con LET PRO, la marca recuperó el control de su posventa: stock propio en Colombia, inventario por número de serie, reemplazos directos en días y retorno documentado de unidades a fábrica para su análisis, sin constituir sociedad local ni depender de su distribuidor.',
         metrics: [
           { value: '24+', label: 'referencias en custodia' },
           { value: '18+', label: 'ciudades atendidas' },
@@ -486,7 +454,7 @@ export default defineType({
         { name: 'badge', title: 'Badge', type: 'string' },
         { name: 'title', title: 'Título (ej. Importante empresa global del sector PV)', type: 'string' },
         { name: 'problemDescription', title: 'Situación Previa / Reto', type: 'text', rows: 3 },
-        { name: 'solutionDescription', title: 'Solución Operada por LET Pro', type: 'text', rows: 3 },
+        { name: 'solutionDescription', title: 'Solución Operada por LET PRO', type: 'text', rows: 3 },
         {
           name: 'metrics',
           title: '4 Indicadores / Métricas Numéricas',
@@ -557,21 +525,6 @@ export default defineType({
             },
           ],
         },
-        {
-          name: 'contact',
-          title: 'Contacto (Bloque 7) · imagen lateral',
-          description: 'Imagen 4:3 bajo los datos de contacto, por ejemplo una instalación BESS.',
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            {
-              name: 'alt',
-              title: 'Texto alternativo (en inglés)',
-              description: 'Describe la imagen para accesibilidad y SEO.',
-              type: 'string',
-            },
-          ],
-        },
       ],
     }),
 
@@ -613,7 +566,7 @@ export default defineType({
       title: 'SEO y Previsualización Social (Open Graph)',
       type: 'object',
       initialValue: {
-        metaTitle: 'LET Pro — Soluciones de Energía Solar y Almacenamiento en Colombia',
+        metaTitle: 'LET PRO — Soluciones de Energía Solar y Almacenamiento en Colombia',
         metaDescription:
           'Soluciones para fabricantes fotovoltaicos: posventa, garantías RETIE 2024, importador/exportador de record (IOR/EOR) y custodia FSL sin filial local.',
       },

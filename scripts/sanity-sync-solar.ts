@@ -5,7 +5,7 @@ import { createClient } from '@sanity/client'
 import { solarDataEs } from '../lib/solar-data'
 
 const DRY = process.env.DRY === '1'
-const client = createClient({ projectId: 'l56ogkfz', dataset: 'production', apiVersion: '2024-01-01', useCdn: false, token: process.env.SANITY_WRITE_TOKEN })
+const client = createClient({ projectId: 'l56ogkfz', dataset: 'production', apiVersion: '2024-01-01', useCdn: false, token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_API_WRITE_TOKEN })
 
 const withKeys = <T extends object>(items: T[], prefix: string) =>
   items.map((item, i) => ({ _key: `${prefix}${i + 1}`, ...item }))
@@ -35,6 +35,8 @@ async function main() {
       })),
       'sol'
     ),
+    solutionsIntro: d.solutionsIntro,
+    'regulationSection.description': d.regulation.description,
     'customSolutionCard.title': d.customSolutionCard.title,
     'customSolutionCard.description': d.customSolutionCard.description,
     'featuredSolutionFlow.title': d.featuredSolutionFlow.title,

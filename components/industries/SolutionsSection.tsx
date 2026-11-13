@@ -67,8 +67,8 @@ export default function SolutionsSection({
   }
 
   const defaultIntro = isEs
-    ? 'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, del certificado a la venta, de la venta a la posventa.'
-    : 'They can be deployed independently or linked as operations expand: from samples to certification, from certification to sales, and from sales to warranty fulfillment.'
+    ? 'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, y del certificado a la posventa y los equipos en sede del cliente.'
+    : 'They can be deployed independently or linked as operations expand: from samples to certification, and from certification to after-sales and customer premises equipment.'
 
   // Strip duplicate opening sentence if present from Sanity or older cache
   const cleanIntro = intro

@@ -9,3 +9,4 @@ Placeholders until the client supplies its own photography. Replace them from Sa
 | capabilities-warehouse.webp | "20170922-OSEC-LSC-0197 (36625258914).jpg" (USDA) | Public domain |
 | case-trackers.webp | "RayTracker Utility Scale Solar Tracker Installation.JPG" | Public domain |
 | contact-bess.webp | "Desert Sunlight Battery Energy Storage System (52945816430).jpg" | Public domain |
+| hero-bess.webp | Same photo as the former contact-bess.webp (Desert Sunlight BESS) | Public domain |

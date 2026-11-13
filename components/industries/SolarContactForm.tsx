@@ -4,13 +4,10 @@ import { useState, useEffect } from 'react'
 import styles from './SolarContactForm.module.css'
 import ScrollReveal from '../ScrollReveal'
 import { trackEvent, trackLinkedInConversion } from '../../lib/analytics'
-import SectionImage from './SectionImage'
-import type { SectionImageData } from '../../lib/solar-data'
 
 interface SolarContactFormProps {
   variant?: 'full' | 'campaign'
   lang: 'es' | 'en'
-  image?: SectionImageData
 }
 
 interface FormState {
@@ -19,6 +16,7 @@ interface FormState {
   correo: string
   solucionInteres: string
   entidadLegalColombia: string
+  tipoProducto: string
   mensaje: string
   aceptaDatos: boolean
 }
@@ -26,7 +24,6 @@ interface FormState {
 export default function SolarContactForm({
   variant = 'full',
   lang,
-  image,
 }: SolarContactFormProps) {
   // The site is English-first: Spanish is only produced by Google Translate.
   const isEs = false
@@ -38,6 +35,7 @@ export default function SolarContactForm({
     correo: '',
     solucionInteres: 'After-sales & warranties',
     entidadLegalColombia: '',
+    tipoProducto: '',
     mensaje: '',
     aceptaDatos: false,
   })
@@ -137,7 +135,7 @@ export default function SolarContactForm({
         mensaje: formData.mensaje,
         aceptaDatos: formData.aceptaDatos,
         paisOrigen: 'Not specified',
-        producto: 'Solar Energy / BESS',
+        producto: formData.tipoProducto || 'Not specified',
         entidadLegalColombia: formData.entidadLegalColombia,
         certificadoRetie: 'Not specified',
         ...utms,
@@ -165,6 +163,7 @@ export default function SolarContactForm({
         language: lang,
         form_variant: variant,
         solution_interest: formData.solucionInteres,
+        product_type: formData.tipoProducto || 'not_specified',
         utm_source: utms.utm_source,
       })
 
@@ -220,12 +219,6 @@ export default function SolarContactForm({
                   {isEs ? 'Bogotá, Colombia' : 'Bogota, Colombia'}
                 </span>
               </div>
-
-              {image && (
-                <div className={styles.infoPhoto}>
-                  <SectionImage image={image} ratio="card" sizes="(max-width: 900px) 100vw, 520px" />
-                </div>
-              )}
             </div>
           </ScrollReveal>
 
@@ -244,8 +237,8 @@ export default function SolarContactForm({
                   </h3>
                   <p className={styles.successMessage}>
                     {isEs
-                      ? 'Hemos enviado el Brochure Ejecutivo PDF a su correo corporativo. Un especialista de LET Pro revisará su caso y se pondrá en contacto en menos de 24 horas hábiles.'
-                      : 'We have dispatched the Executive Solar PDF to your corporate inbox. A LET Pro specialist will review your operational requirements and follow up within 24 business hours.'}
+                      ? 'Hemos enviado el Brochure Ejecutivo PDF a su correo corporativo. Un especialista de LET PRO revisará su caso y se pondrá en contacto en menos de 24 horas hábiles.'
+                      : 'We have dispatched the Executive Solar PDF to your corporate inbox. A LET PRO specialist will review your operational requirements and follow up within 24 business hours.'}
                   </p>
                 </div>
               ) : (
@@ -330,8 +323,8 @@ export default function SolarContactForm({
                         <option value="Samples, demos & prototypes">
                           {isEs ? 'Muestras, demostraciones y prototipos' : 'Samples, demos & prototypes'}
                         </option>
-                        <option value="Manufacturer-owned equipment at client site">
-                          {isEs ? 'Equipos propios en sede del cliente' : 'Manufacturer-owned equipment at client site'}
+                        <option value="Customer Premises Equipment (CPE)">
+                          Customer Premises Equipment (CPE)
                         </option>
                         <option value="General operational review">
                           {isEs ? 'Revisión general de operación' : 'General operational review'}
@@ -340,29 +333,50 @@ export default function SolarContactForm({
                     </div>
                   </div>
 
-                  {/* Fila 3: Legal Entity in Colombia */}
-                  <div className={styles.field}>
-                    <label htmlFor="entidadLegalColombia" className={styles.label}>
-                      {isEs ? '¿Tiene entidad legal en Colombia? *' : 'Do you have a legal entity in Colombia? *'}
-                    </label>
-                    <select
-                      id="entidadLegalColombia"
-                      name="entidadLegalColombia"
-                      value={formData.entidadLegalColombia}
-                      onChange={handleChange}
-                      className={`${styles.select} ${errors.entidadLegalColombia ? styles.inputError : ''}`}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select an option
-                      </option>
-                      <option value="No">No — LET Pro acts as my local legal &amp; operating arm</option>
-                      <option value="Yes">Yes — we have a local legal entity</option>
-                      <option value="Evaluating">Under evaluation / exploring market entry</option>
-                    </select>
-                    {errors.entidadLegalColombia && (
-                      <span className={styles.errorText}>{errors.entidadLegalColombia}</span>
-                    )}
+                  {/* Fila 3: Product type | Legal Entity in Colombia */}
+                  <div className={styles.rowTwo}>
+                    <div className={styles.field}>
+                      <label htmlFor="tipoProducto" className={styles.label}>
+                        {isEs ? 'Tipo de producto' : 'Product Type'}
+                      </label>
+                      <select
+                        id="tipoProducto"
+                        name="tipoProducto"
+                        value={formData.tipoProducto}
+                        onChange={handleChange}
+                        className={styles.select}
+                      >
+                        <option value="">Select a product type (optional)</option>
+                        <option value="Inverters">Inverters</option>
+                        <option value="Energy storage (BESS)">Energy storage (BESS)</option>
+                        <option value="Trackers">Trackers</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.field}>
+                      <label htmlFor="entidadLegalColombia" className={styles.label}>
+                        {isEs ? '¿Tiene entidad legal en Colombia? *' : 'Do you have a legal entity in Colombia? *'}
+                      </label>
+                      <select
+                        id="entidadLegalColombia"
+                        name="entidadLegalColombia"
+                        value={formData.entidadLegalColombia}
+                        onChange={handleChange}
+                        className={`${styles.select} ${errors.entidadLegalColombia ? styles.inputError : ''}`}
+                        required
+                      >
+                        <option value="" disabled>
+                          Select an option
+                        </option>
+                        <option value="No">No — LET PRO acts as my local legal &amp; operating arm</option>
+                        <option value="Yes">Yes — we have a local legal entity</option>
+                        <option value="Evaluating">Under evaluation / exploring market entry</option>
+                      </select>
+                      {errors.entidadLegalColombia && (
+                        <span className={styles.errorText}>{errors.entidadLegalColombia}</span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Fila 4: Mensaje o producto específico (Opcional, altura reducida) */}
@@ -416,7 +430,7 @@ export default function SolarContactForm({
                       <span>
                         {loading
                           ? (isEs ? 'Enviando...' : 'Submitting...')
-                          : (isEs ? 'Enviar y recibir Brochure PDF' : 'Submit and receive Brochure PDF')}
+                          : (isEs ? 'Solicitar revisión y recibir el brochure' : 'Request review & get the brochure')}
                       </span>
                       {!loading && <span className={styles.submitArrow}>→</span>}
                     </button>
@@ -429,8 +443,8 @@ export default function SolarContactForm({
                   <a
                     href={`https://wa.me/573132310746?text=${encodeURIComponent(
                       isEs
-                        ? 'Hola, me interesa conocer las soluciones de LET Pro para el sector solar en Colombia.'
-                        : 'Hello! I would like to learn more about LET Pro solutions for the solar sector in Colombia.'
+                        ? 'Hola, me interesa conocer las soluciones de LET PRO para el sector solar en Colombia.'
+                        : 'Hello! I would like to learn more about LET PRO solutions for the solar sector in Colombia.'
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

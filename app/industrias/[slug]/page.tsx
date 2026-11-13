@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!industryDoc && slug !== 'energia-solar') {
     return {
-      title: 'Industry not found | LET Pro',
+      title: 'Industry not found | LET PRO',
       robots: { index: false, follow: false },
     }
   }
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isSolar = slug === 'energia-solar'
   const fallbackTitle = isSolar
     ? solarDataEn.meta.title
-    : `${industryDoc?.title || 'Industry'} in Colombia | LET Pro`
+    : `${industryDoc?.title || 'Industry'} in Colombia | LET PRO`
   const fallbackDescription = isSolar
     ? solarDataEn.meta.description
     : `Specialized solutions for manufacturers and brands: IOR/EOR representation, regulatory compliance, and logistics in Colombia.`
@@ -82,6 +82,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const ogImageUrl = industryDoc?.seoAndSocial?.ogImageUrl
     ? industryDoc.seoAndSocial.ogImageUrl
+    : isSolar
+    ? 'https://letintl.com/images/solar/hero-bess.webp'
     : siteSettings?.ogImage
     ? urlForImage(siteSettings.ogImage)?.url()
     : 'https://letintl.com/Logo_let.webp'
@@ -89,17 +91,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalUrl = `https://letintl.com/industrias/${slug}`
 
   return {
-    title,
+    title: { absolute: title.includes('LET') ? title : `${title} | LET PRO` },
     description,
     keywords: [
       `${industryDoc?.title || 'Solar Energy'} Colombia`,
       'Importer of Record Colombia',
       'IOR Colombia',
       'Inverter Warranty Service Colombia',
+      'Solar Inverter RMA Colombia',
+      'Battery and BESS RMA Colombia',
+      'Solar Tracker Spare Parts Colombia',
+      'Solar Downtime Reduction',
+      'Duty-free Re-importation Colombia',
+      'WMS Last-Mile Distribution Colombia',
       'RMA Logistics Colombia',
       'FSL Forward Stock Colombia',
       'RETIE 2024 Compliance',
-      'LET Pro',
+      'LET PRO',
       'Mandate Agreement Customs Colombia',
     ],
     alternates: {
@@ -116,7 +124,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'LET Pro | LET Group',
+      siteName: 'LET PRO | LET Group',
       locale: 'en_US',
       alternateLocale: ['es_CO'],
       type: 'website',
@@ -125,8 +133,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          type: 'image/jpeg',
-          alt: `${title} — LET Pro`,
+          alt: `${title} — LET PRO`,
         },
       ],
     },
@@ -223,6 +230,38 @@ export default async function IndustryDynamicPage({ params }: Props) {
         },
         breadcrumb: {
           '@id': `${canonicalUrl}#breadcrumb`,
+        },
+        about: { '@id': `${canonicalUrl}#service-rma` },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: `https://letintl.com${data.images.warranty.src}`,
+          caption: data.images.warranty.alt,
+        },
+      },
+      {
+        '@type': 'Service',
+        '@id': `${canonicalUrl}#service-rma`,
+        name: `Solar Warranty & RMA Management in Colombia — ${pageTitle}`,
+        serviceType: 'After-sales RMA, warranty fulfillment and reverse logistics',
+        description:
+          'End-to-end RMA for solar inverters, storage batteries and solar trackers: swap-ready stock, collection, temporary export, duty-free re-importation when applicable, WMS with serial inventory and last-mile distribution.',
+        provider: { '@id': 'https://letintl.com/#organization' },
+        areaServed: { '@type': 'Country', name: 'Colombia' },
+        audience: {
+          '@type': 'BusinessAudience',
+          audienceType: 'Solar PV, inverter, battery and tracker manufacturers',
+        },
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'LET PRO solar solutions',
+          itemListElement: data.solutions.map((sol) => ({
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: String(sol.title).replace(/\.$/, ''),
+              description: sol.whenApplies,
+            },
+          })),
         },
       },
       {
@@ -326,7 +365,6 @@ export default async function IndustryDynamicPage({ params }: Props) {
         <SolarContactForm
           variant="full"
           lang="en"
-          image={data.images.contact}
         />
       </main>
 

@@ -91,7 +91,7 @@ export async function POST(request: Request) {
       'info@letintl.com'
     const fromEmail =
       process.env.RESEND_FROM_EMAIL ||
-      'LET Pro Solar <notifications@letintl.com>'
+      'LET PRO Solar <notifications@letintl.com>'
 
     // Prepare Brochure Attachment
     const brochureFileName = isEs ? 'brochure-solar-es.pdf' : 'brochure-solar-en.pdf'
@@ -172,7 +172,7 @@ export async function POST(request: Request) {
           <div class="container">
             <div class="header">
               <h1>Nuevo Diagnóstico Comercial — Sector Solar & BESS</h1>
-              <p>Captado vía página de Industria / Campaña LET Pro</p>
+              <p>Captado vía página de Industria / Campaña LET PRO</p>
             </div>
             <div class="content">
               <div class="field-row">
@@ -227,7 +227,7 @@ export async function POST(request: Request) {
               </div>
             </div>
             <div class="footer">
-              Notificación automática del sistema LET Pro • Reply-To configurado a: ${correo}
+              Notificación automática del sistema LET PRO • Reply-To configurado a: ${correo}
             </div>
           </div>
         </body>
@@ -236,8 +236,8 @@ export async function POST(request: Request) {
 
       // ─── Correo 2: Autoresponder al Prospecto con Brochure PDF ───
       const prospectSubject = isEs
-        ? `Brochure Ejecutivo: Soluciones para Fabricantes de Energía Solar en Colombia — LET Pro`
-        : `Executive Brochure: Operational & Regulatory Solutions for Solar Manufacturers in Colombia — LET Pro`
+        ? `Brochure Ejecutivo: Soluciones para Fabricantes de Energía Solar en Colombia — LET PRO`
+        : `Executive Brochure: Operational & Regulatory Solutions for Solar Manufacturers in Colombia — LET PRO`
 
       const prospectHtml = isEs
         ? `
@@ -262,7 +262,7 @@ export async function POST(request: Request) {
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">LET Pro <span class="logo-accent">| SOLAR & STORAGE</span></div>
+              <div class="logo">LET PRO <span class="logo-accent">| SOLAR & STORAGE</span></div>
             </div>
             <div class="content">
               <h2>Estimado(a) ${nombre},</h2>
@@ -297,7 +297,7 @@ export async function POST(request: Request) {
               </p>
             </div>
             <div class="footer">
-              LET: LET INT (EE. UU.) · LET PRO (LET Procurement S.A.S.), LET ADA y LET LOG (Colombia).<br>
+              LET — LET INT (EE. UU.) · LET PRO, LET ADA y LET LOG (Colombia).<br>
               Bogotá · Barranquilla · Medellín · Miami, FL.
             </div>
           </div>
@@ -325,7 +325,7 @@ export async function POST(request: Request) {
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">LET Pro <span class="logo-accent">| SOLAR & STORAGE</span></div>
+              <div class="logo">LET PRO <span class="logo-accent">| SOLAR & STORAGE</span></div>
             </div>
             <div class="content">
               <h2>Dear ${nombre},</h2>
@@ -359,7 +359,7 @@ export async function POST(request: Request) {
               </p>
             </div>
             <div class="footer">
-              LET: LET INT (United States) · LET PRO (LET Procurement S.A.S.), LET ADA, and LET LOG (Colombia).<br>
+              LET — LET INT (United States) · LET PRO, LET ADA, and LET LOG (Colombia).<br>
               Bogotá · Barranquilla · Medellín · Miami, FL.
             </div>
           </div>
