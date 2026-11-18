@@ -14,15 +14,6 @@
   margin-bottom: 28px;
 }
 
-.eyebrow {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #e3b15c;
-  margin-bottom: 10px;
-}
 
 .title {
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -68,6 +59,36 @@
   color: #ffffff;
 }
 
+.card {
+  display: block;
+}
+
+.summary {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: default;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Desktop: country above the name, as before */
+.summaryText {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chevron {
+  display: none;
+  flex-shrink: 0;
+  color: #e3b15c;
+  transition: transform 0.25s ease;
+}
+
 .role {
   font-size: 14px;
   line-height: 1.55;
@@ -81,11 +102,71 @@
   }
 }
 
+/* Mobile: compact accordion rows */
+@media (max-width: 900px) {
+  .section {
+    padding: 44px 0;
+  }
+  .header {
+    margin-bottom: 20px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .card {
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0;
+    background: transparent;
+  }
+  .summary {
+    cursor: pointer;
+    align-items: center;
+    padding: 16px 4px;
+  }
+  .summaryText {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .name {
+    font-size: 17px;
+    margin: 0;
+  }
+  .country {
+    font-size: 10.5px;
+  }
+  .chevron {
+    display: block;
+  }
+  .card[open] .chevron {
+    transform: rotate(180deg);
+  }
+  .card[open] .name {
+    color: #e3b15c;
+  }
+  .role {
+    padding: 0 4px 16px;
+    font-size: 13.5px;
+    animation: roleIn 0.25s ease;
+  }
+}
+
+@keyframes roleIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
 @media (max-width: 520px) {
   .container {
     padding: 0 16px;
   }
-  .grid {
-    grid-template-columns: 1fr;
-  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron { transition: none; }
+  .role { animation: none; }
 }

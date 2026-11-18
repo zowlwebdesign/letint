@@ -780,3 +780,14 @@
     font-size: 12.5px;
   }
 }
+
+/* Very narrow phones: keep logo, back link, CTA and menu inside 320px */
+@media (max-width: 340px) {
+  .actionsGroup {
+    gap: 6px;
+  }
+  .navCta {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}

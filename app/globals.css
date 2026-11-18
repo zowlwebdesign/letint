@@ -68,6 +68,12 @@ body {
   overflow-x: hidden;
 }
 
+/* body overflow-x alone does not stop sideways scrolling on mobile browsers;
+   clip (unlike hidden) keeps position: sticky working */
+html {
+  overflow-x: clip;
+}
+
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; }
 button { font-family: inherit; cursor: pointer; }
@@ -94,6 +100,11 @@ main { min-height: 100vh; }
 .reveal        { opacity: 0; transform: translateY(32px); }
 .reveal-left   { opacity: 0; transform: translateX(-32px); }
 .reveal-right  { opacity: 0; transform: translateX(32px); }
+/* On phones, slide in vertically so hidden content never pokes past the edge */
+@media (max-width: 768px) {
+  .reveal-left,
+  .reveal-right { transform: translateY(24px); }
+}
 .reveal-scale  { opacity: 0; transform: scale(0.93); }
 .reveal-fade   { opacity: 0; transform: none; }
 

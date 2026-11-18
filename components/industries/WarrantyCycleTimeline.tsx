@@ -137,7 +137,6 @@ export default function WarrantyCycleTimeline({
         {/* Header */}
         <ScrollReveal variant="up">
           <div className={styles.header}>
-            {embedded && <span className={styles.eyebrow}>{isEs ? 'Cómo funciona: el ciclo de garantía' : 'How it works: the warranty cycle'}</span>}
             <HeadingTag className={styles.title}>{title || defaultTitle}</HeadingTag>
             <p className={styles.subheadline}>{subheadline || defaultSubheadline}</p>
           </div>

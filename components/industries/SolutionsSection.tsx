@@ -4,6 +4,7 @@ import styles from './SolutionsSection.module.css'
 import { SolutionData } from '../../lib/solar-data'
 import SolutionCta from './SolutionCta'
 import SolutionsTabs, { type SolutionTab } from './SolutionsTabs'
+import ClampText from './ClampText'
 
 interface CustomCardProps {
   title: string
@@ -71,6 +72,8 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
     flagship: isEs ? 'Solución insignia' : 'Flagship solution',
     howItWorks: isEs ? 'Ver cómo funciona' : 'See how it works',
     hide: isEs ? 'Ocultar detalle' : 'Hide details',
+    more: isEs ? 'Leer más' : 'Read more',
+    less: isEs ? 'Leer menos' : 'Read less',
     open: isEs ? 'Abrir' : 'Open',
   }
 
@@ -95,7 +98,6 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
       <div className={styles.container}>
         <ScrollReveal variant="up">
           <div className={styles.header}>
-            <div className={styles.eyebrow}>{isEs ? 'CUATRO SOLUCIONES' : 'FOUR SOLUTIONS'}</div>
             <h2 id="soluciones-title" className={styles.title}>{title || defaultTitle}</h2>
             <p className={styles.intro}>{cleanIntro}</p>
           </div>
@@ -150,11 +152,11 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
                     <dl className={styles.facts}>
                       <div className={styles.fact}>
                         <dt className={styles.factLabel}>{labels.when}</dt>
-                        <dd className={styles.factText}>{item.whenApplies}</dd>
+                        <dd><ClampText text={item.whenApplies} moreLabel={labels.more} lessLabel={labels.less} /></dd>
                       </div>
                       <div className={styles.fact}>
                         <dt className={styles.factLabel}>{labels.what}</dt>
-                        <dd className={styles.factText}>{item.industryApplication}</dd>
+                        <dd><ClampText text={item.industryApplication} moreLabel={labels.more} lessLabel={labels.less} /></dd>
                       </div>
                       <div className={styles.fact}>
                         <dt className={styles.factLabel}>{labels.built}</dt>

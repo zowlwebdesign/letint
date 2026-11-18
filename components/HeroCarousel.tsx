@@ -156,7 +156,6 @@ export default function HeroCarousel({ slides, intervalMs = 7000 }: HeroCarousel
 
             <div className={styles.inner}>
               <div className={styles.content}>
-                {slide.eyebrow && <p className={carousel.eyebrow}>{slide.eyebrow}</p>}
                 <Heading className={styles.title}>{slide.headline}</Heading>
                 {slide.subheadline && <p className={styles.subtitle}>{slide.subheadline}</p>}
 
@@ -188,21 +187,21 @@ export default function HeroCarousel({ slides, intervalMs = 7000 }: HeroCarousel
                   <div className={styles.badges}>
                     <span className={styles.badge}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><line x1="2" y1="12" x2="22" y2="12"/>
+                        <circle cx="12" cy="12" r="10" /><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" /><line x1="2" y1="12" x2="22" y2="12" />
                       </svg>
                       U.S. entity
                     </span>
                     <span className={styles.separator}></span>
                     <span className={styles.badge}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
                       </svg>
                       Florida, USA
                     </span>
                     <span className={styles.separator}></span>
                     <span className={styles.badge}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
                       </svg>
                       Colombia operations
                     </span>

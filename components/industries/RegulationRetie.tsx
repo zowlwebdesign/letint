@@ -21,7 +21,6 @@ export default function RegulationRetie({ data, lang, embedded = false }: Regula
           {/* Left Column: Explanatory Text */}
           <ScrollReveal variant="left">
             <div className={styles.textColumn}>
-              {embedded && <span className={styles.eyebrow}>{isEs ? 'Por qué importa: RETIE 2024' : 'Why it matters: RETIE 2024'}</span>}
               <HeadingTag className={styles.title}>{data.title}</HeadingTag>
               <p className={styles.paragraph}>{data.description}</p>
             </div>

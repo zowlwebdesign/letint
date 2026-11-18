@@ -63,9 +63,6 @@ export default function CapabilitiesGrid({
             <ScrollReveal variant="up">
               <div className={styles.header}>
                 <div className={styles.headerLeft}>
-                  <span className={styles.sharedLabel}>
-                    {isEs ? 'Compartidos por todas las soluciones' : 'Shared by every solution'}
-                  </span>
                   <h2 className={styles.title}>
                     {title || (isEs ? 'Los componentes detrás de cada solución.' : 'The building blocks behind every solution.')}
                   </h2>

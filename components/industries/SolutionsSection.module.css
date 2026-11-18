@@ -493,6 +493,35 @@
   margin: 0;
 }
 
+/* "Read more" toggle: only used on phones */
+.moreBtn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+  .moreBtn {
+    display: inline-flex;
+    margin-top: 4px;
+    padding: 2px 0;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sol-accent-strong);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
 .chips {
   list-style: none;
   margin: 0;
