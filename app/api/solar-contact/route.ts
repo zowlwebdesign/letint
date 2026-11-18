@@ -267,7 +267,7 @@ export async function POST(request: Request) {
             <div class="content">
               <h2>Estimado(a) ${nombre},</h2>
               <p>
-                Agradecemos su interés en los servicios especializados del Grupo LET para la industria de 
+                Agradecemos su interés en los servicios especializados de LET para la industria de 
                 <strong>Energía Solar y Almacenamiento (BESS)</strong> en Colombia.
               </p>
               <p>
@@ -330,7 +330,7 @@ export async function POST(request: Request) {
             <div class="content">
               <h2>Dear ${nombre},</h2>
               <p>
-                Thank you for your interest in LET Group's dedicated solutions for the 
+                Thank you for your interest in LET's dedicated solutions for the 
                 <strong>Solar Energy & Energy Storage (BESS)</strong> sector in Colombia.
               </p>
               <p>

@@ -1,0 +1,184 @@
+/* Slides are stacked in one grid cell so the hero takes the height of the tallest slide. */
+.root {
+  display: grid;
+  padding-top: 0;
+  align-items: stretch;
+}
+
+.slide {
+  grid-area: 1 / 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 76px;
+  padding-bottom: 56px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+}
+
+.slideActive {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transition: opacity 0.8s ease, visibility 0s linear 0s;
+}
+
+.bgImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The technician photo is brighter than the default hero: keep the text readable */
+.overlayStrong {
+  background: linear-gradient(
+    105deg,
+    rgba(8, 14, 28, 0.94) 0%,
+    rgba(8, 14, 28, 0.78) 50%,
+    rgba(8, 14, 28, 0.4) 100%
+  );
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e3b15c;
+  margin: 0 0 18px;
+}
+
+/* ─── Controls ─── */
+.controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.controls > * {
+  pointer-events: auto;
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.arrow:hover,
+.arrow:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.arrow:focus-visible,
+.dot:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  position: relative;
+  width: 28px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+  /* larger hit area without changing the visual size */
+  background-clip: content-box;
+  box-sizing: content-box;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+
+.dotActive {
+  background-color: rgba(255, 255, 255, 0.55);
+}
+
+.dotProgress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 999px;
+  transform-origin: left center;
+  animation: progress linear forwards;
+}
+
+.dotActive:not(:has(.dotProgress)) {
+  background-color: #ffffff;
+}
+
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* No animation at all when the user asked for reduced motion */
+.noMotion .slide,
+.noMotion .slideActive {
+  transition: none;
+}
+
+.noMotion :global(*) {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slideActive {
+    transition: none;
+  }
+  .dotProgress {
+    display: none;
+  }
+  .root :global(*) {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .slide {
+    min-height: auto;
+    padding-top: 88px;
+    padding-bottom: 72px;
+  }
+  .controls {
+    bottom: 16px;
+  }
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+}

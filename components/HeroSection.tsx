@@ -1,6 +1,5 @@
-import Image from 'next/image'
-import styles from './HeroSection.module.css'
 import { urlForImage } from '../sanity/lib/image'
+import HeroCarousel, { type HeroSlide } from './HeroCarousel'
 
 interface HeroProps {
   data?: {
@@ -10,109 +9,88 @@ interface HeroProps {
     secondaryCTA?: { label: string; href: string }
     backgroundGraphic?: any
   }
+  /** Photo for the Solar & Storage slide (the technician photo used in the brochure and on the solar page) */
+  solarImage?: any
 }
 
-export default function HeroSection({ data }: HeroProps) {
-  if (!data) return null;
+const SOLAR_IMAGE_FALLBACK = '/images/solar/warranty-technician.webp'
+const ENTITY_IMAGE = '/images/solar/capabilities-warehouse.webp'
+
+/** Fixes known typos still present in CMS copy. */
+function cleanLabel(label: string): string {
+  return label.replace(/\bWoks\b/g, 'Works')
+}
+
+export default function HeroSection({ data, solarImage }: HeroProps) {
+  if (!data) return null
 
   const isOldPlaceholder = data.backgroundGraphic?.asset?._ref?.includes('fb02b17177014277fdf329e857b424cf21c5847e')
-  const bgImageUrl = (data.backgroundGraphic && !isOldPlaceholder)
-    ? urlForImage(data.backgroundGraphic)?.url()
-    : '/hero-bg.webp'
+  const sanityBg = data.backgroundGraphic && !isOldPlaceholder ? urlForImage(data.backgroundGraphic)?.width(2400).url() : undefined
 
-  const isStatic = bgImageUrl.startsWith('/hero-bg')
+  const solarSrc = solarImage?.asset ? urlForImage(solarImage)?.width(2400).url() || SOLAR_IMAGE_FALLBACK : SOLAR_IMAGE_FALLBACK
 
-  return (
-    <section className={styles.hero} id="top" aria-label="Hero Introduction">
-      <div className={styles.bgWrapper}>
-        {isStatic ? (
-          <picture>
-            <source media="(max-width: 768px)" srcSet="/hero-bg-mobile.webp" type="image/webp" />
-            <source srcSet="/hero-bg.webp" type="image/webp" />
-            <img
-              src="/hero-bg.webp"
-              alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
-              // @ts-ignore
-              fetchpriority="high"
-              decoding="async"
-              className={styles.bgImg}
-              style={{ position: 'absolute', height: '100%', width: '100%', inset: 0, objectFit: 'cover' }}
-            />
-          </picture>
-        ) : (
-          <Image
-            src={bgImageUrl}
-            alt="LET INT US - Specialized Supply Chain Control Tower Operations in Colombia"
-            fill
-            priority
-            sizes="100vw"
-            quality={75}
-            className={styles.bgImg}
-          />
-        )}
-      </div>
-      <div className={styles.overlay} />
-      <div className={styles.glowSpot} />
+  const slides: HeroSlide[] = [
+    {
+      id: 'control-tower',
+      headline: data.headline || 'Your Control Tower for Specialized Supply Chain Services in Colombia',
+      subheadline: data.subheadline,
+      primaryCta: data.primaryCTA?.label
+        ? {
+            label: data.primaryCTA.label,
+            href: data.primaryCTA.href || '#contact',
+            ariaLabel: `${data.primaryCTA.label} — Consult with LET INT US`,
+          }
+        : undefined,
+      secondaryCta: data.secondaryCTA?.label
+        ? {
+            label: cleanLabel(data.secondaryCTA.label),
+            href: data.secondaryCTA.href || '#how-it-works',
+            ariaLabel: `${cleanLabel(data.secondaryCTA.label)} — See our operational process`,
+          }
+        : undefined,
+      image: sanityBg
+        ? { src: sanityBg, alt: 'LET INT US - Specialized Supply Chain Control Tower Operations in Colombia' }
+        : {
+            src: '/hero-bg.webp',
+            mobileSrc: '/hero-bg-mobile.webp',
+            alt: 'LET INT US - Specialized Supply Chain Control Tower Operations in Colombia',
+          },
+      showBadges: true,
+    },
+    {
+      id: 'solar',
+      eyebrow: 'Solar & Storage',
+      headline: 'When an inverter fails, the replacement is already in Colombia.',
+      subheadline: 'After-sales, RMA and warranty operations for inverters, batteries (BESS) and solar trackers.',
+      primaryCta: {
+        label: 'See Solar & Storage solutions',
+        href: '/industrias/energia-solar',
+      },
+      image: {
+        src: solarSrc,
+        alt: 'Technician servicing installed solar equipment on site',
+      },
+    },
+    {
+      id: 'operate-before-entity',
+      eyebrow: 'Representation in Colombia (IOR / EOR)',
+      headline: 'Operate before you form an entity.',
+      subheadline:
+        'Import, export and hire in Colombia with LET as your Importer, Exporter and Employer of Record, while you decide whether a local company makes sense.',
+      primaryCta: {
+        label: 'See how representation works',
+        href: '#services',
+      },
+      secondaryCta: {
+        label: 'Talk to an Expert',
+        href: '#contact',
+      },
+      image: {
+        src: ENTITY_IMAGE,
+        alt: 'Warehouse racking with pallets identified by serial and barcode labels',
+      },
+    },
+  ]
 
-      <div className={styles.inner}>
-        <div className={styles.content}>
-          {data.headline && (
-            <h1 className={styles.title}>
-              {data.headline}
-            </h1>
-          )}
-
-          {data.subheadline && (
-            <p className={styles.subtitle}>
-              {data.subheadline}
-            </p>
-          )}
-
-          <div className={styles.actions}>
-            {data.primaryCTA?.label && (
-              <a 
-                href={data.primaryCTA.href || '#contact'} 
-                className={styles.btnPrimary}
-                aria-label={`${data.primaryCTA.label} — Consult with LET INT US`}
-              >
-                {data.primaryCTA.label}
-              </a>
-            )}
-            {data.secondaryCTA?.label && (
-              <a 
-                href={data.secondaryCTA.href || '#how-it-works'} 
-                className={styles.btnSecondary}
-                aria-label={`${data.secondaryCTA.label} — See our operational process`}
-              >
-                {data.secondaryCTA.label}
-              </a>
-            )}
-          </div>
-
-          <div className={styles.badges}>
-            <span className={styles.badge}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><line x1="2" y1="12" x2="22" y2="12"/>
-              </svg>
-              U.S. entity
-            </span>
-            <span className={styles.separator}></span>
-            <span className={styles.badge}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-              Florida, USA
-            </span>
-            <span className={styles.separator}></span>
-            <span className={styles.badge}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-              Colombia operations
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+  return <HeroCarousel slides={slides} />
 }

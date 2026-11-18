@@ -3,7 +3,6 @@
   background: #f8fafc;
   color: #08172c;
   position: relative;
-  overflow: hidden;
 }
 
 .container {
@@ -14,25 +13,16 @@
 
 /* ─── Header ─── */
 .header {
-  margin-bottom: 32px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.headerText {
-  max-width: 780px;
+  max-width: 800px;
+  margin-bottom: 28px;
 }
 
 .eyebrow {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #d49a37;
+  color: #b07c24;
   margin-bottom: 8px;
 }
 
@@ -47,463 +37,290 @@
 }
 
 .intro {
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.6;
-  color: #64748b;
+  color: #475569;
   margin: 0;
 }
 
-/* ─── Navigation Controls ─── */
-.navControls {
-  display: flex;
-  align-items: center;
+/* ─── Theme accents (one per solution) ─── */
+.theme0 { --sol-accent: #d49a37; --sol-accent-strong: #9a6a1a; }
+.theme1 { --sol-accent: #0ea5e9; --sol-accent-strong: #0369a1; }
+.theme2 { --sol-accent: #f43f5e; --sol-accent-strong: #be123c; }
+.theme3 { --sol-accent: #10b981; --sol-accent-strong: #047857; }
+
+/* ─── Index (jump cards) ─── */
+.index {
+  margin-bottom: 40px;
+}
+
+.indexList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-  flex-shrink: 0;
 }
 
-.counterText {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: #08172c;
-  letter-spacing: -0.01em;
-  margin-right: 4px;
-}
-
-.counterDivider {
-  color: #94a3b8;
-  font-weight: 400;
-}
-
-.arrowBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+.indexCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 16px 18px;
   background: #ffffff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid var(--sol-accent);
+  border-radius: 10px;
+  text-decoration: none;
   color: #08172c;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.arrowBtn:hover {
-  background: #08172c;
-  border-color: #08172c;
-  color: #ffffff;
-}
-
-/* =========================================================
-   ACCORDION CONTAINER & TRACK (Desktop Expanding Horizontal)
-   ========================================================= */
-
-.accordionContainer {
-  display: block;
-  margin-bottom: 32px;
-  width: 100%;
-}
-
-.accordionTrack {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  height: 490px;
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  align-items: stretch;
-}
-
-/* Single Panel */
-.accordionPanel {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  outline: none;
-  transition: flex 0.6s cubic-bezier(0.25, 1, 0.4, 1),
-    max-width 0.6s cubic-bezier(0.25, 1, 0.4, 1),
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-  box-sizing: border-box;
-}
-
-.accordionPanel:focus-visible {
-  box-shadow: 0 0 0 3px #00b4ff;
-}
-
-/* Collapsed Panel State (Desktop) */
-.panelCollapsed {
-  flex: 0 0 56px;
-  max-width: 68px;
-  opacity: 0.92;
-}
-
-.panelCollapsed:hover {
-  opacity: 1;
+.indexCard:hover,
+.indexCard:focus-visible {
+  box-shadow: 0 8px 24px rgba(8, 23, 44, 0.08);
   transform: translateY(-2px);
 }
 
-/* Active Expanded Panel State (Desktop) */
-.panelActive {
-  flex: 6;
-  max-width: none;
-  cursor: default;
-  box-shadow: 0 20px 40px -15px rgba(8, 23, 44, 0.45);
-}
-
-.panelActive .ribbonContent {
-  display: none !important;
-}
-
-.panelCollapsed .expandedContent {
-  display: none !important;
-}
-
-/* Inactive Collapsed Ribbon Content (Vertical 90° Rotated on Desktop) */
-.ribbonContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
-  padding: 24px 10px;
-  box-sizing: border-box;
-  user-select: none;
-}
-
-.ribbonLeftGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.ribbonNumber {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
+.indexNumber {
+  font-size: 13px;
   font-weight: 800;
+  color: var(--sol-accent-strong);
+  letter-spacing: 0.04em;
+}
+
+.indexTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.indexBadge {
+  margin-top: auto;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+/* ─── Solution blocks ─── */
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.block {
+  scroll-margin-top: 96px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--sol-accent);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(8, 23, 44, 0.04);
+  overflow: hidden;
+}
+
+.offer {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
+  gap: 40px;
+  padding: 36px 40px;
+}
+
+.numberRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.number {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--sol-accent);
   letter-spacing: -0.02em;
 }
 
-.ribbonInsigniaBadge {
-  display: none;
-}
-
-.ribbonTitle {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-  opacity: 0.95;
-  transition: opacity 0.2s ease;
-}
-
-.panelCollapsed:hover .ribbonTitle {
-  opacity: 1;
-}
-
-.ribbonDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  margin-top: auto;
-}
-
-.mobileChevron {
-  display: none;
-}
-
-.mobileChevronUp {
-  display: none;
-}
-
-/* Expanded Content inside Active Panel */
-.expandedContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  padding: 38px 42px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  animation: panelFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes panelFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.expandedInner {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  max-width: 740px;
-}
-
-.expandedTopRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.numberBadgeGroup {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Modern sans-serif typography for main numbers */
-.expandedNumber {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 32px;
+.badge {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-/* Subtle Insignia Badge */
-.insigniaBadge {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 11.5px;
-  font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #f59e0b;
-  display: inline-flex;
-  align-items: center;
+  color: var(--sol-accent-strong);
 }
 
-.expandedTitle {
+.blockTitle {
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: clamp(1.45rem, 2.1vw, 1.9rem);
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
   font-weight: 500;
-  color: #ffffff;
   line-height: 1.25;
-  margin: 0 0 16px;
-}
-
-.expandedBody {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 18px;
-}
-
-.detailBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.detailLabel {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.detailText {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #cbd5e1;
-  margin: 0;
-}
-
-/* Ultra-minimalist Capability Tags */
-.tagsRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  margin-bottom: 14px;
-}
-
-.capTag {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  background: transparent;
-  border: none;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-}
-
-.capTag:not(:last-child)::after {
-  content: '·';
-  margin-left: 10px;
-  color: rgba(255, 255, 255, 0.35);
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 1;
+  margin: 0 0 10px;
+  color: #08172c;
 }
 
 .footnote {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  margin: 4px 0 0;
+}
+
+.facts {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.factLabel {
   font-size: 11px;
-  font-style: italic;
-  color: #94a3b8;
-  margin-bottom: 14px;
-  display: block;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.factText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #1e293b;
+}
+
+.fact dd {
+  margin: 0;
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #08172c;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 4px 11px;
 }
 
 .ctaRow {
-  margin-top: auto;
-  padding-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.backToBoardBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.2s;
-}
-
-.backToBoardBtn:hover {
-  color: rgba(255, 255, 255, 0.85);
+  padding-left: 146px;
 }
 
 .solutionCta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: #08172c;
+  border: 1px solid #08172c;
   border-radius: 8px;
-  padding: 9px 18px;
+  padding: 11px 20px;
   text-decoration: none;
-  transition: all 0.2s ease;
-  width: fit-content;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.solutionCta:hover {
-  background: #ffffff;
-  color: #08172c;
-  border-color: #ffffff;
+.solutionCta:hover,
+.solutionCta:focus-visible {
+  background: #13305a;
   transform: translateX(2px);
 }
 
-/* =========================================================
-   THEMES PER PANEL
-   ========================================================= */
-
-/* Theme 0: Amber / Navy (Posventa y Garantías) */
-.theme0 {
-  background: linear-gradient(135deg, #0c203b 0%, #061120 100%);
-  border: 1px solid rgba(212, 154, 55, 0.4);
+/* ─── Detail inside a block ─── */
+.detail {
+  border-top: 1px solid #e2e8f0;
+  background: #fbfcfe;
 }
 
-.theme0 .ribbonNumber,
-.theme0 .expandedNumber {
-  color: #f59e0b;
+.detailHead {
+  padding: 28px 40px 8px;
+  max-width: 820px;
 }
 
-.theme0 .ribbonDot {
-  background: #f59e0b;
+.detailTitle {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sol-accent-strong);
+  margin: 0 0 8px;
 }
 
-/* Theme 1: Cyan / Slate (Titular Regulatorio) */
-.theme1 {
-  background: linear-gradient(135deg, #0d283e 0%, #061522 100%);
-  border: 1px solid rgba(0, 180, 255, 0.4);
+.detailIntro {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0;
 }
 
-.theme1 .ribbonNumber,
-.theme1 .expandedNumber {
-  color: #00b4ff;
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 20px 40px 36px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  counter-reset: none;
 }
 
-.theme1 .ribbonDot {
-  background: #00b4ff;
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
 }
 
-/* Theme 2: Coral / Brick (Muestras Sin Venta) */
-.theme2 {
-  background: linear-gradient(135deg, #1f1b2e 0%, #0c0a17 100%);
-  border: 1px solid rgba(244, 63, 94, 0.35);
+.stepNumber {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sol-accent-strong);
 }
 
-.theme2 .ribbonNumber,
-.theme2 .expandedNumber {
-  color: #fb7185;
+.stepTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #08172c;
+  line-height: 1.35;
 }
 
-.theme2 .ribbonDot {
-  background: #fb7185;
+.stepText {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #475569;
 }
 
-/* Theme 3: Electric Blue (IOR / EOR por Proyecto) */
-.theme3 {
-  background: linear-gradient(135deg, #0f2442 0%, #081426 100%);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-}
-
-.theme3 .ribbonNumber,
-.theme3 .expandedNumber {
-  color: #38bdf8;
-}
-
-.theme3 .ribbonDot {
-  background: #38bdf8;
-}
-
-/* Theme 4: Pine & Emerald (Equipos en Comodato) */
-.theme4 {
-  background: linear-gradient(135deg, #0e2920 0%, #071813 100%);
-  border: 1px solid rgba(52, 211, 153, 0.4);
-}
-
-.theme4 .ribbonNumber,
-.theme4 .expandedNumber {
-  color: #34d399;
-}
-
-.theme4 .ribbonDot {
-  background: #34d399;
-}
-
-/* =========================================================
-   CUSTOM CARD (Banner Companion)
-   ========================================================= */
-
+/* ─── Custom case banner ─── */
 .customCardBanner {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -527,7 +344,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #d49a37;
+  color: #b07c24;
   margin-bottom: 6px;
 }
 
@@ -573,186 +390,71 @@
   color: #ffffff;
 }
 
-/* =========================================================
-   RESPONSIVE BREAKPOINTS (Mobile Vertical Accordion)
-   ========================================================= */
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .offer {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 768px) {
   .section {
     padding: 48px 0 60px;
   }
-
   .container {
     padding: 0 16px;
   }
-
-  .header {
-    margin-bottom: 24px;
+  .indexList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .accordionContainer {
-    margin-bottom: 24px;
+  .offer {
+    padding: 24px 20px;
   }
-
-  /* Transform Track into Vertical Accordion of Stacked Horizontal Bars */
-  .accordionTrack {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    gap: 10px;
-    border-radius: 0;
-    overflow: visible;
+  .number {
+    font-size: 36px;
   }
-
-  /* All Panels on Mobile: Full Width Horizontal Bars */
-  .accordionPanel {
-    flex: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: auto;
-    border-radius: 12px;
-    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  .fact {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
-
-  /* Inactive Collapsed Panel on Mobile: Horizontal Bar */
-  .panelCollapsed {
-    opacity: 1;
-    transform: none;
+  .ctaRow {
+    padding-left: 0;
   }
-
-  .panelCollapsed:hover {
-    transform: none;
-  }
-
-  .panelCollapsed .ribbonContent {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: auto;
-    width: 100%;
-    padding: 15px 18px;
-  }
-
-  .ribbonLeftGroup {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: auto;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .ribbonNumber {
-    font-size: 15px;
-    font-weight: 800;
-    flex-shrink: 0;
-  }
-
-  .ribbonInsigniaBadge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #f59e0b;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .ribbonTitle {
-    writing-mode: horizontal-tb !important;
-    transform: none !important;
-    white-space: normal;
-    text-align: left;
-    font-size: 13.5px;
-    line-height: 1.35;
-    margin: 0;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .ribbonDot {
-    display: none;
-  }
-
-  .mobileChevron {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.65);
-    flex-shrink: 0;
-    margin-left: 10px;
-  }
-
-  /* Active Expanded Panel on Mobile */
-  .panelActive {
-    box-shadow: 0 12px 28px -10px rgba(8, 23, 44, 0.5);
-  }
-
-  .panelActive .ribbonContent {
-    display: none;
-  }
-
-  .panelActive .expandedContent {
-    display: flex;
-    flex-direction: column;
-    padding: 22px 18px 24px;
-    height: auto;
-    overflow: visible;
-  }
-
-  .expandedInner {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .mobileChevronUp {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  .expandedNumber {
-    font-size: 26px;
-  }
-
-  .expandedTitle {
-    font-size: 1.3rem;
-    margin: 6px 0 14px;
-    line-height: 1.28;
-  }
-
-  .expandedBody {
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .detailText {
-    font-size: 13px;
-    line-height: 1.55;
-  }
-
   .solutionCta {
     width: 100%;
     justify-content: center;
-    padding: 11px 16px;
   }
-
+  .detailHead {
+    padding: 22px 20px 4px;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+    padding: 16px 20px 24px;
+  }
   .customCardBanner {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    padding: 20px 18px;
+    padding: 20px;
   }
+}
 
-  .customCtaBtn {
-    width: 100%;
-    justify-content: center;
+@media (max-width: 420px) {
+  .indexList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indexCard,
+  .solutionCta {
+    transition: none;
+  }
+  .indexCard:hover,
+  .solutionCta:hover {
+    transform: none;
   }
 }

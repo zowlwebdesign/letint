@@ -1,10 +1,8 @@
-'use client'
-
-import { useState, useRef } from 'react'
+import type { ReactNode } from 'react'
 import ScrollReveal from '../ScrollReveal'
 import styles from './SolutionsSection.module.css'
 import { SolutionData } from '../../lib/solar-data'
-import { trackEvent } from '../../lib/analytics'
+import SolutionCta from './SolutionCta'
 
 interface CustomCardProps {
   title: string
@@ -17,60 +15,33 @@ interface CustomCardProps {
 interface SolutionsSectionProps {
   data: SolutionData[]
   lang: 'es' | 'en'
+  /** Kept for backwards compatibility with older callers; the layout is the same. */
   variant?: 'grid' | 'tabs'
   title?: string
   intro?: string
   customCard?: CustomCardProps
+  /**
+   * Detail rendered inside a solution block, keyed by solution slug.
+   * Solutions without an entry fall back to their own `detail` copy.
+   */
+  details?: Record<string, ReactNode>
 }
 
-export default function SolutionsSection({
-  data,
-  lang,
-  title,
-  intro,
-  customCard,
-}: SolutionsSectionProps) {
+const ArrowIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+)
+
+export default function SolutionsSection({ data, lang, title, intro, customCard, details = {} }: SolutionsSectionProps) {
   const isEs = lang === 'es'
-  const [activeIdx, setActiveIdx] = useState(0)
-  const trackRef = useRef<HTMLDivElement>(null)
-
-  const handleSelectSolution = (index: number) => {
-    setActiveIdx(index)
-    trackEvent('solution_tab_click', {
-      industry: 'solar',
-      language: lang,
-      solution_number: data[index]?.number || `0${index + 1}`,
-      solution_title: data[index]?.title || '',
-    })
-  }
-
-  const handlePrev = () => {
-    setActiveIdx((prev) => (prev > 0 ? prev - 1 : data.length - 1))
-  }
-
-  const handleNext = () => {
-    setActiveIdx((prev) => (prev < data.length - 1 ? prev + 1 : 0))
-  }
-
-  // Smooth scroll to contact anchor
-  const handleCtaClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
-      const targetId = href.replace('#', '')
-      const el = document.getElementById(targetId)
-      if (el) {
-        e.preventDefault()
-        const offset = 80
-        const yPos = el.getBoundingClientRect().top + window.scrollY - offset
-        window.scrollTo({ top: yPos, behavior: 'smooth' })
-      }
-    }
-  }
 
   const defaultIntro = isEs
-    ? 'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, y del certificado a la posventa y los equipos en sede del cliente.'
-    : 'They can be deployed independently or linked as operations expand: from samples to certification, and from certification to after-sales and customer premises equipment.'
+    ? 'Pueden contratarse por separado o encadenarse a medida que crece la operación.'
+    : 'Each one can be contracted on its own, or combined as your operation in Colombia grows.'
 
-  // Strip duplicate opening sentence if present from Sanity or older cache
+  // Strip a duplicated opening sentence that older CMS copy may still carry
   const cleanIntro = intro
     ? intro
         .replace(/^Cada una responde a una situación concreta del fabricante, no a un servicio aislado\.\s*/i, '')
@@ -78,13 +49,11 @@ export default function SolutionsSection({
     : defaultIntro
 
   const defaultTitle = isEs
-    ? 'Cada una responde a una situación concreta del fabricante, no a un servicio aislado.'
-    : 'Each addresses a specific manufacturer challenge, not an isolated service.'
+    ? 'Cuatro soluciones. Cada una responde a una situación concreta del fabricante.'
+    : 'Four solutions. Each answers a specific manufacturer situation.'
 
-  const defaultCustomCard: CustomCardProps = {
-    title: isEs
-      ? '¿Su caso no encaja exactamente en una de estas cuatro?'
-      : 'Does your case not fit neatly into one of these four?',
+  const card: CustomCardProps = customCard || {
+    title: isEs ? '¿Su caso no encaja exactamente en una de estas cuatro?' : 'Does your case not fit neatly into one of these four?',
     description: isEs
       ? 'Las soluciones se diseñan sobre los mismos componentes. Una revisión inicial define la combinación correcta para su operación.'
       : 'Our solutions are engineered from the same operational building blocks. An initial review determines the exact combination for your model.',
@@ -93,233 +62,126 @@ export default function SolutionsSection({
     ctaHref: '#contacto',
   }
 
-  const effectiveCustomCard = customCard || defaultCustomCard
+  const labels = {
+    when: isEs ? 'Cuándo aplica' : 'When it applies',
+    what: isEs ? 'Qué hace' : 'What it does',
+    built: isEs ? 'Se construye con' : 'Built from',
+    cta: isEs ? 'Consultar viabilidad de esta solución' : 'Check feasibility for this solution',
+    flagship: isEs ? 'Solución insignia' : 'Flagship solution',
+    jump: isEs ? 'Ir a la solución' : 'Go to solution',
+  }
 
   return (
-    <section id="soluciones" className={styles.section} aria-label="Four solutions">
+    <section id="soluciones" className={styles.section} aria-labelledby="soluciones-title">
       <div className={styles.container}>
-        {/* Header with Eyebrow and Deduplicated Title / Subtitle */}
         <ScrollReveal variant="up">
           <div className={styles.header}>
-            <div className={styles.headerText}>
-              <div className={styles.eyebrow}>
-                {isEs ? 'CUATRO SOLUCIONES' : 'FOUR SOLUTIONS'}
-              </div>
-              <h2 className={styles.title}>{title || defaultTitle}</h2>
-              <p className={styles.intro}>{cleanIntro}</p>
-            </div>
-
-            {/* Navigation Controls (Desktop & Mobile accessible) */}
-            <div className={styles.navControls}>
-              <span className={styles.counterText}>
-                {String(activeIdx + 1).padStart(2, '0')} <span className={styles.counterDivider}>/</span> {String(data.length).padStart(2, '0')}
-              </span>
-              <button
-                type="button"
-                className={styles.arrowBtn}
-                onClick={handlePrev}
-                aria-label={isEs ? 'Solución anterior' : 'Previous solution'}
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className={styles.arrowBtn}
-                onClick={handleNext}
-                aria-label={isEs ? 'Siguiente solución' : 'Next solution'}
-              >
-                ›
-              </button>
-            </div>
+            <div className={styles.eyebrow}>{isEs ? 'CUATRO SOLUCIONES' : 'FOUR SOLUTIONS'}</div>
+            <h2 id="soluciones-title" className={styles.title}>{title || defaultTitle}</h2>
+            <p className={styles.intro}>{cleanIntro}</p>
           </div>
         </ScrollReveal>
 
-        {/* ─── ACCORDION: Desktop Horizontal Expanding Track / Mobile Vertical Stacked Bars ─── */}
-        <div className={styles.accordionContainer}>
-          <div ref={trackRef} className={styles.accordionTrack} role="tablist">
-            {data.map((item, idx) => {
-              const isActive = activeIdx === idx
-              const themeClass = styles[`theme${idx}`]
+        {/* Index: one card per solution, each jumps to its own block */}
+        <nav className={styles.index} aria-label={isEs ? 'Soluciones' : 'Solutions'}>
+          <ol className={styles.indexList}>
+            {data.map((item, idx) => (
+              <li key={item.slug} className={styles[`theme${idx}`]}>
+                <a href={`#solucion-${item.slug}`} className={styles.indexCard} aria-label={`${labels.jump} ${item.number}: ${item.title}`}>
+                  <span className={styles.indexNumber}>{item.number}</span>
+                  <span className={styles.indexTitle}>{item.title}</span>
+                  <span className={styles.indexBadge}>{item.badge}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-              return (
-                <div
-                  key={idx}
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-label={`${item.number} ${item.title}`}
-                  tabIndex={0}
-                  className={`${styles.accordionPanel} ${themeClass} ${
-                    isActive ? styles.panelActive : styles.panelCollapsed
-                  }`}
-                  onClick={() => handleSelectSolution(idx)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      handleSelectSolution(idx)
-                    }
-                  }}
-                >
-                  {/* Inactive Collapsed Ribbon Content (Rotated 90° on Desktop, Horizontal Bar on Mobile) */}
-                  {!isActive && (
-                    <div className={styles.ribbonContent} aria-hidden="true">
-                      <div className={styles.ribbonLeftGroup}>
-                        <span className={styles.ribbonNumber}>{item.number}</span>
-                        {item.number === '01' && (
-                          <span className={styles.ribbonInsigniaBadge}>
-                            · {isEs ? 'SOLUCIÓN INSIGNIA' : 'FLAGSHIP'}
-                          </span>
-                        )}
-                        <span className={styles.ribbonTitle}>{item.title}</span>
-                      </div>
-                      <span className={styles.ribbonDot} />
-                      <span className={styles.mobileChevron} aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </span>
+        {/* One independent offer per block, all with the same structure */}
+        <div className={styles.blocks}>
+          {data.map((item, idx) => {
+            const customDetail = details[item.slug]
+            return (
+              <article
+                key={item.slug}
+                id={`solucion-${item.slug}`}
+                className={`${styles.block} ${styles[`theme${idx}`]}`}
+                aria-labelledby={`solucion-${item.slug}-title`}
+              >
+                <div className={styles.offer}>
+                  <div className={styles.offerHead}>
+                    <div className={styles.numberRow}>
+                      <span className={styles.number}>{item.number}</span>
+                      <span className={styles.badge}>{item.number === '01' ? labels.flagship : item.badge}</span>
                     </div>
-                  )}
+                    <h3 id={`solucion-${item.slug}-title`} className={styles.blockTitle}>{item.title}</h3>
+                    {item.footnote && <p className={styles.footnote}>{item.footnote}</p>}
+                  </div>
 
-                  {/* Active Expanded Card Content */}
-                  {isActive && (
-                    <div className={styles.expandedContent} role="tabpanel">
-                      <div className={styles.expandedInner}>
-                        {/* Top Number + Insignia Badge */}
-                        <div className={styles.expandedTopRow}>
-                          <div className={styles.numberBadgeGroup}>
-                            <span className={styles.expandedNumber}>{item.number}</span>
-                            {item.number === '01' && (
-                              <span className={styles.insigniaBadge}>
-                                · {isEs ? 'SOLUCIÓN INSIGNIA' : 'FLAGSHIP SOLUTION'}
-                              </span>
-                            )}
-                          </div>
-                          <span className={styles.mobileChevronUp} aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="18 15 12 9 6 15" />
-                            </svg>
-                          </span>
-                        </div>
-
-                        {/* Title */}
-                        <h3 className={styles.expandedTitle}>{item.title}</h3>
-
-                        {/* Details Paragraphs */}
-                        <div className={styles.expandedBody}>
-                          <div className={styles.detailBlock}>
-                            <span className={styles.detailLabel}>
-                              {isEs ? 'Cuándo aplica' : 'When it applies'}
-                            </span>
-                            <p className={styles.detailText}>{item.whenApplies}</p>
-                          </div>
-
-                          <div className={styles.detailBlock}>
-                            <span className={styles.detailLabel}>
-                              {isEs ? 'En energía solar' : 'In solar energy'}
-                            </span>
-                            <p className={styles.detailText}>{item.industryApplication}</p>
-                          </div>
-                        </div>
-
-                        {/* Minimalist Capability Tags */}
-                        <div className={styles.tagsRow}>
-                          {item.capabilityTags.map((tag, tIdx) => (
-                            <span key={tIdx} className={styles.capTag}>
-                              {tag}
-                            </span>
+                  <dl className={styles.facts}>
+                    <div className={styles.fact}>
+                      <dt className={styles.factLabel}>{labels.when}</dt>
+                      <dd className={styles.factText}>{item.whenApplies}</dd>
+                    </div>
+                    <div className={styles.fact}>
+                      <dt className={styles.factLabel}>{labels.what}</dt>
+                      <dd className={styles.factText}>{item.industryApplication}</dd>
+                    </div>
+                    <div className={styles.fact}>
+                      <dt className={styles.factLabel}>{labels.built}</dt>
+                      <dd>
+                        <ul className={styles.chips}>
+                          {item.capabilityTags.map((tag) => (
+                            <li key={tag} className={styles.chip}>{tag}</li>
                           ))}
-                        </div>
-
-                        {item.footnote && (
-                          <span className={styles.footnote}>{item.footnote}</span>
-                        )}
-
-                        {/* CTA Link */}
-                        <div className={styles.ctaRow}>
-                          <a
-                            href="#contacto"
-                            className={styles.solutionCta}
-                            onClick={(e) => handleCtaClick(e, '#contacto')}
-                          >
-                            <span>
-                              {isEs
-                                ? 'Consultar viabilidad de esta solución'
-                                : 'Check feasibility for this solution'}
-                            </span>
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <line x1="5" y1="12" x2="19" y2="12" />
-                              <polyline points="12 5 19 12 12 19" />
-                            </svg>
-                          </a>
-                          <button
-                            type="button"
-                            className={styles.backToBoardBtn}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              const el = document.getElementById('soluciones')
-                              if (el) {
-                                const offset = 80
-                                window.scrollTo({
-                                  top: el.getBoundingClientRect().top + window.scrollY - offset,
-                                  behavior: 'smooth',
-                                })
-                              }
-                            }}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <line x1="19" y1="12" x2="5" y2="12" />
-                              <polyline points="12 5 5 12 12 19" />
-                            </svg>
-                            <span>{isEs ? 'Volver al tablero' : 'Back to Solutions'}</span>
-                          </button>
-                        </div>
-                      </div>
+                        </ul>
+                      </dd>
                     </div>
-                  )}
+                    <div className={styles.ctaRow}>
+                      <SolutionCta slug={item.slug} number={item.number} className={styles.solutionCta}>
+                        <span>{labels.cta}</span>
+                        <ArrowIcon />
+                      </SolutionCta>
+                    </div>
+                  </dl>
                 </div>
-              )
-            })}
-          </div>
+
+                {customDetail ? (
+                  <div className={styles.detail}>{customDetail}</div>
+                ) : item.detail ? (
+                  <div className={styles.detail}>
+                    <div className={styles.detailHead}>
+                      <h4 className={styles.detailTitle}>{item.detail.title}</h4>
+                      <p className={styles.detailIntro}>{item.detail.intro}</p>
+                    </div>
+                    <ol className={styles.steps}>
+                      {item.detail.steps.map((step, sIdx) => (
+                        <li key={sIdx} className={styles.step}>
+                          <span className={styles.stepNumber}>{String(sIdx + 1).padStart(2, '0')}</span>
+                          <span className={styles.stepTitle}>{step.title}</span>
+                          <span className={styles.stepText}>{step.description}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ) : null}
+              </article>
+            )
+          })}
         </div>
 
-        {/* ─── CUSTOM CARD: Caso a medida (Banner Companion) ─── */}
         <ScrollReveal variant="up" delay={120}>
           <div className={styles.customCardBanner}>
             <div className={styles.customCardLeft}>
-              <span className={styles.customBadge}>{effectiveCustomCard.badge}</span>
-              <h3 className={styles.customTitle}>{effectiveCustomCard.title}</h3>
-              <p className={styles.customDescription}>{effectiveCustomCard.description}</p>
+              <span className={styles.customBadge}>{card.badge}</span>
+              <h3 className={styles.customTitle}>{card.title}</h3>
+              <p className={styles.customDescription}>{card.description}</p>
             </div>
             <div className={styles.customCardRight}>
-              <a
-                href={effectiveCustomCard.ctaHref}
-                className={styles.customCtaBtn}
-                onClick={(e) => handleCtaClick(e, effectiveCustomCard.ctaHref)}
-              >
-                <span>{effectiveCustomCard.ctaText}</span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
+              <SolutionCta slug="general" className={styles.customCtaBtn}>
+                <span>{card.ctaText}</span>
+                <ArrowIcon />
+              </SolutionCta>
             </div>
           </div>
         </ScrollReveal>

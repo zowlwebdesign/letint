@@ -17,6 +17,8 @@ interface WarrantyCycleTimelineProps {
     description: string
   }
   image?: SectionImageData
+  /** Render inside a solution block (no section shell, h4 headings) */
+  embedded?: boolean
 }
 
 const AUTO_CYCLE_MS = 10000
@@ -28,7 +30,10 @@ export default function WarrantyCycleTimeline({
   subheadline,
   callout,
   image,
+  embedded = false,
 }: WarrantyCycleTimelineProps) {
+  const Shell = embedded ? 'div' : 'section'
+  const HeadingTag = embedded ? 'h4' : 'h2'
   const isEs = lang === 'es'
 
   // ── Desktop state ───────────────────────────────────────────────
@@ -127,12 +132,13 @@ export default function WarrantyCycleTimeline({
   const isLastActive = activeIdx === steps.length - 1
 
   return (
-    <section id="garantias" className={styles.section} aria-label="Warranty cycle">
+    <Shell id="garantias" className={`${styles.section} ${embedded ? styles.embedded : ''}`} aria-label="Warranty cycle">
       <div className={styles.container}>
         {/* Header */}
         <ScrollReveal variant="up">
           <div className={styles.header}>
-            <h2 className={styles.title}>{title || defaultTitle}</h2>
+            {embedded && <span className={styles.eyebrow}>{isEs ? 'Cómo funciona: el ciclo de garantía' : 'How it works: the warranty cycle'}</span>}
+            <HeadingTag className={styles.title}>{title || defaultTitle}</HeadingTag>
             <p className={styles.subheadline}>{subheadline || defaultSubheadline}</p>
           </div>
         </ScrollReveal>
@@ -328,6 +334,6 @@ export default function WarrantyCycleTimeline({
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </Shell>
   )
 }

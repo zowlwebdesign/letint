@@ -63,3 +63,6 @@ export const ALL_INDUSTRIES_QUERY = `*[_type == "industryPage"] | order(_created
   shortDescription,
   categoryTags
 }`
+
+// Photo shared by the home hero slide, the home Industries card and the solar page (warranty section)
+export const SOLAR_PHOTO_QUERY = `*[_type == "industryPage" && slug.current == "energia-solar"][0].sectionImages.warranty`

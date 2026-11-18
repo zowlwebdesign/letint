@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import styles from './SolarContactForm.module.css'
 import ScrollReveal from '../ScrollReveal'
 import { trackEvent, trackLinkedInConversion } from '../../lib/analytics'
+import { SOLUTION_FORM_VALUES } from '../../lib/solar-data'
+import { SOLUTION_SELECT_EVENT } from './SolutionCta'
 
 interface SolarContactFormProps {
   variant?: 'full' | 'campaign'
@@ -53,6 +55,22 @@ export default function SolarContactForm({
   const [submitted, setSubmitted] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
 
+  const [preselected, setPreselected] = useState(false)
+
+  // Preselect the solution chosen with ?solution=<slug> or a solution CTA on the page
+  useEffect(() => {
+    const applySolution = (slug: string | null) => {
+      const value = slug ? SOLUTION_FORM_VALUES[slug] : undefined
+      if (!value) return
+      setFormData((prev) => ({ ...prev, solucionInteres: value }))
+      setPreselected(true)
+    }
+    applySolution(new URLSearchParams(window.location.search).get('solution'))
+    const onSelect = (e: Event) => applySolution((e as CustomEvent<string>).detail)
+    window.addEventListener(SOLUTION_SELECT_EVENT, onSelect)
+    return () => window.removeEventListener(SOLUTION_SELECT_EVENT, onSelect)
+  }, [])
+
   // Extract UTM parameters on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -71,6 +89,7 @@ export default function SolarContactForm({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target
+    if (name === 'solucionInteres') setPreselected(false)
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked
       setFormData((prev) => ({ ...prev, [name]: checked }))
@@ -330,6 +349,11 @@ export default function SolarContactForm({
                           {isEs ? 'Revisión general de operación' : 'General operational review'}
                         </option>
                       </select>
+                      {preselected && (
+                        <span className={styles.preselectNote} role="status">
+                          {isEs ? 'Preseleccionada desde la solución que eligió.' : 'Preselected from the solution you chose.'}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -411,8 +435,8 @@ export default function SolarContactForm({
                       />
                       <span className={styles.checkboxText}>
                         {isEs
-                          ? 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y a la política de tratamiento de datos del Grupo LET.'
-                          : 'I authorize the processing of my personal data in accordance with Law 1581 of 2012 and LET Group’s data policy.'}
+                          ? 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y a la política de tratamiento de datos de LET.'
+                          : 'I authorize the processing of my personal data in accordance with Law 1581 of 2012 and LET’s data policy.'}
                       </span>
                     </label>
                     {errors.aceptaDatos && (

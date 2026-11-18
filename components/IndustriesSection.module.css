@@ -1,0 +1,150 @@
+.section {
+  padding: var(--section-y) 0;
+  background-color: #f5f7fa;
+  scroll-margin-top: 76px;
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--color-bg-dark);
+  margin-bottom: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.65;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(0, 180, 255, 0.25);
+}
+
+.photo {
+  position: relative;
+  min-height: 320px;
+}
+
+.photoImg {
+  object-fit: cover;
+}
+
+.body {
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.badge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9a6a1a;
+  background: #fbf3e4;
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.cardTitle {
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-weight: 800;
+  color: var(--color-bg-dark);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.solutions {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-bg-dark);
+}
+
+.solutions li {
+  display: flex;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.solNumber {
+  color: #9a6a1a;
+  font-weight: 800;
+}
+
+.link {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.card:hover .link {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+  .photo {
+    min-height: 220px;
+  }
+  .body {
+    padding: 24px 20px;
+  }
+  .solutions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+}

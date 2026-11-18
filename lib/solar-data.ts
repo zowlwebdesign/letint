@@ -22,7 +22,15 @@ export interface HeroData {
   statLabel?: string
 }
 
+export interface SolutionDetail {
+  title: string
+  intro: string
+  steps: { title: string; description: string }[]
+}
+
 export interface SolutionData {
+  /** Stable id used in anchors (#solucion-after-sales) and in ?solution= form preselection */
+  slug: string
   number: string
   badge: string
   title: string
@@ -30,7 +38,86 @@ export interface SolutionData {
   industryApplication: string
   capabilityTags: string[]
   footnote?: string
+  /** Short detail shown inside the solution block (01 and 02 embed their own sections instead) */
+  detail?: SolutionDetail
 }
+
+/** Ids accepted by ?solution= and the value stored in the solar lead form */
+export const SOLUTION_FORM_VALUES: Record<string, string> = {
+  'after-sales': 'After-sales & warranties',
+  'regulatory-holder': 'Regulatory holder in Colombia',
+  samples: 'Samples, demos & prototypes',
+  cpe: 'Customer Premises Equipment (CPE)',
+  general: 'General operational review',
+}
+
+const SOLUTION_SLUGS = ['after-sales', 'regulatory-holder', 'samples', 'cpe']
+
+export interface ProblemCard {
+  label: string
+  title: string
+  description: string
+}
+
+export interface ProblemData {
+  title: string
+  intro: string
+  cards: ProblemCard[]
+  compareTitle: string
+  compareSlow: { label: string; value: string }
+  compareFast: { label: string; value: string }
+}
+
+export interface LetUnit {
+  name: string
+  country: string
+  role: string
+}
+
+export const problemDataEn: ProblemData = {
+  title: 'When an inverter fails in Colombia, how long does your customer wait?',
+  intro: 'Two problems decide whether a warranty holds up. Both start when after-sales depends on a distributor.',
+  cards: [
+    {
+      label: 'Problem 1',
+      title: 'Prolonged downtime',
+      description:
+        'The replacement ships from the factory. The plant waits for weeks while the unit travels and clears customs, and every day of waiting is lost generation.',
+    },
+    {
+      label: 'Problem 2',
+      title: 'RMA with no single owner',
+      description:
+        'Approval, pickup, export, repair and re-entry split between a distributor, a forwarder and a customs broker. Nobody follows the serial number end to end.',
+    },
+  ],
+  compareTitle: 'Time to put a working unit back in the field',
+  compareSlow: { label: 'Replacement shipped from the factory', value: 'weeks' },
+  compareFast: { label: 'From local stock (FSL)', value: 'days' },
+}
+
+export const letUnitsEn: LetUnit[] = [
+  {
+    name: 'LET INT',
+    country: 'United States',
+    role: 'U.S. entity in Florida. Single point of contact and coordination with the manufacturer.',
+  },
+  {
+    name: 'LET PRO',
+    country: 'Colombia',
+    role: 'Legal and operating arm under mandate: Importer and Exporter of Record and regulatory holder.',
+  },
+  {
+    name: 'LET ADA',
+    country: 'Colombia',
+    role: 'Customs agency of LET Logistics: clearance, temporary export and re-importation regimes.',
+  },
+  {
+    name: 'LET LOG',
+    country: 'Colombia',
+    role: 'LET Logistics: warehousing, serial-number inventory, last-mile distribution and reverse logistics.',
+  },
+]
 
 export interface WarrantyStep {
   stepNumber: string
@@ -195,6 +282,7 @@ export const solarDataEs: SolarPageData = {
     'Pueden contratarse por separado o encadenarse a medida que crece la operación: de las muestras al certificado, y del certificado a la posventa y los equipos en sede del cliente.',
   solutions: [
     {
+      slug: 'after-sales',
       number: '01',
       badge: 'Solución insignia',
       title: 'Programa de posventa y garantías',
@@ -205,6 +293,7 @@ export const solarDataEs: SolarPageData = {
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
+      slug: 'regulatory-holder',
       number: '02',
       badge: 'Cumplimiento normativo',
       title: 'Titular regulatorio en Colombia',
@@ -215,6 +304,7 @@ export const solarDataEs: SolarPageData = {
       capabilityTags: ['ICR', 'RETIE', 'SIC', 'INVIMA'],
     },
     {
+      slug: 'samples',
       number: '03',
       badge: 'Desarrollo comercial',
       title: 'Muestras, demostraciones y prototipos',
@@ -225,6 +315,7 @@ export const solarDataEs: SolarPageData = {
       capabilityTags: ['IOR', 'EOR', 'PROTOTYPE', 'TESTING'],
     },
     {
+      slug: 'cpe',
       number: '04',
       badge: 'Energía como servicio',
       title: 'Customer Premises Equipment (CPE)',
@@ -455,6 +546,7 @@ export const solarDataEn: SolarPageData = {
     'They can be deployed independently or linked as operations expand: from samples to certification, and from certification to after-sales and customer premises equipment.',
   solutions: [
     {
+      slug: 'after-sales',
       number: '01',
       badge: 'Flagship Solution',
       title: 'After-Sales & Warranty Program',
@@ -465,6 +557,7 @@ export const solarDataEn: SolarPageData = {
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
+      slug: 'regulatory-holder',
       number: '02',
       badge: 'Regulatory Compliance',
       title: 'Regulatory Holder in Colombia',
@@ -475,6 +568,7 @@ export const solarDataEn: SolarPageData = {
       capabilityTags: ['ICR', 'RETIE', 'SIC', 'INVIMA'],
     },
     {
+      slug: 'samples',
       number: '03',
       badge: 'Commercial Expansion',
       title: 'Samples, Demos & Prototypes',
@@ -483,8 +577,32 @@ export const solarDataEn: SolarPageData = {
       industryApplication:
         'Equipment for technical testing, prototype validations, feasibility studies, and trade expos, with return to origin or customs clearance if the client purchases.',
       capabilityTags: ['IOR', 'EOR', 'PROTOTYPE', 'TESTING'],
+      detail: {
+        title: 'How a sample shipment runs',
+        intro:
+          'Units reach prospects and partners without them registering as importers, and every unit has a planned exit from day one.',
+        steps: [
+          {
+            title: 'Case review',
+            description: 'We confirm the units, their purpose and the RETIE status of each reference before anything ships.',
+          },
+          {
+            title: 'Entry under the right regime',
+            description: 'LET PRO imports as Importer of Record, under a temporary regime when the units are meant to go back.',
+          },
+          {
+            title: 'Delivery and tracking',
+            description: 'Units reach the test site, trade show or partner, registered by serial number.',
+          },
+          {
+            title: 'Planned exit',
+            description: 'Return to origin with LET PRO as Exporter of Record, or nationalization if the customer decides to buy.',
+          },
+        ],
+      },
     },
     {
+      slug: 'cpe',
       number: '04',
       badge: 'Energy as a Service',
       title: 'Customer Premises Equipment (CPE)',
@@ -494,6 +612,29 @@ export const solarDataEn: SolarPageData = {
         'Storage, monitoring, or generation systems deployed under energy-as-a-service or bailment (comodato) agreements, with complete serial traceability and retrieval upon contract end.',
       capabilityTags: ['SN', 'ICR', 'SLA', 'BESS'],
       footnote: 'Subject to prior case approval',
+      detail: {
+        title: 'How equipment at the customer site is handled',
+        intro:
+          'The equipment stays yours for the whole contract. LET PRO holds it in Colombia on your behalf and documents where every unit is.',
+        steps: [
+          {
+            title: 'Case approval',
+            description: 'Each contract is reviewed first: equipment, term, customer site and the agreement that covers it.',
+          },
+          {
+            title: 'Import and installation',
+            description: 'Equipment enters with LET PRO as Importer of Record and is delivered to the site, recorded by serial number.',
+          },
+          {
+            title: 'Operation and support',
+            description: 'Spare parts and replacements from local stock, to meet the service levels agreed with your customer.',
+          },
+          {
+            title: 'Retrieval at contract end',
+            description: 'Units are collected and re-exported, redeployed or nationalized, as the contract requires.',
+          },
+        ],
+      },
     },
   ],
   customSolutionCard: {
@@ -780,21 +921,34 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
     ),
     solutions:
       cmsSolutions.length > 0
-        ? cmsSolutions.map((s: any, idx: number) => ({
+        ? cmsSolutions.map((s: any, idx: number) => {
+            // Short CMS strings (badges, footnotes) can slip past looksSpanish: in English mode,
+            // any value identical to the Spanish source copy falls back to the English copy.
+            const es = solarDataEs.solutions[idx]
+            const sol = (key: 'badge' | 'title' | 'whenApplies' | 'industryApplication' | 'footnote') => {
+              const raw = s?.[key]
+              const fb = fallback.solutions[idx]?.[key] || ''
+              if (en && typeof raw === 'string' && es && raw.trim() === String(es[key] || '').trim()) return fb
+              return raw
+            }
+            return {
+            slug: fallback.solutions[idx]?.slug || SOLUTION_SLUGS[idx] || `solution-${idx + 1}`,
             number: fallback.solutions[idx]?.number || `0${idx + 1}`,
-            badge: valStr(s.badge, fallback.solutions[idx]?.badge || ''),
+            badge: valStr(sol('badge'), fallback.solutions[idx]?.badge || ''),
             title: retire(
-              valStr(s.title, fallback.solutions[idx]?.title || ''),
+              valStr(sol('title'), fallback.solutions[idx]?.title || ''),
               /^(Manufacturer-Owned Equipment|Equipos propios en sede)/i,
               fallback.solutions[idx]?.title || ''
             ),
-            whenApplies: valStr(s.whenApplies, fallback.solutions[idx]?.whenApplies || ''),
-            industryApplication: valStr(s.industryApplication, fallback.solutions[idx]?.industryApplication || ''),
+            whenApplies: valStr(sol('whenApplies'), fallback.solutions[idx]?.whenApplies || ''),
+            industryApplication: valStr(sol('industryApplication'), fallback.solutions[idx]?.industryApplication || ''),
             capabilityTags: (s.capabilityTags || fallback.solutions[idx]?.capabilityTags || []).map((t: string) =>
               String(t).toUpperCase() === 'PILOT' ? 'PROTOTYPE' : t
             ),
-            footnote: s.footnote ? valStr(s.footnote) : fallback.solutions[idx]?.footnote,
-          }))
+            footnote: s.footnote ? valStr(sol('footnote'), fallback.solutions[idx]?.footnote || '') : fallback.solutions[idx]?.footnote,
+            detail: fallback.solutions[idx]?.detail,
+          }
+          })
         : fallback.solutions,
     customSolutionCard: {
       title: valStr(sanityDoc.customSolutionCard?.title, fallback.customSolutionCard.title),

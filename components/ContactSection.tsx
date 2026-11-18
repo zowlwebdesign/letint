@@ -24,14 +24,24 @@ interface ContactProps {
   }
 }
 
-// removed DEFAULTS
+const SOLAR_SERVICE_OPTION = 'Solar & Storage: after-sales & warranties'
+
 export default function ContactSection({ data, corporateData }: ContactProps) {
   const [form, setForm] = useState({ fullName: '', companyName: '', email: '', originCountry: '', service: '', message: '' })
   const [status, setStatus] = useState('')
 
   if (!data) return null;
 
-  const options = data.serviceDropdownOptions || []
+  // Solar leads arriving from the home page must be classifiable even if the CMS list lacks the option
+  const cmsOptions = data.serviceDropdownOptions || []
+  const options = cmsOptions.some((o) => /solar/i.test(o))
+    ? cmsOptions
+    : (() => {
+        const list = [...cmsOptions]
+        const notSureIdx = list.findIndex((o) => /not sure/i.test(o))
+        list.splice(notSureIdx >= 0 ? notSureIdx : list.length, 0, SOLAR_SERVICE_OPTION)
+        return list
+      })()
 
   const whatsappRaw = data.whatsappNumber || corporateData?.whatsappNumber || '+57 313 231 0746'
   const whatsappClean = whatsappRaw ? whatsappRaw.replace(/[^0-9]/g, '') : ''

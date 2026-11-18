@@ -4,7 +4,7 @@ import ScrollReveal from './ScrollReveal'
 interface AudienceProps {
   data?: {
     title?: string
-    audienceCards?: Array<{ title: string; description: string }>
+    audienceCards?: Array<{ title: string; description: string; linkUrl?: string; linkText?: string }>
   }
 }
 
@@ -28,6 +28,13 @@ const ICONS = [
   </svg>,
 ]
 
+// Warranty programs are the Solar & Storage offer: link that card even if the CMS has no link yet
+const SOLAR_LANDING = '/industrias/energia-solar'
+function cardLink(card: { title: string; linkUrl?: string }): string | undefined {
+  if (card.linkUrl) return card.linkUrl
+  return /warrant/i.test(card.title || '') ? SOLAR_LANDING : undefined
+}
+
 export default function AudienceSection({ data }: AudienceProps) {
   if (!data) return null;
   const cards = data.audienceCards || []
@@ -43,11 +50,29 @@ export default function AudienceSection({ data }: AudienceProps) {
           <div className={styles.grid}>
             {cards.map((card, i) => (
               <ScrollReveal key={i} variant="scale" delay={i * 80} className={styles.cardReveal}>
-                <div className={styles.card}>
-                  <div className={styles.cardIcon}>{ICONS[i % ICONS.length]}</div>
-                  <h3 className={styles.cardTitle}>{card.title}</h3>
-                  <p className={styles.cardDesc}>{card.description}</p>
-                </div>
+                {(() => {
+                  const href = cardLink(card)
+                  const content = (
+                    <>
+                      <div className={styles.cardIcon}>{ICONS[i % ICONS.length]}</div>
+                      <h3 className={styles.cardTitle}>{card.title}</h3>
+                      <p className={styles.cardDesc}>{card.description}</p>
+                      {href && (
+                        <span className={styles.cardLink}>
+                          {card.linkText || (href === SOLAR_LANDING ? 'See Solar & Storage' : 'Learn more')}{' '}
+                          <span aria-hidden="true">&rarr;</span>
+                        </span>
+                      )}
+                    </>
+                  )
+                  return href ? (
+                    <a href={href} className={`${styles.card} ${styles.cardLinked}`}>
+                      {content}
+                    </a>
+                  ) : (
+                    <div className={styles.card}>{content}</div>
+                  )
+                })()}
               </ScrollReveal>
             ))}
           </div>

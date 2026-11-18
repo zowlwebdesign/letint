@@ -94,6 +94,24 @@
   flex-grow: 1;
 }
 
+.cardLinked {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardLink {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.cardLinked:hover .cardLink,
+.cardLinked:focus-visible .cardLink {
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .title { font-size: 1.8rem; }

@@ -48,7 +48,7 @@ export default function CapabilitiesGrid({
   }
 
   return (
-    <section className={styles.section} aria-label="Operational capabilities">
+    <section id="building-blocks" className={styles.section} aria-label="Building blocks shared by every solution">
       <div className={styles.container}>
         <div className={styles.split}>
           {/* Left: photo */}
@@ -63,11 +63,17 @@ export default function CapabilitiesGrid({
             <ScrollReveal variant="up">
               <div className={styles.header}>
                 <div className={styles.headerLeft}>
+                  <span className={styles.sharedLabel}>
+                    {isEs ? 'Compartidos por todas las soluciones' : 'Shared by every solution'}
+                  </span>
                   <h2 className={styles.title}>
-                    {title || 'The building blocks behind every solution.'}
+                    {title || (isEs ? 'Los componentes detrás de cada solución.' : 'The building blocks behind every solution.')}
                   </h2>
                   <p className={styles.subtitle}>
-                    {subtitle || 'Click each component to expand its description.'}
+                    {subtitle ||
+                      (isEs
+                        ? 'No son una quinta oferta: las cuatro soluciones se arman con estos componentes. Haga clic en cada uno para ver su descripción.'
+                        : 'Not a fifth offer: the four solutions above are assembled from these components. Click each one to expand its description.')}
                   </p>
                 </div>
 

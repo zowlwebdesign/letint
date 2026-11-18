@@ -18,7 +18,7 @@ export default function ReferenceCaseMetrics({
   image,
 }: ReferenceCaseMetricsProps) {
   return (
-    <section className={styles.section} aria-label="Reference case">
+    <section id="caso" className={styles.section} aria-label="Reference case">
       <div className={styles.container}>
         <ScrollReveal variant="up">
           <div className={`${styles.caseCard} ${image ? styles.withImage : ''}`}>

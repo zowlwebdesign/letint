@@ -5,19 +5,24 @@ import { RegulationData } from '../../lib/solar-data'
 interface RegulationRetieProps {
   data: RegulationData
   lang: 'es' | 'en'
+  /** Render inside a solution block (no section shell, h4 heading) */
+  embedded?: boolean
 }
 
-export default function RegulationRetie({ data, lang }: RegulationRetieProps) {
+export default function RegulationRetie({ data, lang, embedded = false }: RegulationRetieProps) {
   const isEs = lang === 'es'
+  const Shell = embedded ? 'div' : 'section'
+  const HeadingTag = embedded ? 'h4' : 'h2'
 
   return (
-    <section id="retie" className={styles.section} aria-label="RETIE 2024 regulation">
+    <Shell id="retie" className={`${styles.section} ${embedded ? styles.embedded : ''}`} aria-label="RETIE 2024 regulation">
       <div className={styles.container}>
         <div className={styles.layoutGrid}>
           {/* Left Column: Explanatory Text */}
           <ScrollReveal variant="left">
             <div className={styles.textColumn}>
-              <h2 className={styles.title}>{data.title}</h2>
+              {embedded && <span className={styles.eyebrow}>{isEs ? 'Por qué importa: RETIE 2024' : 'Why it matters: RETIE 2024'}</span>}
+              <HeadingTag className={styles.title}>{data.title}</HeadingTag>
               <p className={styles.paragraph}>{data.description}</p>
             </div>
           </ScrollReveal>
@@ -38,6 +43,6 @@ export default function RegulationRetie({ data, lang }: RegulationRetieProps) {
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </Shell>
   )
 }

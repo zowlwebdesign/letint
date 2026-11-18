@@ -7,7 +7,7 @@ import {
   ALL_INDUSTRIES_QUERY,
 } from '../../../sanity/lib/queries'
 import { urlForImage } from '../../../sanity/lib/image'
-import { getMergedSolarData, solarDataEn } from '../../../lib/solar-data'
+import { getMergedSolarData, solarDataEn, problemDataEn, letUnitsEn } from '../../../lib/solar-data'
 import { looksSpanish } from '../../../lib/english-guard'
 
 import Navbar from '../../../components/Navbar'
@@ -19,6 +19,8 @@ import CapabilitiesGrid from '../../../components/industries/CapabilitiesGrid'
 import RegulationRetie from '../../../components/industries/RegulationRetie'
 import ReferenceCaseMetrics from '../../../components/industries/ReferenceCaseMetrics'
 import SolarContactForm from '../../../components/industries/SolarContactForm'
+import SolarProblems from '../../../components/industries/SolarProblems'
+import LetUnits from '../../../components/industries/LetUnits'
 
 export const revalidate = 60
 
@@ -124,7 +126,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'LET PRO | LET Group',
+      siteName: 'LET PRO | LET',
       locale: 'en_US',
       alternateLocale: ['es_CO'],
       type: 'website',
@@ -208,7 +210,7 @@ export default async function IndustryDynamicPage({ params }: Props) {
             '@type': 'ListItem',
             position: 2,
             name: 'Industries',
-            item: 'https://letintl.com/#industrias',
+            item: 'https://letintl.com/#industries',
           },
           {
             '@type': 'ListItem',
@@ -321,45 +323,48 @@ export default async function IndustryDynamicPage({ params }: Props) {
         {/* Block 1: Hero & Comparative + 4 Trust Pillars */}
         <IndustryHero data={data.hero} lang="en" />
 
-        {/* Block 2: Four Solutions Accordion */}
+        {/* Block 2: The two problems (same copy as the LinkedIn piece) */}
+        <SolarProblems data={problemDataEn} />
+
+        {/* Block 3: Four independent solutions. 01 embeds the warranty cycle, 02 the RETIE detail. */}
         <SolutionsSection
           data={data.solutions}
           lang="en"
-          variant="grid"
           title={data.solutionsTitle}
           intro={data.solutionsIntro}
           customCard={data.customSolutionCard}
+          details={{
+            'after-sales': (
+              <WarrantyCycleTimeline
+                embedded
+                steps={data.featuredSolutionFlow.steps}
+                lang="en"
+                title={data.featuredSolutionFlow.title}
+                subheadline={data.featuredSolutionFlow.subheadline}
+                callout={data.featuredSolutionFlow.callout}
+                image={data.images.warranty}
+              />
+            ),
+            'regulatory-holder': <RegulationRetie embedded data={data.regulation} lang="en" />,
+          }}
         />
 
-        {/* Block 3: Solution 01 in Detail (6-step Warranty Cycle + DIAN Callout) */}
-        <WarrantyCycleTimeline
-          steps={data.featuredSolutionFlow.steps}
-          lang="en"
-          title={data.featuredSolutionFlow.title}
-          subheadline={data.featuredSolutionFlow.subheadline}
-          callout={data.featuredSolutionFlow.callout}
-          image={data.images.warranty}
-        />
-
-        {/* Block 4: Operational Capabilities (8 Codes) */}
+        {/* Block 4: Building blocks shared by every solution */}
         <CapabilitiesGrid
           capabilities={data.operationalCapabilities}
           lang="en"
           image={data.images.capabilities}
         />
 
-        {/* Block 5: RETIE Technical Regulation + Pre-shipment Checklist */}
-        <RegulationRetie
-          data={data.regulation}
-          lang="en"
-        />
-
-        {/* Block 6: Confidential Reference Case (2-column layout) */}
+        {/* Block 5: Confidential reference case */}
         <ReferenceCaseMetrics
           data={data.caseStudy}
           lang="en"
           image={data.images.caseStudy}
         />
+
+        {/* Block 6: The four LET units */}
+        <LetUnits units={letUnitsEn} />
 
         {/* Block 7: Full B2B Contact Form */}
         <SolarContactForm

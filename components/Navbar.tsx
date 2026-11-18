@@ -5,6 +5,7 @@ import styles from './Navbar.module.css'
 import { urlForImage } from '../sanity/lib/image'
 import { getCurrentLanguage, setLanguage, type Language } from '../lib/language'
 import { looksSpanish } from '../lib/english-guard'
+import { solarDataEn } from '../lib/solar-data'
 
 export interface NavDropdownItem {
   title: string
@@ -18,6 +19,8 @@ export interface NavItem {
   label: string
   href: string
   dropdown?: NavDropdownItem[]
+  /** Small heading shown on top of the desktop dropdown */
+  dropdownEyebrow?: string
 }
 
 export interface IndustrySummary {
@@ -40,21 +43,29 @@ interface NavbarProps {
   lang?: 'es' | 'en'
 }
 
-const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [
-  {
-    title: 'Solar Energy & Storage',
-    description: 'Inverters, panels, batteries and BESS. RETIE 2024, FSL custody and warranties.',
-    href: '/industrias/energia-solar',
-    badge: 'Active',
-    badgeType: 'active',
-  },
-]
+const SOLAR_DROPDOWN_ITEM: NavDropdownItem = {
+  title: 'Solar & Storage',
+  description: 'After-sales, RMA and warranty operations for inverters, batteries (BESS) and solar trackers.',
+  href: '/industrias/energia-solar',
+}
 
-// Single unified navbar links for the specialized industry landing page
+const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [SOLAR_DROPDOWN_ITEM]
+
+// Navbar for the solar landing: the four solutions are one menu, Warranty Cycle and
+// RETIE live inside solutions 01 and 02, so they are not top-level items.
 const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
-  { label: 'Solutions', href: '#soluciones' },
-  { label: 'Warranty Cycle', href: '#garantias' },
-  { label: 'RETIE Compliance', href: '#retie' },
+  {
+    label: 'Solutions',
+    href: '#soluciones',
+    dropdownEyebrow: 'Four solutions',
+    dropdown: solarDataEn.solutions.map((sol) => ({
+      title: `${sol.number} · ${sol.title}`,
+      description: sol.badge,
+      href: `#solucion-${sol.slug}`,
+    })),
+  },
+  { label: 'Building blocks', href: '#building-blocks' },
+  { label: 'Case', href: '#caso' },
   { label: 'Contact', href: '#contacto' },
 ]
 
@@ -71,37 +82,27 @@ export default function Navbar({
   activeItem,
   lang = 'en',
 }: NavbarProps) {
-  const isEs = lang === 'es'
   const isIndustry = variant === 'industry'
 
-  // Dynamic dropdown items from Sanity or fallback
+  // Industries with a published landing (Sanity), falling back to Solar & Storage.
+  // Industries still marked "coming soon" are not listed: the client removed them until they are developed.
   const activeDropdownItems: NavDropdownItem[] = (() => {
-    if (industries && industries.length > 0) {
-      const items = industries
-        .filter((ind) => ind?.slug?.current)
-        .map((ind) => {
-          const isActive = ind.status !== 'coming_soon'
-          const slug = ind.slug?.current || ''
-          return {
-            title: englishOnly(ind.title, slug === 'energia-solar' ? 'Solar Energy & Storage' : 'Industry'),
-            description:
-              englishOnly(ind.shortDescription, '') ||
-              (slug === 'energia-solar'
-                ? 'Inverters, panels, batteries and BESS. RETIE 2024, FSL custody and warranties.'
-                : 'B2B solutions, regulatory compliance and representation in Colombia.'),
-            href: isActive ? `/industrias/${slug}` : '#',
-            badge: isActive ? 'Active' : 'Coming soon',
-            badgeType: (isActive ? 'active' : 'upcoming') as 'active' | 'upcoming',
-          }
-        })
-      if (items.length > 0) return items
-    }
-    return DEFAULT_INDUSTRIES_DROPDOWN
+    const items = (industries || [])
+      .filter((ind) => ind?.slug?.current && ind.status !== 'coming_soon')
+      .map((ind) => {
+        const slug = ind.slug?.current || ''
+        if (slug === 'energia-solar') return SOLAR_DROPDOWN_ITEM
+        return {
+          title: englishOnly(ind.title, 'Industry'),
+          description:
+            englishOnly(ind.shortDescription, '') || 'B2B solutions, regulatory compliance and representation in Colombia.',
+          href: `/industrias/${slug}`,
+        }
+      })
+    return items.length > 0 ? items : DEFAULT_INDUSTRIES_DROPDOWN
   })()
 
-  const firstActiveHref =
-    activeDropdownItems.find((item) => item.badgeType === 'active')?.href ||
-    '/industrias/energia-solar'
+  const industriesHref = '/#industries'
 
   // Corporate links for the main website
   const defaultLinks: NavItem[] = [
@@ -110,8 +111,9 @@ export default function Navbar({
     { label: 'Services', href: '/#services' },
     {
       label: 'Industries',
-      href: firstActiveHref,
+      href: industriesHref,
       dropdown: activeDropdownItems,
+      dropdownEyebrow: 'Industries',
     },
     { label: 'Who we serve', href: '/#audience' },
     { label: 'Why Us', href: '/#why-choose' },
@@ -125,23 +127,24 @@ export default function Navbar({
     }
 
     if (data?.navigationLinks && data.navigationLinks.length > 0) {
-      const hasIndustrias = data.navigationLinks.some((l) =>
-        l.label.toLowerCase().includes('industri')
+      const isIndustriesLink = (label: string) => /industr/i.test(label)
+      const hasIndustries = data.navigationLinks.some((l) => isIndustriesLink(l.label))
+
+      // The site is English: a CMS "Industrias" label is always shown as "Industries".
+      const mapped: NavItem[] = data.navigationLinks.map((l) =>
+        isIndustriesLink(l.label)
+          ? { label: 'Industries', href: industriesHref, dropdown: activeDropdownItems, dropdownEyebrow: 'Industries' }
+          : { label: l.label, href: l.href }
       )
 
-      const mapped: NavItem[] = data.navigationLinks.map((l) => ({
-        label: l.label,
-        href: l.href,
-        dropdown: l.label.toLowerCase().includes('industri') ? activeDropdownItems : undefined,
-      }))
-
-      if (!hasIndustrias) {
+      if (!hasIndustries) {
         const serviceIdx = mapped.findIndex((l) => l.label.toLowerCase().includes('service'))
         const insertAt = serviceIdx >= 0 ? serviceIdx + 1 : 3
         mapped.splice(insertAt, 0, {
-          label: isEs ? 'Industrias' : 'Industries',
-          href: firstActiveHref,
+          label: 'Industries',
+          href: industriesHref,
           dropdown: activeDropdownItems,
+          dropdownEyebrow: 'Industries',
         })
       }
       return mapped
@@ -382,7 +385,7 @@ export default function Navbar({
                         onMouseLeave={handleDropdownLeave}
                       >
                         <div className={styles.dropdownEyebrow}>
-                          {isEs ? 'Verticales B2B & Regulación' : 'B2B Industry Verticals'}
+                          {link.dropdownEyebrow || 'Industries'}
                         </div>
                         <div className={styles.dropdownList}>
                           {link.dropdown?.map((sub, sIdx) => (
@@ -454,10 +457,10 @@ export default function Navbar({
               onClick={(e) => handleAnchorClick(e, isIndustry ? '#contacto' : '#contact')}
             >
               <span className={styles.navCtaFull}>
-                {isEs ? 'Hablar con un especialista' : 'Talk to an Expert'}
+                Talk to an Expert
               </span>
-              <span className={styles.navCtaShort}>
-                {isEs ? 'Contacto' : 'Contact'}
+              <span className={styles.navCtaShort} aria-hidden="true">
+                Contact
               </span>
             </a>
 
@@ -623,7 +626,7 @@ export default function Navbar({
                 closeMobileMenu()
               }}
             >
-              <span>{isEs ? 'Hablar con un especialista' : 'Talk to an Expert'}</span>
+              <span>Talk to an Expert</span>
               <svg
                 width="18"
                 height="18"

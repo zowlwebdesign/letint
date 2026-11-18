@@ -35,7 +35,7 @@ export default function IndustryStickySubnav({ lang }: IndustryStickySubnavProps
       <div className={styles.container}>
         {/* Left: Breadcrumbs */}
         <div className={styles.breadcrumbs}>
-          <a href="/#industrias" className={styles.parentCrumb}>
+          <a href="/#industries" className={styles.parentCrumb}>
             {isEs ? 'Industrias' : 'Industries'}
           </a>
           <span style={{ margin: '0 6px', color: '#64748b' }}>›</span>
