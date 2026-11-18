@@ -87,3 +87,29 @@
     gap: 24px;
   }
 }
+
+/* Section divider: hairline + gold notch on the boundary */
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #dbe3ee;
+  pointer-events: none;
+}
+.section::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 64px;
+  height: 6px;
+  margin-left: -32px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #d49a37, #f0c36d);
+  box-shadow: 0 0 0 4px #ffffff;
+  z-index: 2;
+  pointer-events: none;
+}

@@ -1,8 +1,28 @@
 .section {
   padding: 72px 0 84px;
-  background: #f8fafc;
+  /* Its own band: cool tint + faint dot grid, so it reads apart from its neighbours */
+  background-color: #eaf0f7;
+  background-image: radial-gradient(rgba(8, 23, 44, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  border-top: 1px solid #d3deeb;
+  border-bottom: 1px solid #d3deeb;
   color: #08172c;
   position: relative;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 64px;
+  height: 6px;
+  margin-left: -32px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #d49a37, #f0c36d);
+  box-shadow: 0 0 0 4px #ffffff;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .container {
@@ -63,7 +83,20 @@
   gap: 12px;
 }
 
+.tabsRoot {
+  margin-bottom: 32px;
+  scroll-margin-top: 90px;
+}
+
+.tabsRoot > .indexList {
+  margin-bottom: 20px;
+}
+
 .indexCard {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -78,11 +111,262 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.indexCard:hover,
-.indexCard:focus-visible {
+.indexCard:hover {
   box-shadow: 0 8px 24px rgba(8, 23, 44, 0.08);
   transform: translateY(-2px);
 }
+
+.indexCard:focus-visible {
+  outline: 2px solid var(--sol-accent-strong);
+  outline-offset: 2px;
+}
+
+/* Selected solution: tinted card joined to its panel */
+.indexCardActive {
+  background: #08172c;
+  border-color: #08172c;
+  border-top-color: var(--sol-accent);
+  box-shadow: 0 10px 28px rgba(8, 23, 44, 0.18);
+}
+
+.indexCardActive .indexTitle {
+  color: #ffffff;
+}
+
+.indexCardActive .indexNumber {
+  color: var(--sol-accent);
+}
+
+.indexCardActive .indexBadge {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panel {
+  animation: panelIn 0.35s ease;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ─── Pager under the panel ─── */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagerBtn {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 40%;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #08172c;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.pagerBtn:hover,
+.pagerBtn:focus-visible {
+  background: #08172c;
+  color: #ffffff;
+}
+
+.pagerText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pagerCount {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* ─── Collapsible detail: a visible bar that invites the click ─── */
+.detailSummary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 24px 24px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--sol-accent);
+  background: color-mix(in srgb, var(--sol-accent) 9%, #ffffff);
+  user-select: none;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.detailSummary::-webkit-details-marker {
+  display: none;
+}
+
+/* Light sweep that crosses the bar every few seconds */
+.detailSummary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: sweep 4.5s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+
+.detailSummary:hover {
+  border-style: solid;
+  background: color-mix(in srgb, var(--sol-accent) 16%, #ffffff);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--sol-accent) 22%, transparent);
+  transform: translateY(-1px);
+}
+
+.detailSummary:focus-visible {
+  outline: 2px solid var(--sol-accent-strong);
+  outline-offset: 3px;
+}
+
+.summaryIcon {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: var(--sol-accent-strong);
+}
+
+/* Pulsing ring around the + icon */
+.summaryIcon::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--sol-accent);
+  animation: pulseRing 2.2s ease-out infinite;
+}
+
+.plusVertical {
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.summaryText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.summaryOpen,
+.summaryClose {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #08172c;
+}
+
+.summaryHint {
+  font-size: 13px;
+  color: #475569;
+}
+
+.summaryCue {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sol-accent-strong);
+}
+
+.summaryChevron {
+  animation: nudge 1.6s ease-in-out infinite;
+}
+
+.summaryClose {
+  display: none;
+}
+
+/* Hover / open: stop drawing attention */
+.detailSummary:hover::after,
+.detailSummary:hover .summaryIcon::before,
+.detailSummary:hover .summaryChevron,
+.detail[open] .detailSummary::after,
+.detail[open] .summaryIcon::before,
+.detail[open] .summaryChevron {
+  animation: none;
+}
+
+.detail[open] .summaryOpen,
+.detail[open] .summaryHint,
+.detail[open] .summaryCueText {
+  display: none;
+}
+
+.detail[open] .summaryClose {
+  display: inline;
+}
+
+.detail[open] .plusVertical {
+  transform: scaleY(0);
+}
+
+.detail[open] .summaryChevron {
+  transform: rotate(180deg);
+}
+
+.detail[open] .detailSummary {
+  border-style: solid;
+  margin-bottom: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.detail[open] .summaryIcon {
+  width: 32px;
+  height: 32px;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.85; }
+  80%, 100% { transform: scale(1.55); opacity: 0; }
+}
+
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-120%); }
+  45%, 100% { transform: translateX(120%); }
+}
+
 
 .indexNumber {
   font-size: 13px;
@@ -256,8 +540,16 @@
 
 /* ─── Detail inside a block ─── */
 .detail {
-  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.detail[open] {
   background: #fbfcfe;
+}
+
+.detail[open] .detailBody {
+  border-top: 1px solid #e2e8f0;
+  margin-top: 24px;
 }
 
 .detailHead {
@@ -431,6 +723,18 @@
   .detailHead {
     padding: 22px 20px 4px;
   }
+  .detailSummary {
+    margin: 0 16px 20px;
+    padding: 14px;
+    gap: 12px;
+  }
+  .summaryCueText {
+    display: none;
+  }
+  .summaryOpen,
+  .summaryClose {
+    font-size: 14.5px;
+  }
   .steps {
     grid-template-columns: 1fr;
     padding: 16px 20px 24px;
@@ -442,13 +746,341 @@
   }
 }
 
-@media (max-width: 420px) {
-  .indexList {
-    grid-template-columns: 1fr;
+/* ─── Mobile: flat layout, no cards, one-line tab strip ─── */
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 20px;
+  }
+  .title {
+    font-size: 1.55rem;
+  }
+  .intro {
+    font-size: 14px;
+  }
+
+  /* Tabs become a horizontally scrollable underline strip */
+  .tabsRoot > .indexList {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin: 0 -16px 18px;
+    padding: 0 16px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .tabsRoot > .indexList::-webkit-scrollbar {
+    display: none;
+  }
+  .indexCard,
+  .indexCardActive {
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+    padding: 10px 10px 9px;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    scroll-snap-align: start;
+  }
+  .indexCard:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .indexCardActive {
+    border-bottom-color: var(--sol-accent);
+  }
+  .indexTitle {
+    font-size: 13.5px;
+    white-space: nowrap;
+    color: #64748b;
+  }
+  .indexCardActive .indexTitle {
+    color: #08172c;
+  }
+  .indexBadge {
+    display: none;
+  }
+
+  /* Solution panel: no frame */
+  .block {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .offer {
+    padding: 0;
+    gap: 16px;
+  }
+  .numberRow {
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .number {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--sol-accent-strong);
+  }
+  .blockTitle {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+  }
+  .facts {
+    gap: 14px;
+  }
+  .factLabel {
+    font-size: 10.5px;
+  }
+  .factText {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .chip {
+    font-size: 10.5px;
+    padding: 3px 9px;
+  }
+  .solutionCta {
+    padding: 12px 16px;
+  }
+
+  /* Collapsible: compact bar */
+  .detail,
+  .detail[open] {
+    background: transparent;
+  }
+  .detailSummary {
+    margin: 16px 0 0;
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 10px;
+  }
+  .detail[open] .detailSummary {
+    margin-bottom: 0;
+  }
+  .summaryIcon,
+  .detail[open] .summaryIcon {
+    width: 30px;
+    height: 30px;
+  }
+  .summaryOpen,
+  .summaryClose {
+    font-size: 14px;
+  }
+  .summaryHint {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .detail[open] .detailBody {
+    border-top: 0;
+    margin-top: 8px;
+  }
+  .detailHead {
+    padding: 8px 0 0;
+  }
+  .detailIntro {
+    font-size: 14px;
+  }
+  .steps {
+    padding: 14px 0 4px;
+    gap: 14px;
+  }
+  .step {
+    padding: 0 0 0 12px;
+    gap: 2px;
+    background: transparent;
+    border: 0;
+    border-left: 2px solid var(--sol-accent);
+    border-radius: 0;
+  }
+  .stepText {
+    font-size: 13.5px;
+  }
+
+  /* Pager: plain text links on a divider */
+  .pager {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .pagerBtn {
+    padding: 6px 0;
+    background: transparent;
+    border: 0;
+    color: #08172c;
+  }
+  .pagerBtn:hover,
+  .pagerBtn:focus-visible {
+    background: transparent;
+    color: #0369a1;
+  }
+  .pagerText {
+    display: none;
+  }
+
+  /* ─── Mobile polish: depth without cards ─── */
+
+  /* Tab strip: tinted pills, active one lit in its color, fade hints more */
+  .tabsRoot {
+    position: relative;
+  }
+  .tabsRoot > .indexList {
+    gap: 8px;
+    padding: 4px 16px 12px;
+    scroll-padding-inline: 16px;
+    border-bottom: 0;
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  .indexCard,
+  .indexCardActive {
+    align-items: center;
+    padding: 8px 14px 8px 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #ffffff;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .indexCard .indexNumber {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 11.5px;
+    background: color-mix(in srgb, var(--sol-accent) 14%, #ffffff);
+  }
+  .indexCardActive {
+    background: #08172c;
+    border-color: #08172c;
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--sol-accent) 35%, transparent);
+  }
+  .indexCardActive .indexNumber {
+    color: #08172c;
+    background: var(--sol-accent);
+  }
+  .indexCardActive .indexTitle {
+    color: #ffffff;
+  }
+
+  /* Panel head: color wash + ghost number */
+  .offerHead {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -16px;
+    padding: 18px 16px 16px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--sol-accent) 18%, #ffffff) 0%, rgba(255, 255, 255, 0.6) 80%);
+    border-top: 3px solid var(--sol-accent);
+  }
+  .offerHead::after {
+    content: attr(data-number);
+    position: absolute;
+    right: 8px;
+    bottom: -22px;
+    font-size: 104px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--sol-accent);
+    opacity: 0.16;
+    pointer-events: none;
+  }
+  .numberRow,
+  .blockTitle,
+  .footnote {
+    position: relative;
+    z-index: 1;
+  }
+  .blockTitle {
+    max-width: 78%;
+    margin-bottom: 0;
+  }
+  .footnote {
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Facts on a vertical rail with colored nodes */
+  .facts {
+    position: relative;
+    padding-left: 22px;
+    gap: 16px;
+  }
+  .facts::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 64px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--sol-accent), color-mix(in srgb, var(--sol-accent) 15%, transparent));
+  }
+  .fact {
+    position: relative;
+  }
+  .fact::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid var(--sol-accent);
+    box-sizing: border-box;
+  }
+  .factLabel {
+    color: var(--sol-accent-strong);
+  }
+  .chip {
+    color: var(--sol-accent-strong);
+    background: color-mix(in srgb, var(--sol-accent) 10%, #ffffff);
+    border-color: color-mix(in srgb, var(--sol-accent) 35%, #ffffff);
+  }
+  .ctaRow {
+    margin-left: -22px;
+  }
+  .solutionCta {
+    border-radius: 12px;
+    background: linear-gradient(120deg, #08172c 60%, color-mix(in srgb, var(--sol-accent) 55%, #08172c));
+    box-shadow: 0 8px 20px rgba(8, 23, 44, 0.18);
+  }
+
+  /* Custom case: plain row instead of a card */
+  .customCardBanner {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 0 0;
+    gap: 14px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+  .summaryChevron,
+  .summaryIcon::before,
+  .detailSummary::after {
+    animation: none !important;
+    transition: none;
+  }
+  .detailSummary::after {
+    display: none;
+  }
   .indexCard,
   .solutionCta {
     transition: none;

@@ -30,7 +30,7 @@
 
 @media (max-width: 768px) {
   .embedded .container {
-    padding: 0 20px;
+    padding: 0;
   }
 }
 

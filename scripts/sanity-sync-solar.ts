@@ -1,8 +1,8 @@
-// Syncs the published "energia-solar" industryPage in Sanity with lib/solar-data.ts (ES copy).
+// Syncs the published "energia-solar" industryPage in Sanity with lib/solar-data.ts (EN copy: the site is English-first).
 // Usage (needs an Editor API token): SANITY_WRITE_TOKEN=xxx npx sanity exec scripts/sanity-sync-solar.ts
 // Dry run: DRY=1 npx sanity exec scripts/sanity-sync-solar.ts
 import { createClient } from '@sanity/client'
-import { solarDataEs } from '../lib/solar-data'
+import { solarDataEn } from '../lib/solar-data'
 
 const DRY = process.env.DRY === '1'
 const client = createClient({ projectId: 'l56ogkfz', dataset: 'production', apiVersion: '2024-01-01', useCdn: false, token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_API_WRITE_TOKEN })
@@ -15,7 +15,7 @@ async function main() {
   console.log('docs:', JSON.stringify(docs))
   if (docs.length !== 1) throw new Error('Expected exactly one energia-solar doc (published or draft).')
   const id = docs[0]._id
-  const d = solarDataEs
+  const d = solarDataEn
 
   const set = {
     categoryTags: d.hero.tags,
