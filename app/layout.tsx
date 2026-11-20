@@ -157,7 +157,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         url: 'https://letintl.com',
         logo: logoUrl,
         email: settings?.corporateData?.contactEmail || 'info@letintl.com',
-        telephone: settings?.corporateData?.phoneUS || '+1 (305) 219-4974',
         sameAs: [
           'https://www.linkedin.com/company/let-logistics/',
         ],
@@ -185,14 +184,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         contactPoint: [
           {
             '@type': 'ContactPoint',
-            telephone: settings?.corporateData?.phoneUS || '+1 (305) 219-4974',
+            email: settings?.corporateData?.contactEmail || 'info@letintl.com',
+            url: 'https://letintl.com/#contact',
             contactType: 'customer service',
             areaServed: ['US', 'CO', 'MX', 'BR'],
             availableLanguage: ['English', 'Spanish'],
           },
           {
             '@type': 'ContactPoint',
-            telephone: settings?.corporateData?.phoneColombia || '+57 313 231 0746',
+            email: settings?.corporateData?.contactEmail || 'info@letintl.com',
+            url: 'https://letintl.com/#contact',
             contactType: 'operations',
             areaServed: 'CO',
             availableLanguage: ['English', 'Spanish'],

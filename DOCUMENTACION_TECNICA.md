@@ -75,7 +75,7 @@ graph TD
   * Soporte nativo de recorte de imágenes (*Hotspot/Crop*) y CDN de procesamiento gráfico en tiempo real con conversión automática a WebP/AVIF.
 * **¿Para qué se utiliza?**
   * Edición de todo el contenido de la Landing Page (8 secciones).
-  * Gestión de configuraciones globales (Logos, teléfonos, WhatsApp, redes sociales).
+  * Gestión de configuraciones globales (Logos, correo, redes sociales).
   * Edición de la Política de Privacidad.
 
 ### 2.5 Resend v6.32.1
@@ -112,7 +112,7 @@ graph TD
 4. **Hidratación Selectiva:** En el cliente, únicamente se hidratan los componentes que requieren interacción:
    - `Navbar` (apertura y cierre de menú hamburguesa móvil y listener pasivo de scroll).
    - `HubSection` (acordeón interactivo de 4 pasos).
-   - `ContactSection` (estado del formulario y botón dinámico de WhatsApp).
+   - `ContactSection` (estado del formulario de contacto).
    - `ScrollReveal` (IntersectionObserver para animaciones de entrada).
 
 ### 3.2 Flujo del Formulario de Contacto
@@ -164,7 +164,7 @@ c:\Users\ASUS\Desktop\zowl\letint\
 ├── components/                          # Componentes UI atómicos y seccionales
 │   ├── AudienceSection.tsx              # Sección "¿A quién servimos?" (4 tarjetas)
 │   ├── AudienceSection.module.css
-│   ├── ContactSection.tsx               # Formulario de contacto y botón de WhatsApp
+│   ├── ContactSection.tsx               # Formulario de contacto
 │   ├── ContactSection.module.css
 │   ├── CredibilitySection.tsx           # Gobernanza binacional (4 tarjetas de credibilidad)
 │   ├── CredibilitySection.module.css
@@ -232,7 +232,7 @@ El contenido está modelado siguiendo el patrón de **Singletons** (documentos d
      - `favicon`: Icono de pestaña del navegador.
      - `ogImage`: Imagen de vista previa para redes sociales (1200x630 px).
      - `navigationLinks`: Lista dinámica de enlaces de la cabecera.
-     - `corporateData`: Dirección en Florida, teléfonos (EE.UU. y Colombia), WhatsApp, correo general y disclaimer legal.
+     - `corporateData`: Dirección en Florida, correo general y disclaimer legal.
      - `socialLinks`: Enlaces a perfiles corporativos (LinkedIn, etc.).
 3. **`privacyPolicy` (Política de Privacidad):**
    - Documento que alimenta la ruta legal `/privacy` con fecha de actualización, introducción, bloques dinámicos de cláusulas y correo de contacto legal.
@@ -327,7 +327,7 @@ Implementada en [`app/layout.tsx`](file:///c:/Users/ASUS/Desktop/zowl/letint/app
 
 ### 9.1 Schema.org (JSON-LD)
 Inyecta un grafo semántico enriquecido que Google interpreta para entender la entidad jurídica y los servicios:
-1. **`Corporation`:** Nombre legal (`LET INT US Corp.`), dirección en Coconut Creek, Florida, teléfonos de contacto con idiomas disponibles (inglés y español) y áreas de cobertura (US, CO).
+1. **`Corporation`:** Nombre legal (`LET INT US Corp.`), dirección en Coconut Creek, Florida, puntos de contacto por correo con idiomas disponibles (inglés y español) y áreas de cobertura (US, CO).
 2. **`ItemList` de Servicios:** Detalla los 6 servicios principales (IOR/EOR, Consultoría, Flete y Aduanas, Almacenamiento WMS, Última Milla, Logística Inversa).
 3. **`FAQPage`:** 4 preguntas frecuentes estructuradas con respuestas oficiales (elegibles para Rich Snippets en las SERP de Google).
 

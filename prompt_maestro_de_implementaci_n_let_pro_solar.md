@@ -262,7 +262,6 @@ Extiende la API Route / Server Action existente de **Resend** para que al recibi
    * Configurar el contenedor mediante variables de entorno (`NEXT_PUBLIC_GTM_ID` y `NEXT_PUBLIC_GA4_ID`).
    * Crear un helper `trackEvent(eventName, payload)` que empuje eventos al `window.dataLayer`:
      * `lead_form_submit`: Se dispara únicamente cuando la respuesta de Resend es exitosa (`200 OK`), enviando `{ industry: 'solar', language, form_variant, solution_interest, utm_source }`.
-     * `whatsapp_click`: Cuando el usuario hace clic en el botón de WhatsApp comercial.
      * `solution_tab_click`: Cuando el usuario explora las pestañas de soluciones o el carrusel de garantías.
 2. **LinkedIn Insight Tag:**
    * Inyectar el script oficial de LinkedIn mediante `NEXT_PUBLIC_LINKEDIN_PARTNER_ID` y disparar el evento de conversión (`window.lintrk('track', { conversion_id: ... })`) al completar el envío del formulario.

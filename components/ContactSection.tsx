@@ -3,23 +3,16 @@
 import { useState } from 'react'
 import styles from './ContactSection.module.css'
 import ScrollReveal from './ScrollReveal'
-import { trackEvent } from '../lib/analytics'
 
 interface ContactProps {
   data?: {
     title?: string
     responseTimeDescription?: string
     serviceDropdownOptions?: string[]
-    whatsappNumber?: string
-    whatsappLabel?: string
-    whatsappMessage?: string
   }
   corporateData?: {
     address?: string
     contactEmail?: string
-    phoneUS?: string
-    phoneColombia?: string
-    whatsappNumber?: string
     legalDisclaimer?: string
   }
 }
@@ -43,14 +36,6 @@ export default function ContactSection({ data, corporateData }: ContactProps) {
         return list
       })()
 
-  const whatsappRaw = data.whatsappNumber || corporateData?.whatsappNumber || '+57 313 231 0746'
-  const whatsappClean = whatsappRaw ? whatsappRaw.replace(/[^0-9]/g, '') : ''
-  const whatsappLabel = data.whatsappLabel || 'Chat on WhatsApp'
-  const defaultMsg = data.whatsappMessage || 'Hello! I would like to inquire about LET INT US logistics services in Colombia.'
-  const dynamicMsg = form.fullName 
-    ? `Hello! My name is ${form.fullName}${form.companyName ? ` from ${form.companyName}` : ''}. I am interested in ${form.service || 'your logistics services'}. ${form.message ? `Message: ${form.message}` : ''}`
-    : defaultMsg
-  const whatsappHref = whatsappClean ? `https://wa.me/${whatsappClean}?text=${encodeURIComponent(dynamicMsg)}` : ''
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -163,27 +148,6 @@ export default function ContactSection({ data, corporateData }: ContactProps) {
 
               {status && <p className={styles.statusMsg} role="status">{status}</p>}
 
-              {whatsappHref && (
-                <>
-                  <div className={styles.divider}>
-                    <span>or chat directly</span>
-                  </div>
-
-                  <a 
-                    href={whatsappHref} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={styles.whatsappBtn}
-                    aria-label={`${whatsappLabel} with LET INT US`}
-                    onClick={() => trackEvent('whatsapp_click', { source: 'homepage_contact_button' })}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.37 7.34 9.11 7.4 8.89 7.64C8.67 7.87 8.06 8.45 8.06 9.61C8.06 10.77 8.91 11.89 9.02 12.05C9.14 12.21 10.66 14.54 12.98 15.54C13.53 15.78 13.96 15.92 14.29 16.03C14.84 16.2 15.34 16.18 15.74 16.12C16.18 16.05 17.1 15.56 17.29 15.03C17.48 14.5 17.48 14.05 17.42 13.95C17.36 13.86 17.2 13.8 16.96 13.68C16.71 13.56 15.53 12.98 15.31 12.9C15.09 12.82 14.93 12.78 14.77 13.02C14.61 13.26 14.15 13.8 14.01 13.96C13.87 14.12 13.73 14.14 13.49 14.02C13.25 13.9 12.23 13.57 11.03 12.5C10.1 11.66 9.47 10.63 9.35 10.43C9.23 10.23 9.34 10.11 9.46 9.99C9.57 9.88 9.71 9.7 9.83 9.56C9.95 9.42 9.99 9.32 10.07 9.16C10.15 9 10.11 8.86 10.05 8.74C9.99 8.62 9.53 7.5 9.34 7.04C9.15 6.59 8.96 6.65 8.82 6.64C8.68 6.64 8.52 6.63 8.36 6.63"/>
-                    </svg>
-                    <span>{whatsappLabel}</span>
-                  </a>
-                </>
-              )}
 
               <p className={styles.privacy}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" aria-hidden="true">
@@ -248,74 +212,6 @@ export default function ContactSection({ data, corporateData }: ContactProps) {
                   </div>
                 )}
                 
-                {/* Phone */}
-                {(corporateData.phoneUS || corporateData.phoneColombia) && (
-                  <div className={styles.infoItem}>
-                    <div className={styles.infoIcon}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                      </svg>
-                    </div>
-                    <div className={styles.infoContent}>
-                      <p className={styles.infoLabel}>PHONE</p>
-                      <p className={styles.infoText}>
-                        {corporateData.phoneUS && (
-                          <>
-                            <a 
-                              href={`tel:${corporateData.phoneUS.replace(/[^0-9+]/g, '')}`} 
-                              className={styles.contactLink}
-                              aria-label={`Call US headquarters ${corporateData.phoneUS}`}
-                            >
-                              {corporateData.phoneUS} (US)
-                            </a>
-                            <br/>
-                          </>
-                        )}
-                        {corporateData.phoneColombia && (
-                          <>
-                            <a 
-                              href={`tel:${corporateData.phoneColombia.replace(/[^0-9+]/g, '')}`} 
-                              className={styles.contactLink}
-                              aria-label={`Call Colombia operations office ${corporateData.phoneColombia}`}
-                            >
-                              {corporateData.phoneColombia} (Colombia)
-                            </a>
-                            <br/>
-                          </>
-                        )}
-                        <span className={styles.infoMuted}>Bilingual EST support</span>
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* WhatsApp */}
-                {whatsappClean && (
-                  <div className={styles.infoItem}>
-                    <div className={styles.infoIcon}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.37 7.34 9.11 7.4 8.89 7.64C8.67 7.87 8.06 8.45 8.06 9.61C8.06 10.77 8.91 11.89 9.02 12.05C9.14 12.21 10.66 14.54 12.98 15.54C13.53 15.78 13.96 15.92 14.29 16.03C14.84 16.2 15.34 16.18 15.74 16.12C16.18 16.05 17.1 15.56 17.29 15.03C17.48 14.5 17.48 14.05 17.42 13.95C17.36 13.86 17.2 13.8 16.96 13.68C16.71 13.56 15.53 12.98 15.31 12.9C15.09 12.82 14.93 12.78 14.77 13.02C14.61 13.26 14.15 13.8 14.01 13.96C13.87 14.12 13.73 14.14 13.49 14.02C13.25 13.9 12.23 13.57 11.03 12.5C10.1 11.66 9.47 10.63 9.35 10.43C9.23 10.23 9.34 10.11 9.46 9.99C9.57 9.88 9.71 9.7 9.83 9.56C9.95 9.42 9.99 9.32 10.07 9.16C10.15 9 10.11 8.86 10.05 8.74C9.99 8.62 9.53 7.5 9.34 7.04C9.15 6.59 8.96 6.65 8.82 6.64C8.68 6.64 8.52 6.63 8.36 6.63"/>
-                      </svg>
-                    </div>
-                    <div className={styles.infoContent}>
-                      <p className={styles.infoLabel}>WHATSAPP</p>
-                      <p className={styles.infoText}>
-                        <a 
-                          href={whatsappHref} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className={styles.contactLink}
-                          aria-label={`Chat on WhatsApp with LET INT US at ${whatsappRaw}`}
-                          onClick={() => trackEvent('whatsapp_click', { source: 'homepage_contact_info' })}
-                        >
-                          {whatsappRaw}
-                        </a>
-                        <br/>
-                        <span className={styles.infoMuted}>Instant messaging support</span>
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
             </ScrollReveal>

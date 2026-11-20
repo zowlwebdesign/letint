@@ -286,10 +286,6 @@ export async function POST(request: Request) {
                 Un director de cuenta especializado se pondrá en contacto con usted en un plazo no mayor a 24 horas 
                 hábiles para compartir los hallazgos preliminares.
               </p>
-              <p>
-                Si desea coordinar una llamada ejecutiva de inmediato, puede contactarnos directamente por WhatsApp al 
-                <a href="https://wa.me/13052194974" style="color: #00b4ff; text-decoration: underline;">+1 (305) 219-4974</a> o respondiendo a este mensaje.
-              </p>
               <p style="margin-top: 28px;">
                 Atentamente,<br>
                 <strong>Dirección de Cuentas Corporativas & Energía</strong><br>
@@ -347,10 +343,6 @@ export async function POST(request: Request) {
               </div>
               <p>
                 A designated corporate director will follow up with you within 24 business hours.
-              </p>
-              <p>
-                If you require immediate assistance or wish to schedule an executive consultation, you may reach us on WhatsApp at 
-                <a href="https://wa.me/13052194974" style="color: #00b4ff; text-decoration: underline;">+1 (305) 219-4974</a> or simply reply to this email.
               </p>
               <p style="margin-top: 28px;">
                 Best regards,<br>

@@ -25,21 +25,35 @@
 
 .bgImage {
   object-fit: cover;
-  object-position: center 30%;
-  filter: brightness(0.82) contrast(1.06);
+  /* Lower crop so the panel field and inverters stay in frame; natural colors */
+  object-position: center 62%;
 }
 
 .bgOverlay {
   position: absolute;
   inset: 0;
+  /* Light scrim only behind the headline (left) and a short fade at the bottom;
+     the rest of the photo shows at full brightness */
   background: linear-gradient(
-      135deg,
-      rgba(8, 23, 44, 0.94) 0%,
-      rgba(8, 23, 44, 0.8) 40%,
-      rgba(8, 23, 44, 0.48) 75%,
-      rgba(8, 23, 44, 0.85) 100%
+      90deg,
+      rgba(8, 23, 44, 0.72) 0%,
+      rgba(8, 23, 44, 0.5) 32%,
+      rgba(8, 23, 44, 0.12) 55%,
+      rgba(8, 23, 44, 0) 70%
     ),
-    linear-gradient(to top, rgba(8, 23, 44, 0.98) 0%, transparent 45%);
+    linear-gradient(to top, rgba(8, 23, 44, 0.85) 0%, rgba(8, 23, 44, 0) 22%);
+}
+
+/* Phones/tablets: text spans the full width, so a light even scrim */
+@media (max-width: 1024px) {
+  .bgOverlay {
+    background: linear-gradient(
+        180deg,
+        rgba(8, 23, 44, 0.35) 0%,
+        rgba(8, 23, 44, 0.55) 55%,
+        rgba(8, 23, 44, 0.9) 100%
+      );
+  }
 }
 
 /* Main Hero Content Area - Fills Available Height Above Ribbon */
@@ -107,7 +121,7 @@
   letter-spacing: -0.035em;
   color: #ffffff;
   margin: 0 0 16px 0;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 2px 4px rgba(8, 23, 44, 0.5), 0 4px 24px rgba(8, 23, 44, 0.55);
 }
 
 .headlineHighlight {
@@ -587,9 +601,16 @@
 /* ---- Responsibility rail: no card, a vertical line that changes owner ---- */
 .rail {
   position: relative;
+  /* Frosted panel: the photo behind the rail is at full brightness */
+  background: rgba(8, 23, 44, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(8, 23, 44, 0.35);
   width: 100%;
-  max-width: 440px;
-  padding-left: 34px;
+  max-width: 480px;
+  padding: 28px 28px 28px 62px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -598,9 +619,9 @@
 .rail::before {
   content: '';
   position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
+  left: 35px;
+  top: 36px;
+  bottom: 36px;
   width: 2px;
   border-radius: 2px;
   background: linear-gradient(
@@ -720,5 +741,5 @@
   padding: 6px 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  background: rgba(8, 23, 44, 0.35);
+  background: rgba(8, 23, 44, 0.5);
 }

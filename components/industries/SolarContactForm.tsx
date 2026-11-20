@@ -219,21 +219,6 @@ export default function SolarContactForm({
                 <a href="mailto:info@letintl.com" className={styles.contactItem}>
                   info@letintl.com
                 </a>
-                <a
-                  href="https://wa.me/573132310746"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.contactItem}
-                  onClick={() =>
-                    trackEvent('whatsapp_click', {
-                      industry: 'solar',
-                      language: lang,
-                      source: 'contact_form_sidebar',
-                    })
-                  }
-                >
-                  +57 313 231 0746 (WhatsApp)
-                </a>
                 <span className={styles.contactLocation}>
                   {isEs ? 'Bogotá, Colombia' : 'Bogota, Colombia'}
                 </span>
@@ -460,33 +445,6 @@ export default function SolarContactForm({
                     </button>
                   </div>
 
-                  <div className={styles.divider}>
-                    <span>{isEs ? 'o escríbanos directamente' : 'or chat directly'}</span>
-                  </div>
-
-                  <a
-                    href={`https://wa.me/573132310746?text=${encodeURIComponent(
-                      isEs
-                        ? 'Hola, me interesa conocer las soluciones de LET PRO para el sector solar en Colombia.'
-                        : 'Hello! I would like to learn more about LET PRO solutions for the solar sector in Colombia.'
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.whatsappBtn}
-                    aria-label={isEs ? 'Chatear por WhatsApp con LET' : 'Chat on WhatsApp with LET'}
-                    onClick={() =>
-                      trackEvent('whatsapp_click', {
-                        industry: 'solar',
-                        language: lang,
-                        source: 'contact_form_button',
-                      })
-                    }
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.37 7.34 9.11 7.4 8.89 7.64C8.67 7.87 8.06 8.45 8.06 9.61C8.06 10.77 8.91 11.89 9.02 12.05C9.14 12.21 10.66 14.54 12.98 15.54C13.53 15.78 13.96 15.92 14.29 16.03C14.84 16.2 15.34 16.18 15.74 16.12C16.18 16.05 17.1 15.56 17.29 15.03C17.48 14.5 17.48 14.05 17.42 13.95C17.36 13.86 17.2 13.8 16.96 13.68C16.71 13.56 15.53 12.98 15.31 12.9C15.09 12.82 14.93 12.78 14.77 13.02C14.61 13.26 14.15 13.8 14.01 13.96C13.87 14.12 13.73 14.14 13.49 14.02C13.25 13.9 12.23 13.57 11.03 12.5C10.1 11.66 9.47 10.63 9.35 10.43C9.23 10.23 9.34 10.11 9.46 9.99C9.57 9.88 9.71 9.7 9.83 9.56C9.95 9.42 9.99 9.32 10.07 9.16C10.15 9 10.11 8.86 10.05 8.74C9.99 8.62 9.53 7.5 9.34 7.04C9.15 6.59 8.96 6.65 8.82 6.64C8.68 6.64 8.52 6.63 8.36 6.63"/>
-                    </svg>
-                    <span>{isEs ? 'Chatear por WhatsApp' : 'Chat on WhatsApp'}</span>
-                  </a>
                 </form>
               )}
             </div>

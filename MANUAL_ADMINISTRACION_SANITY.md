@@ -19,7 +19,7 @@ Este documento fue diseñado para que cualquier persona del equipo (incluso sin 
    - [4.5 Audience Section (A Quién Servimos / Sectores)](#45-audience-section-a-quién-servimos--sectores)
    - [4.6 Services Section (Catálogo de Servicios y CTA)](#46-services-section-catálogo-de-servicios-y-cta)
    - [4.7 Why Choose Section (Diferenciales Competitivos)](#47-why-choose-section-diferenciales-competitivos)
-   - [4.8 Contact Section (Formulario y WhatsApp)](#48-contact-section-formulario-y-whatsapp)
+   - [4.8 Contact Section (Formulario)](#48-contact-section-formulario)
 5. [Documento 2: Configuración Global (Site Settings)](#5-documento-2-configuración-global-site-settings)
    - [5.1 Logo, Favicon e Imagen de Redes Sociales](#51-logo-favicon-e-imagen-de-redes-sociales)
    - [5.2 Menú de Navegación Superior](#52-menú-de-navegación-superior)
@@ -70,7 +70,7 @@ En la columna izquierda de Sanity Studio encontrarás los 3 documentos que compo
 ```text
 📁 Contenido LET INT US
 ├── 📄 Landing Page              <-- Todo el contenido visual de la página principal
-├── ⚙️ Configuración Global       <-- Logo, teléfonos, correos, dirección y menú
+├── ⚙️ Configuración Global       <-- Logo, correos, dirección y menú
 └── 🔒 Política de Privacidad     <-- Página legal /privacy
 ```
 
@@ -207,18 +207,15 @@ Sección de fondo blanco con **6 cajas de diferenciales** con iconos azules que 
 
 ---
 
-### 4.8 Contact Section (Formulario y WhatsApp)
+### 4.8 Contact Section (Formulario)
 
-Configura los textos del formulario de contacto final y el botón interactivo de WhatsApp.
+Configura los textos del formulario de contacto final. El sitio no publica números de teléfono ni WhatsApp: el único canal de contacto es el formulario.
 
 | Campo en Sanity Studio | Tipo de Campo | ¿Dónde se ve en la web? | Recomendación |
 | :--- | :--- | :--- | :--- |
 | **Title** | Texto | Título principal sobre el formulario. Ej: *"Start your Colombia operation with confidence"* | Mensaje de cierre de venta. |
 | **Response Time Description** | Texto corto | El texto debajo del título (ej. *"Average response time: under 2 hours during business hours"*). | Genera confianza y expectativas de atención rápida. |
 | **Service Dropdown Options** | Lista de textos | Las opciones que aparecen en el menú desplegable *"Select a service"* del formulario. | Puedes agregar nuevas opciones de servicio o renombrar las existentes. |
-| **Número de WhatsApp** | Texto corto | El número al que se redirige al hacer clic en el botón de WhatsApp. Ej: `+57 313 231 0746` | **Importante:** Incluye siempre el código de país con signo más (`+57` o `+1`). Si dejas este campo vacío, el botón de WhatsApp se ocultará automáticamente. |
-| **Texto del botón de WhatsApp** | Texto corto | El texto visible dentro del botón verde de WhatsApp (ej. *"Chat on WhatsApp"*). | Claro y directo. |
-| **Mensaje predeterminado de WhatsApp** | Texto | El texto que ya aparecerá escrito en el chat del cliente al abrir WhatsApp. Ej: *"Hello! I would like to inquire about LET INT US logistics services in Colombia."* | Facilita que el cliente solo tenga que presionar "Enviar". |
 
 ---
 
@@ -258,9 +255,6 @@ En el campo **Navigation Links** puedes gestionar los enlaces del menú del enca
 En la sección **Corporate Data** se encuentran los datos de contacto y representación legal:
 
 * **Physical Address:** Dirección física registrada en Florida (ej. *"4855 W Hillsboro Blvd B3, Coconut Creek, FL 33073"*). Se muestra en la tarjeta de contacto y en el pie de página.
-* **US Phone:** Teléfono comercial en Estados Unidos (ej. `+1 (305) 219-4974`).
-* **Colombia Phone:** Teléfono de operaciones en Colombia (ej. `+57 313 231 0746`).
-* **WhatsApp Number:** Número corporativo de WhatsApp.
 * **Contact Email:** Correo electrónico oficial de contacto (ej. `info@letintl.com`).
 * **Legal Disclaimer:** Texto legal en letra pequeña que aparece al final del pie de página.
 

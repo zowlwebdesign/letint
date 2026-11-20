@@ -199,7 +199,7 @@
   white-space: nowrap;
 }
 
-/* ─── Collapsible detail: a visible bar that invites the click ─── */
+/* ─── Collapsible detail: clean bar with accent edge and pill action ─── */
 .detailSummary {
   list-style: none;
   cursor: pointer;
@@ -208,34 +208,23 @@
   align-items: center;
   gap: 16px;
   margin: 0 24px 24px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  border: 1.5px dashed var(--sol-accent);
-  background: color-mix(in srgb, var(--sol-accent) 9%, #ffffff);
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--sol-accent) 9%, #ffffff) 0%, #ffffff 60%);
+  box-shadow: 0 1px 2px rgba(8, 23, 44, 0.04);
   user-select: none;
   overflow: hidden;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .detailSummary::-webkit-details-marker {
   display: none;
 }
 
-/* Light sweep that crosses the bar every few seconds */
-.detailSummary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
-  transform: translateX(-120%);
-  animation: sweep 4.5s ease-in-out 1.2s infinite;
-  pointer-events: none;
-}
-
 .detailSummary:hover {
-  border-style: solid;
-  background: color-mix(in srgb, var(--sol-accent) 16%, #ffffff);
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--sol-accent) 22%, transparent);
+  border-color: color-mix(in srgb, var(--sol-accent) 45%, #e2e8f0);
+  box-shadow: 0 10px 26px rgba(8, 23, 44, 0.08);
   transform: translateY(-1px);
 }
 
@@ -247,24 +236,15 @@
 .summaryIcon {
   position: relative;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  background: var(--sol-accent-strong);
-}
-
-/* Pulsing ring around the + icon */
-.summaryIcon::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 2px solid var(--sol-accent);
-  animation: pulseRing 2.2s ease-out infinite;
+  color: var(--sol-accent);
+  background: #08172c;
+  transition: width 0.2s ease, height 0.2s ease;
 }
 
 .plusVertical {
@@ -275,7 +255,7 @@
 .summaryText {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
   flex: 1;
 }
@@ -283,13 +263,14 @@
 .summaryOpen,
 .summaryClose {
   font-size: 15.5px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: #08172c;
 }
 
 .summaryHint {
   font-size: 13px;
-  color: #475569;
+  color: #64748b;
 }
 
 .summaryCue {
@@ -297,29 +278,27 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  font-weight: 800;
+  padding: 8px 12px 8px 16px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--sol-accent-strong);
+  color: #ffffff;
+  background: #08172c;
+  transition: background 0.2s ease;
+}
+
+.detailSummary:hover .summaryCue {
+  background: var(--sol-accent-strong);
 }
 
 .summaryChevron {
-  animation: nudge 1.6s ease-in-out infinite;
+  transition: transform 0.25s ease;
 }
 
 .summaryClose {
   display: none;
-}
-
-/* Hover / open: stop drawing attention */
-.detailSummary:hover::after,
-.detailSummary:hover .summaryIcon::before,
-.detailSummary:hover .summaryChevron,
-.detail[open] .detailSummary::after,
-.detail[open] .summaryIcon::before,
-.detail[open] .summaryChevron {
-  animation: none;
 }
 
 .detail[open] .summaryOpen,
@@ -340,31 +319,23 @@
   transform: rotate(180deg);
 }
 
+.detail[open] .summaryCue {
+  padding: 8px;
+  background: #f1f5f9;
+  color: #08172c;
+}
+
 .detail[open] .detailSummary {
-  border-style: solid;
   margin-bottom: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #ffffff;
 }
 
 .detail[open] .summaryIcon {
   width: 32px;
   height: 32px;
-}
-
-@keyframes pulseRing {
-  0% { transform: scale(1); opacity: 0.85; }
-  80%, 100% { transform: scale(1.55); opacity: 0; }
-}
-
-@keyframes nudge {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
-}
-
-@keyframes sweep {
-  0% { transform: translateX(-120%); }
-  45%, 100% { transform: translateX(120%); }
+  border-radius: 10px;
 }
 
 
@@ -390,6 +361,92 @@
   color: #64748b;
 }
 
+/* ─── Desktop: the four tabs become one joined segmented bar ─── */
+@media (min-width: 769px) {
+  .tabsRoot > .indexList {
+    gap: 4px;
+    padding: 6px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(8, 23, 44, 0.05);
+  }
+  .indexCard {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 2px;
+    padding: 12px 16px 14px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: none;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+  }
+  /* Hairline separators between segments */
+  .indexCard:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 24%;
+    bottom: 24%;
+    width: 1px;
+    background: #e2e8f0;
+  }
+  .indexCardActive::before,
+  .indexCardActive + .indexCard::before {
+    opacity: 0;
+  }
+  .indexCard:hover {
+    background: #f8fafc;
+    box-shadow: none;
+    transform: none;
+  }
+  .indexNumber {
+    grid-row: span 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--sol-accent-strong);
+    background: color-mix(in srgb, var(--sol-accent) 14%, #ffffff);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .indexTitle {
+    font-size: 14px;
+    color: #08172c;
+  }
+  .indexBadge {
+    margin-top: 0;
+    font-size: 10.5px;
+  }
+  .indexCardActive,
+  .indexCardActive:hover {
+    background: #08172c;
+    box-shadow: 0 10px 24px rgba(8, 23, 44, 0.2);
+  }
+  .indexCardActive .indexNumber {
+    color: #08172c;
+    background: var(--sol-accent);
+  }
+  /* Accent underline on the selected segment */
+  .indexCardActive::after {
+    content: '';
+    position: absolute;
+    left: 64px;
+    right: 16px;
+    bottom: 6px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--sol-accent);
+  }
+}
+
 /* ─── Solution blocks ─── */
 .blocks {
   display: flex;
@@ -402,7 +459,6 @@
   scroll-margin-top: 96px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-left: 4px solid var(--sol-accent);
   border-radius: 14px;
   box-shadow: 0 4px 18px rgba(8, 23, 44, 0.04);
   overflow: hidden;
@@ -760,6 +816,9 @@
   .summaryCueText {
     display: none;
   }
+  .summaryCue {
+    padding: 8px;
+  }
   .summaryOpen,
   .summaryClose {
     font-size: 14.5px;
@@ -1102,13 +1161,8 @@
     animation: none;
   }
   .summaryChevron,
-  .summaryIcon::before,
-  .detailSummary::after {
-    animation: none !important;
+  .detailSummary {
     transition: none;
-  }
-  .detailSummary::after {
-    display: none;
   }
   .indexCard,
   .solutionCta {

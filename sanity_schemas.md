@@ -21,7 +21,7 @@ Logo & Favicon: Imágenes SVG/PNG.
 
 Navigation Links: Array de objetos { label: string, href: string }.
 
-Corporate Data: Dirección física, teléfonos (+1 US y +57 Colombia), correo de contacto (info@letintl.com) y nota legal de registro en Florida.
+Corporate Data: Dirección física, correo de contacto (info@letintl.com) y nota legal de registro en Florida.
 
 Redes Sociales: Links condicionales (LinkedIn, etc.).
 

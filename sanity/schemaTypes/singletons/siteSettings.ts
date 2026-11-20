@@ -43,9 +43,6 @@ export default defineType({
       type: 'object',
       fields: [
         { name: 'address', title: 'Physical Address', type: 'text' },
-        { name: 'phoneUS', title: 'US Phone', type: 'string' },
-        { name: 'phoneColombia', title: 'Colombia Phone', type: 'string' },
-        { name: 'whatsappNumber', title: 'WhatsApp Number', type: 'string' },
         { name: 'contactEmail', title: 'Contact Email', type: 'string' },
         { name: 'legalDisclaimer', title: 'Legal Disclaimer', type: 'text' }
       ]
