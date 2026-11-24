@@ -61,7 +61,7 @@ const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
     dropdown: solarDataEn.solutions.map((sol) => ({
       title: `${sol.number} · ${sol.title}`,
       description: sol.badge,
-      href: `#solucion-${sol.slug}`,
+      href: `#solution-${sol.slug}`,
     })),
   },
   { label: 'Building blocks', href: '#building-blocks' },

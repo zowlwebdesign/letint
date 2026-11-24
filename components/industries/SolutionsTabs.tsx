@@ -18,7 +18,8 @@ interface SolutionsTabsProps {
   labels: { prev: string; next: string; of: string; list: string }
 }
 
-const HASH_PREFIX = '#solucion-'
+const HASH_PREFIX = '#solution-'
+const ALT_HASH_PREFIX = '#solucion-'
 
 /**
  * Shows one solution at a time. Every panel stays in the HTML (anchors, SEO);
@@ -48,8 +49,10 @@ export default function SolutionsTabs({ tabs, labels }: SolutionsTabsProps) {
   useEffect(() => {
     const openFromHash = () => {
       const hash = window.location.hash
-      if (!hash.startsWith(HASH_PREFIX)) return
-      const idx = tabs.findIndex((t) => `${HASH_PREFIX}${t.slug}` === hash)
+      const isMatch = hash.startsWith(HASH_PREFIX) || hash.startsWith(ALT_HASH_PREFIX)
+      if (!isMatch) return
+      const cleanSlug = hash.replace(HASH_PREFIX, '').replace(ALT_HASH_PREFIX, '')
+      const idx = tabs.findIndex((t) => t.slug === cleanSlug)
       if (idx < 0) return
       setActive(idx)
       requestAnimationFrame(() => {
@@ -91,7 +94,7 @@ export default function SolutionsTabs({ tabs, labels }: SolutionsTabsProps) {
               role="tab"
               id={`tab-${tab.slug}`}
               aria-selected={isActive}
-              aria-controls={`solucion-${tab.slug}`}
+              aria-controls={`solution-${tab.slug}`}
               tabIndex={isActive ? 0 : -1}
               className={`${styles.indexCard} ${tab.themeClass} ${isActive ? styles.indexCardActive : ''}`}
               onClick={() => select(idx)}
@@ -108,12 +111,13 @@ export default function SolutionsTabs({ tabs, labels }: SolutionsTabsProps) {
       {tabs.map((tab, idx) => (
         <div
           key={tab.slug}
-          id={`solucion-${tab.slug}`}
+          id={`solution-${tab.slug}`}
           role="tabpanel"
           aria-labelledby={`tab-${tab.slug}`}
           hidden={idx !== active}
           className={styles.panel}
         >
+          <span id={`solucion-${tab.slug}`} style={{ position: 'absolute' }} />
           {tab.panel}
         </div>
       ))}

@@ -29,7 +29,7 @@ export interface SolutionDetail {
 }
 
 export interface SolutionData {
-  /** Stable id used in anchors (#solucion-after-sales) and in ?solution= form preselection */
+  /** Stable id used in anchors (#solution-after-sales) and in ?solution= form preselection */
   slug: string
   number: string
   badge: string

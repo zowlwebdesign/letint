@@ -139,14 +139,14 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
               badge: item.number === '01' ? labels.flagship : item.badge,
               themeClass: styles[`theme${idx}`],
               panel: (
-                <article className={`${styles.block} ${styles[`theme${idx}`]}`} aria-labelledby={`solucion-${item.slug}-title`}>
+                <article className={`${styles.block} ${styles[`theme${idx}`]}`} aria-labelledby={`solution-${item.slug}-title`}>
                   <div className={styles.offer}>
                     <div className={styles.offerHead} data-number={item.number}>
                       <div className={styles.numberRow}>
                         <span className={styles.number}>{item.number}</span>
                         <span className={styles.badge}>{item.number === '01' ? labels.flagship : item.badge}</span>
                       </div>
-                      <h3 id={`solucion-${item.slug}-title`} className={styles.blockTitle}>{item.title}</h3>
+                      <h3 id={`solution-${item.slug}-title`} className={styles.blockTitle}>{item.title}</h3>
                       {item.footnote && <p className={styles.footnote}>{item.footnote}</p>}
                     </div>
 
