@@ -195,27 +195,11 @@
   margin-top: 3px;
 }
 
-.checkboxField {
-  margin: 4px 0 18px;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.checkbox {
-  margin-top: 2px;
-  flex-shrink: 0;
-  accent-color: #08172c;
-}
-
-.checkboxText {
+.consentNotice {
+  margin: 6px 0 16px;
   font-size: 11.5px;
-  line-height: 1.45;
-  color: #4b5563;
+  line-height: 1.5;
+  color: #64748b;
 }
 
 .consentLink {

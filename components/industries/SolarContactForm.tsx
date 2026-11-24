@@ -37,7 +37,7 @@ export default function SolarContactForm({
     solucionInteres: 'After-sales & warranties',
     entidadLegalColombia: '',
     mensaje: '',
-    aceptaDatos: false,
+    aceptaDatos: true,
   })
 
   const [utms, setUtms] = useState({
@@ -123,12 +123,6 @@ export default function SolarContactForm({
 
     if (!formData.entidadLegalColombia) {
       errs.entidadLegalColombia = 'Please select an option'
-    }
-
-    if (!formData.aceptaDatos) {
-      errs.aceptaDatos = isEs
-        ? 'Debe aceptar la Política de Privacidad para continuar'
-        : 'You must consent to our Privacy Policy to continue'
     }
 
     setErrors(errs)
@@ -406,29 +400,15 @@ export default function SolarContactForm({
                     />
                   </div>
 
-                  {/* Fila 4: Consent Checkbox */}
-                  <div className={styles.checkboxField}>
-                    <label className={styles.checkboxLabel}>
-                      <input
-                        type="checkbox"
-                        name="aceptaDatos"
-                        checked={formData.aceptaDatos}
-                        onChange={handleChange}
-                        className={styles.checkbox}
-                      />
-                      <span className={styles.checkboxText}>
-                        {isEs
-                          ? 'Al enviar su información, usted acepta su recopilación y procesamiento de acuerdo con nuestra '
-                          : 'By submitting your information, you consent to its collection and processing in accordance with our '}
-                        <a href="/privacy" className={styles.consentLink}>
-                          {isEs ? 'Política de Privacidad' : 'Privacy Policy'}
-                        </a>.
-                      </span>
-                    </label>
-                    {errors.aceptaDatos && (
-                      <span className={styles.errorText}>{errors.aceptaDatos}</span>
-                    )}
-                  </div>
+                  {/* Consent Notice */}
+                  <p className={styles.consentNotice}>
+                    {isEs
+                      ? 'Al enviar su información, usted acepta su recopilación y procesamiento de acuerdo con nuestra '
+                      : 'By submitting your information, you consent to its collection and processing in accordance with our '}
+                    <a href="/privacy" className={styles.consentLink}>
+                      {isEs ? 'Política de Privacidad' : 'Privacy Policy'}
+                    </a>.
+                  </p>
 
                   {/* Fila 5: Botón Enviar y recibir Brochure PDF */}
                   <div>
