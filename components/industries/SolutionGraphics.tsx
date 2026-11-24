@@ -57,7 +57,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
           <text x="106" y="193" fill="#94a3b8" fontSize="8" fontFamily="sans-serif">LOCAL FSL</text>
 
           <circle cx="165" cy="190" r="4" fill="#f59e0b" />
-          <text x="176" y="193" fill="#94a3b8" fontSize="8" fontFamily="sans-serif">DIAN RMA</text>
+          <text x="176" y="193" fill="#94a3b8" fontSize="8" fontFamily="sans-serif">{isEs ? 'DIAN RMA' : 'CUSTOMS RMA'}</text>
 
           {/* Closed Loop Badge */}
           <g transform="translate(45, 250)">
@@ -68,7 +68,7 @@ export default function SolutionGraphic({ number, lang }: GraphicProps) {
               {isEs ? 'Ciclo cerrado sin dobles tributos' : 'Closed loop with no re-taxation'}
             </text>
             <text x="46" y="31" fill="#94a3b8" fontSize="9">
-              {isEs ? 'SLA despacho FSL: 24h - 48h' : 'FSL dispatch SLA: 24h - 48h'}
+              {isEs ? 'Despacho prioritario FSL' : 'Priority FSL dispatch'}
             </text>
           </g>
 

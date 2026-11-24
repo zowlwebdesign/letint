@@ -463,7 +463,7 @@ export const solarDataEs: SolarPageData = {
         badgeType: 'current',
         description:
           'Paneles, inversores, baterías y BESS: RETIE, garantías de largo plazo y stock local por número de serie.',
-        href: '/industrias/energia-solar',
+        href: '/industries/solar-energy',
       },
       {
         id: 'salud',
@@ -773,7 +773,7 @@ export const solarDataEn: SolarPageData = {
         badgeType: 'current',
         description:
           'Panels, inverters, batteries, and BESS: RETIE compliance, long-term warranties, and local serial-tracked inventory.',
-        href: '/industrias/energia-solar',
+        href: '/industries/solar-energy',
       },
       {
         id: 'salud',

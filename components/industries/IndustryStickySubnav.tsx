@@ -10,7 +10,7 @@ export default function IndustryStickySubnav({ lang }: IndustryStickySubnavProps
   const isEs = lang === 'es'
 
   const navItems = [
-    { label: isEs ? 'Soluciones' : 'Solutions', href: isEs ? '#soluciones' : '#solutions' },
+    { label: isEs ? 'Soluciones' : 'Solutions', href: '#solutions' },
     { label: isEs ? 'Garantías' : 'Warranties', href: '#garantias' },
     { label: isEs ? 'RETIE' : 'RETIE', href: '#retie' },
     { label: isEs ? 'Contacto' : 'Contact', href: '#contacto' },

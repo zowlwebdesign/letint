@@ -651,7 +651,10 @@ export default function Navbar({
               <div className={styles.drawerContactItem}>
                 <span className={styles.drawerContactLabel}>Headquarters</span>
                 <span className={styles.drawerContactSub}>
-                  Coconut Creek, Florida, USA • Colombia
+                  Coconut Creek, Florida, USA
+                </span>
+                <span className={styles.drawerContactSub} style={{ marginTop: '4px' }}>
+                  Av. Calle 26 No. 96J-66, Of. 303, Bogotá, Colombia
                 </span>
               </div>
             </div>
