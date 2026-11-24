@@ -52,26 +52,108 @@
   margin-bottom: 28px;
 }
 
-.contactDetails {
+.channelsContainer {
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
-.contactItem {
-  font-size: 13px;
-  font-weight: 500;
+.channelsEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0f766e;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.channelsEyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.channelsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.channelRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.channelRow:last-child {
+  border-bottom: none;
+}
+
+.channelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #08172c;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.channelRow:hover .channelIcon {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.channelContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.channelDept {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.channelLink {
+  font-size: 13.5px;
+  font-weight: 600;
   color: #08172c;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
 }
 
-.contactItem:hover {
-  text-decoration: underline;
-}
-
-.contactLocation {
+.channelArrow {
   font-size: 13px;
-  color: #6b7280;
+  color: #94a3b8;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.channelLink:hover {
+  color: #0284c7;
+}
+
+.channelLink:hover .channelArrow {
+  color: #0284c7;
+  transform: translateX(4px);
 }
 
 /* Right Column: Form */

@@ -213,16 +213,67 @@ export default function SolarContactForm({
                   : 'Select the solution of your interest and leave your contact details. You will immediately receive our Executive Brochure in your inbox, and a specialist will evaluate your operation.'}
               </p>
 
-              <div className={styles.contactDetails}>
-                <a href="mailto:info@letintl.com" className={styles.contactItem}>
-                  info@letintl.com
-                </a>
-                <a href="mailto:info@letlogistics.com" className={styles.contactItem}>
-                  info@letlogistics.com
-                </a>
-                <a href="mailto:info@letprocurement.com" className={styles.contactItem}>
-                  info@letprocurement.com
-                </a>
+              <div className={styles.channelsContainer}>
+                <span className={styles.channelsEyebrow}>
+                  {isEs ? 'Canales directos de atención' : 'Direct operational desks'}
+                </span>
+                <ul className={styles.channelsList}>
+                  <li className={styles.channelRow}>
+                    <div className={styles.channelIcon}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect width="20" height="16" x="2" y="4" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                      </svg>
+                    </div>
+                    <div className={styles.channelContent}>
+                      <span className={styles.channelDept}>
+                        {isEs ? 'Mesa General y EE.UU.' : 'General Desk & International HQ'}
+                      </span>
+                      <a href="mailto:info@letintl.com" className={styles.channelLink}>
+                        info@letintl.com
+                        <span className={styles.channelArrow} aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </li>
+
+                  <li className={styles.channelRow}>
+                    <div className={styles.channelIcon}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="m21 16-4 4-4-4" />
+                        <path d="M17 20V4" />
+                        <path d="m3 8 4-4 4 4" />
+                        <path d="M7 4v16" />
+                      </svg>
+                    </div>
+                    <div className={styles.channelContent}>
+                      <span className={styles.channelDept}>
+                        {isEs ? 'Operaciones Logísticas y FSL' : 'Contract Logistics & FSL Operations'}
+                      </span>
+                      <a href="mailto:info@letlogistics.com" className={styles.channelLink}>
+                        info@letlogistics.com
+                        <span className={styles.channelArrow} aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </li>
+
+                  <li className={styles.channelRow}>
+                    <div className={styles.channelIcon}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <path d="m9 12 2 2 4-4" />
+                      </svg>
+                    </div>
+                    <div className={styles.channelContent}>
+                      <span className={styles.channelDept}>
+                        {isEs ? 'Procura y Representación Legal' : 'Procurement & Legal Representation'}
+                      </span>
+                      <a href="mailto:info@letprocurement.com" className={styles.channelLink}>
+                        info@letprocurement.com
+                        <span className={styles.channelArrow} aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </ScrollReveal>
