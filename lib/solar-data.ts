@@ -493,9 +493,9 @@ export const solarDataEs: SolarPageData = {
 export const solarDataEn: SolarPageData = {
   lang: 'en',
   meta: {
-    title: 'Solar RMA & Warranty Logistics in Colombia | LET PRO',
+    title: 'Solar RMA & Warranty Logistics in Colombia | LET Group',
     description:
-      'Cut solar downtime in Colombia: swap-ready FSL stock, full RMA cycle, IOR/EOR and RETIE compliance for inverters, batteries, BESS and trackers.',
+      'Cut solar downtime in Colombia: swap-ready FSL (Forward Stocking Location) stock, full RMA cycle, IOR/EOR and RETIE compliance for inverters, batteries, BESS and trackers.',
   },
   hero: {
     tags: ['INVERTERS', 'BATTERIES', 'BESS', 'SOLAR TRACKERS'],
@@ -511,17 +511,17 @@ export const solarDataEn: SolarPageData = {
       'Direct relationship with your customers and distributors',
     ],
     letProAssumes: [
-      'Representation before DIAN, SIC, and RETIE certification bodies',
+      'Representation before Colombian Customs, SIC, and RETIE (Colombian Technical Regulation for Electrical Installations) certification bodies',
       'The role of Importer and Exporter of Record (IOR / EOR)',
-      'Physical operations, FSL custody, and serial traceability',
+      'Physical operations, FSL (Forward Stocking Location) custody, and serial traceability',
     ],
     primaryCta: {
       label: 'Request an operation review',
-      href: '#contacto',
+      href: '#contact',
     },
     secondaryCta: {
       label: 'See the four solutions',
-      href: '#soluciones',
+      href: '#solutions',
     },
     trustBadges: [
       {
@@ -553,7 +553,7 @@ export const solarDataEn: SolarPageData = {
       whenApplies:
         'The manufacturer sells through distributors and must fulfill long-term inverter warranties without depending on them—each day of downtime means lost solar generation for the end customer and eroded brand credibility.',
       industryApplication:
-        'Swap-ready stock of inverters, batteries, and trackers staged in Colombia (FSL). Replacement dispatched by serial number within 48 h of approval. Defective unit collected and temporarily exported for repair or replacement; the repaired or replacement unit re-enters without new duties. Complete RMA cycle from failure report to restocked buffer—managed end-to-end by a single accountable partner.',
+        'Swap-ready inverters, batteries, and trackers staged locally in Colombia (FSL). Upon approval, serialized replacements move immediately on a priority, mission-critical dispatch basis to maximize uptime.',
       capabilityTags: ['IOR', 'EOR', 'FSL', 'SN', 'RMA'],
     },
     {
@@ -564,8 +564,8 @@ export const solarDataEn: SolarPageData = {
       whenApplies:
         'The product requires a local certificate or registry and the manufacturer does not want to yield ownership to a distributor.',
       industryApplication:
-        'Holding the RETIE certificate of conformity before accredited certification bodies, authorizing importers and distributors strictly under brand control.',
-      capabilityTags: ['ICR', 'RETIE', 'SIC', 'INVIMA'],
+        'Holding the RETIE (Colombian Technical Regulation for Electrical Installations) certificate of conformity before accredited certification bodies, authorizing importers and distributors strictly under brand control.',
+      capabilityTags: ['ICR (International Compliance Representative)', 'RETIE', 'SIC', 'INVIMA'],
     },
     {
       slug: 'samples',
@@ -688,14 +688,14 @@ export const solarDataEn: SolarPageData = {
     callout: {
       title: 'Customs accountability is assumed by LET PRO',
       description:
-        'LET PRO files and guarantees before DIAN the legal return commitment for the repaired or replacement unit. The manufacturer requires neither a Colombian subsidiary nor local customs collateral to fulfill warranties.',
+        'LET PRO files and guarantees before Colombian Customs the legal return commitment for the repaired or replacement unit. The manufacturer requires neither a Colombian subsidiary nor local customs collateral to fulfill warranties.',
     },
   },
   operationalCapabilities: [
     {
       code: 'ICR',
       title: 'Regulatory & Customs Representation',
-      description: 'DIAN, RETIE certification bodies, SIC, and MinCIT/VUCE.',
+      description: 'ICR (International Compliance Representative): Colombian Customs, RETIE certification bodies, SIC, and MinCIT/VUCE.',
     },
     {
       code: 'IOR / EOR',
@@ -920,7 +920,8 @@ export function getMergedSolarData(sanityDoc: any, lang: 'es' | 'en' = 'en'): So
       fallback.solutionsIntro
     ),
     solutions:
-      cmsSolutions.length > 0
+      cmsSolutions.length > 0 &&
+      !(en && cmsSolutions.some((s: any) => looksSpanish(typeof s?.title === 'object' ? s.title?.en || s.title?.es : s?.title)))
         ? cmsSolutions.map((s: any, idx: number) => {
             // Short CMS strings (badges, footnotes) can slip past looksSpanish: in English mode,
             // any value identical to the Spanish source copy falls back to the English copy.

@@ -81,7 +81,7 @@ export default function IndustryHero({ data, lang = 'en' }: IndustryHeroProps) {
                       <polyline points="11 5 16 10 11 15" />
                     </svg>
                   </a>
-                  <a href={data.secondaryCta?.href || '#soluciones'} className={styles.secondaryLink}>
+                  <a href={data.secondaryCta?.href || '#solutions'} className={styles.secondaryLink}>
                     <span>{data.secondaryCta?.label || 'See the four solutions'}</span>
                     <span className={styles.secondaryArrow}>↓</span>
                   </a>

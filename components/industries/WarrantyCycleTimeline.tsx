@@ -63,7 +63,7 @@ export default function WarrantyCycleTimeline({
       : 'Customs accountability is assumed by LET PRO',
     description: isEs
       ? 'LET PRO constituye y responde ante la DIAN por el compromiso de retorno de la parte o el equipo reparado o de reemplazo. El fabricante no necesita entidad local ni garantías aduaneras propias para operar su posventa en Colombia.'
-      : 'LET PRO files and guarantees before DIAN the legal return commitment for the repaired or replacement unit. The manufacturer requires neither a Colombian subsidiary nor local customs collateral to fulfill warranties.',
+      : 'LET PRO files and guarantees before Colombian Customs the legal return commitment for the repaired or replacement unit. The manufacturer requires neither a Colombian subsidiary nor local customs collateral to fulfill warranties.',
   }
 
   const effectiveCallout = callout || defaultCallout

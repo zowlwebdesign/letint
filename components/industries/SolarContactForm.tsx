@@ -18,7 +18,6 @@ interface FormState {
   correo: string
   solucionInteres: string
   entidadLegalColombia: string
-  tipoProducto: string
   mensaje: string
   aceptaDatos: boolean
 }
@@ -37,7 +36,6 @@ export default function SolarContactForm({
     correo: '',
     solucionInteres: 'After-sales & warranties',
     entidadLegalColombia: '',
-    tipoProducto: '',
     mensaje: '',
     aceptaDatos: false,
   })
@@ -129,8 +127,8 @@ export default function SolarContactForm({
 
     if (!formData.aceptaDatos) {
       errs.aceptaDatos = isEs
-        ? 'Debe autorizar el tratamiento de datos para continuar'
-        : 'You must authorize data processing to continue'
+        ? 'Debe aceptar la Política de Privacidad para continuar'
+        : 'You must consent to our Privacy Policy to continue'
     }
 
     setErrors(errs)
@@ -154,7 +152,7 @@ export default function SolarContactForm({
         mensaje: formData.mensaje,
         aceptaDatos: formData.aceptaDatos,
         paisOrigen: 'Not specified',
-        producto: formData.tipoProducto || 'Not specified',
+        producto: 'Not specified',
         entidadLegalColombia: formData.entidadLegalColombia,
         certificadoRetie: 'Not specified',
         ...utms,
@@ -182,7 +180,7 @@ export default function SolarContactForm({
         language: lang,
         form_variant: variant,
         solution_interest: formData.solucionInteres,
-        product_type: formData.tipoProducto || 'not_specified',
+        product_type: 'not_specified',
         utm_source: utms.utm_source,
       })
 
@@ -219,9 +217,12 @@ export default function SolarContactForm({
                 <a href="mailto:info@letintl.com" className={styles.contactItem}>
                   info@letintl.com
                 </a>
-                <span className={styles.contactLocation}>
-                  {isEs ? 'Bogotá, Colombia' : 'Bogota, Colombia'}
-                </span>
+                <a href="mailto:info@letlogistics.com" className={styles.contactItem}>
+                  info@letlogistics.com
+                </a>
+                <a href="mailto:info@letprocurement.com" className={styles.contactItem}>
+                  info@letprocurement.com
+                </a>
               </div>
             </div>
           </ScrollReveal>
@@ -342,50 +343,29 @@ export default function SolarContactForm({
                     </div>
                   </div>
 
-                  {/* Fila 3: Product type | Legal Entity in Colombia */}
-                  <div className={styles.rowTwo}>
-                    <div className={styles.field}>
-                      <label htmlFor="tipoProducto" className={styles.label}>
-                        {isEs ? 'Tipo de producto' : 'Product Type'}
-                      </label>
-                      <select
-                        id="tipoProducto"
-                        name="tipoProducto"
-                        value={formData.tipoProducto}
-                        onChange={handleChange}
-                        className={styles.select}
-                      >
-                        <option value="">Select a product type (optional)</option>
-                        <option value="Inverters">Inverters</option>
-                        <option value="Energy storage (BESS)">Energy storage (BESS)</option>
-                        <option value="Trackers">Trackers</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-
-                    <div className={styles.field}>
-                      <label htmlFor="entidadLegalColombia" className={styles.label}>
-                        {isEs ? '¿Tiene entidad legal en Colombia? *' : 'Do you have a legal entity in Colombia? *'}
-                      </label>
-                      <select
-                        id="entidadLegalColombia"
-                        name="entidadLegalColombia"
-                        value={formData.entidadLegalColombia}
-                        onChange={handleChange}
-                        className={`${styles.select} ${errors.entidadLegalColombia ? styles.inputError : ''}`}
-                        required
-                      >
-                        <option value="" disabled>
-                          Select an option
-                        </option>
-                        <option value="No">No — LET PRO acts as my local legal &amp; operating arm</option>
-                        <option value="Yes">Yes — we have a local legal entity</option>
-                        <option value="Evaluating">Under evaluation / exploring market entry</option>
-                      </select>
-                      {errors.entidadLegalColombia && (
-                        <span className={styles.errorText}>{errors.entidadLegalColombia}</span>
-                      )}
-                    </div>
+                  {/* Fila 3: Legal Entity in Colombia */}
+                  <div className={styles.field}>
+                    <label htmlFor="entidadLegalColombia" className={styles.label}>
+                      {isEs ? '¿Tiene entidad legal en Colombia? *' : 'Do you have a legal entity in Colombia? *'}
+                    </label>
+                    <select
+                      id="entidadLegalColombia"
+                      name="entidadLegalColombia"
+                      value={formData.entidadLegalColombia}
+                      onChange={handleChange}
+                      className={`${styles.select} ${errors.entidadLegalColombia ? styles.inputError : ''}`}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select an option
+                      </option>
+                      <option value="No">No — LET PRO acts as my local legal &amp; operating arm</option>
+                      <option value="Yes">Yes — we have a local legal entity</option>
+                      <option value="Evaluating">Under evaluation / exploring market entry</option>
+                    </select>
+                    {errors.entidadLegalColombia && (
+                      <span className={styles.errorText}>{errors.entidadLegalColombia}</span>
+                    )}
                   </div>
 
                   {/* Fila 4: Mensaje o producto específico (Opcional, altura reducida) */}
@@ -408,7 +388,7 @@ export default function SolarContactForm({
                     />
                   </div>
 
-                  {/* Fila 4: Checkbox Ley 1581 */}
+                  {/* Fila 4: Consent Checkbox */}
                   <div className={styles.checkboxField}>
                     <label className={styles.checkboxLabel}>
                       <input
@@ -420,8 +400,11 @@ export default function SolarContactForm({
                       />
                       <span className={styles.checkboxText}>
                         {isEs
-                          ? 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y a la política de tratamiento de datos de LET.'
-                          : 'I authorize the processing of my personal data in accordance with Law 1581 of 2012 and LET’s data policy.'}
+                          ? 'Al enviar su información, usted acepta su recopilación y procesamiento de acuerdo con nuestra '
+                          : 'By submitting your information, you consent to its collection and processing in accordance with our '}
+                        <a href="/privacy" className={styles.consentLink}>
+                          {isEs ? 'Política de Privacidad' : 'Privacy Policy'}
+                        </a>.
                       </span>
                     </label>
                     {errors.aceptaDatos && (

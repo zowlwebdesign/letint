@@ -80,7 +80,7 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
   // One-line teaser of what the collapsible holds
   const detailHint = (slug: string, steps?: number) =>
     slug === 'after-sales'
-      ? isEs ? '6 pasos, de la falla reportada al stock repuesto · con foto y compromiso ante la DIAN' : '6 steps, from failure report to restocked buffer · plus the DIAN commitment'
+      ? isEs ? '6 pasos, de la falla reportada al stock repuesto · con foto y compromiso ante la DIAN' : '6 steps, from failure report to restocked buffer · plus the Colombian Customs commitment'
       : slug === 'regulatory-holder'
       ? isEs ? 'Resolución 40117 de 2024 y la lista de verificación antes de embarcar' : 'Resolution 40117 of 2024 and the pre-shipment checklist'
       : isEs ? `${steps || 4} pasos, de principio a fin` : `${steps || 4} steps, start to finish`
@@ -94,11 +94,12 @@ export default function SolutionsSection({ data, lang, title, intro, customCard,
       : fallback || labels.howItWorks
 
   return (
-    <section id="soluciones" className={styles.section} aria-labelledby="soluciones-title">
+    <section id="solutions" className={styles.section} aria-labelledby="solutions-title">
+      <span id="soluciones" style={{ position: 'absolute', top: 0 }} />
       <div className={styles.container}>
         <ScrollReveal variant="up">
           <div className={styles.header}>
-            <h2 id="soluciones-title" className={styles.title}>{title || defaultTitle}</h2>
+            <h2 id="solutions-title" className={styles.title}>{title || defaultTitle}</h2>
             <p className={styles.intro}>{cleanIntro}</p>
           </div>
         </ScrollReveal>

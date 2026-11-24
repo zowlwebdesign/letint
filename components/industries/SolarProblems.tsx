@@ -35,10 +35,12 @@ export default function SolarProblems({ data }: SolarProblemsProps) {
             <figcaption className={styles.compareTitle}>{data.compareTitle}</figcaption>
             <div className={styles.compareRow}>
               <span className={`${styles.bar} ${styles.barSlow}`}>{data.compareSlow.label}</span>
+              {' '}
               <span className={`${styles.value} ${styles.valueSlow}`}>{data.compareSlow.value}</span>
             </div>
             <div className={styles.compareRow}>
               <span className={`${styles.bar} ${styles.barFast}`}>{data.compareFast.label}</span>
+              {' '}
               <span className={`${styles.value} ${styles.valueFast}`}>{data.compareFast.value}</span>
             </div>
           </figure>

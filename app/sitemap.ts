@@ -26,17 +26,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     },
     {
-      url: `${baseUrl}/industrias/energia-solar`,
+      url: `${baseUrl}/industries/solar-energy`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.95,
       alternates: {
         languages: {
-          es: `${baseUrl}/industrias/energia-solar`,
-          'es-CO': `${baseUrl}/industrias/energia-solar`,
-          en: `${baseUrl}/industrias/energia-solar`,
-          'en-US': `${baseUrl}/industrias/energia-solar`,
-          'x-default': `${baseUrl}/industrias/energia-solar`,
+          en: `${baseUrl}/industries/solar-energy`,
+          'en-US': `${baseUrl}/industries/solar-energy`,
+          'x-default': `${baseUrl}/industries/solar-energy`,
         },
       },
     },

@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   const title =
-    'Inverter Warranty, RMA & RETIE Solutions for Solar Manufacturers in Colombia | LET PRO'
+    'Inverter Warranty, RMA & RETIE Solutions for Solar Manufacturers in Colombia | LET Group'
   const description =
     'Legal and operating arm in Colombia for inverter, panel and BESS manufacturers. Swap-ready FSL stock, end-to-end RMA and RETIE 2024 compliance with no local entity.'
 
@@ -36,13 +36,13 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: true,
     },
     alternates: {
-      canonical: 'https://letintl.com/industrias/energia-solar',
+      canonical: 'https://letintl.com/industries/solar-energy',
     },
     openGraph: {
       title,
       description,
       url: 'https://letintl.com/campanas/energia-solar',
-      siteName: 'LET PRO | Solar Energy',
+      siteName: 'LET Group | Solar Energy',
       locale: 'en_US',
       type: 'website',
       images: [

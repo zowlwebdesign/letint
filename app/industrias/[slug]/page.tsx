@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalUrl = `https://letintl.com/industrias/${slug}`
 
   return {
-    title: { absolute: title.includes('LET') ? title : `${title} | LET PRO` },
+    title: { absolute: title.includes('LET') ? title : `${title} | LET Group` },
     description,
     keywords: [
       `${industryDoc?.title || 'Solar Energy'} Colombia`,
@@ -109,7 +109,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'RMA Logistics Colombia',
       'FSL Forward Stock Colombia',
       'RETIE 2024 Compliance',
-      'LET PRO',
+      'LET Group',
       'Mandate Agreement Customs Colombia',
     ],
     alternates: {
@@ -126,7 +126,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'LET PRO | LET',
+      siteName: 'LET Group',
       locale: 'en_US',
       alternateLocale: ['es_CO'],
       type: 'website',
@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: `${title} — LET PRO`,
+          alt: `${title} — LET Group`,
         },
       ],
     },

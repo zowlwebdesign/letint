@@ -46,7 +46,7 @@ interface NavbarProps {
 const SOLAR_DROPDOWN_ITEM: NavDropdownItem = {
   title: 'Solar & Storage',
   description: 'After-sales, RMA and warranty operations for inverters, batteries (BESS) and solar trackers.',
-  href: '/industrias/energia-solar',
+  href: '/industries/solar-energy',
 }
 
 const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [SOLAR_DROPDOWN_ITEM]
@@ -56,7 +56,7 @@ const DEFAULT_INDUSTRIES_DROPDOWN: NavDropdownItem[] = [SOLAR_DROPDOWN_ITEM]
 const INDUSTRY_NAVBAR_LINKS: NavItem[] = [
   {
     label: 'Solutions',
-    href: '#soluciones',
+    href: '#solutions',
     dropdownEyebrow: 'Four solutions',
     dropdown: solarDataEn.solutions.map((sol) => ({
       title: `${sol.number} · ${sol.title}`,

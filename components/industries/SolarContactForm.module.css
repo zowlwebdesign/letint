@@ -200,6 +200,16 @@
   color: #4b5563;
 }
 
+.consentLink {
+  color: #00b4ff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consentLink:hover {
+  color: #08172c;
+}
+
 .submitBtn {
   display: flex;
   width: 100%;

@@ -16,6 +16,22 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Item 4: 301 redirect from old URL to new canonical URL
+      {
+        source: '/industrias/energia-solar',
+        destination: '/industries/solar-energy',
+        permanent: true,
+      },
+      // Also redirect old subpaths
+      {
+        source: '/industrias/energia-solar/:path*',
+        destination: '/industries/solar-energy/:path*',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
