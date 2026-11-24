@@ -26,7 +26,9 @@ const ICONS = [
 
 export default function WhyChooseSection({ data }: WhyChooseProps) {
   if (!data) return null;
-  const reasons = data.differentials?.map(r => r.text) || []
+  const reasons = (data.differentials?.map(r => r.text) || []).map(text =>
+    text === 'Legal liability sits with a registered entity' ? 'Legal liability sits with a registered entity.' : text
+  )
 
   return (
     <section className={styles.section} id="why-choose" aria-label="Why Choose LET INT US">

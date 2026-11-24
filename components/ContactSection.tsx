@@ -154,7 +154,7 @@ export default function ContactSection({ data, corporateData }: ContactProps) {
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                   <path d="M9 12l2 2 4-4"/>
                 </svg>
-                Your information is secure. Review our{' '}
+                By submitting your information, you consent to its collection and processing in accordance with our{' '}
                 <a href="/privacy" aria-label="Review our Privacy Policy">
                   Privacy Policy
                 </a>.

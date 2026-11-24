@@ -38,7 +38,10 @@ const ICONS = [
 
 export default function CredibilitySection({ data }: CredibilityProps) {
   if (!data) return null;
-  const cards = data.cards || []
+  const cards = (data.cards || []).map(card => ({
+    ...card,
+    title: /provider network/i.test(card.title) ? 'Vetted Provider Network' : card.title
+  }))
 
   return (
     <section className={styles.section} id="company" aria-label="Governance and Credibility">

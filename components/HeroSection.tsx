@@ -76,7 +76,7 @@ export default function HeroSection({ data, solarImage }: HeroProps) {
       eyebrow: 'Representation in Colombia (IOR / EOR)',
       headline: 'Operate before you form an entity.',
       subheadline:
-        'Import, export and hire in Colombia with LET as your Importer, Exporter and Employer of Record, while you decide whether a local company makes sense.',
+        'Import and export in Colombia with LET as your Importer and Exporter of Record (IOR / EOR), while you decide whether a local company makes sense.',
       primaryCta: {
         label: 'See how representation works',
         href: '#services',
